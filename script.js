@@ -1122,7 +1122,7 @@ async function handleLogin(e) {
     const password = document.getElementById('loginPass').value
     
     // Login temporal para desarrollo
-    if (email === 'admin' && password === 'admin123') {
+    if (email === 'admin' && password === 'Excel_ontop_2023') {
         currentUser = { email: 'admin', role: 'admin' }
         isUserAdmin = true
         closeLoginModal()
