@@ -244,6 +244,16 @@ export async function signUp(email, password) {
     return { success: true, user: data.user }
 }
 
+function simpleHash(str) {
+    let hash = 0
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i)
+        hash = ((hash << 5) - hash) + char
+        hash = hash & hash
+    }
+    return hash.toString(16)
+}
+
 // api.js - Agregar esta función
 export async function signInWithUsername(username, password) {
     const { data, error } = await supabase
