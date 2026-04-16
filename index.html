@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Sect - Enter the Arena</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #facc15;      /* Amarillo dorado */
+            --primary-dark: #eab308;  /* Amarillo oscuro */
+            --secondary: #ca8a04;     /* Amarillo tierra */
+            --accent: #fef08a;        /* Amarillo claro */
+            --dark: #0a0a0a;          /* Negro casi puro */
+            --darker: #000000;        /* Negro puro */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        .brand-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        /* Animated Background Grid - Amarillo */
+        .cyber-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(250, 204, 21, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(250, 204, 21, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(60px); }
+        }
+        
+        /* Floating Particles - Amarillas */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+            animation: float 15s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Logo Animation */
+        .logo-container {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        
+        .logo-glow {
+            position: absolute;
+            inset: -50%;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.2;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.2); opacity: 0.4; }
+        }
+        
+        .logo-text {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 30%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glitch 5s infinite;
+            text-shadow: 0 0 30px rgba(250, 204, 21, 0.3);
+        }
+        
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 2px); }
+            94% { transform: translate(2px, -2px); }
+            96% { transform: translate(-2px, -2px); }
+            98% { transform: translate(2px, 2px); }
+        }
+        
+        /* Tagline */
+        .tagline {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px); }
+        }
+        
+        /* Enter Button - Amarillo */
+        .enter-btn {
+            position: relative;
+            padding: 1.5rem 4rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--primary);
+            background: transparent;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.8s forwards;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.1);
+        }
+        
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .enter-btn:hover::before {
+            left: 0;
+        }
+        
+        .enter-btn:hover {
+            color: var(--darker);
+            box-shadow: 0 0 40px var(--primary), 0 0 60px rgba(250, 204, 21, 0.4);
+            transform: scale(1.05);
+        }
+        
+        .enter-btn i {
+            transition: transform 0.3s;
+        }
+        
+        .enter-btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Scanline Effect */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        /* Loading Bar - Amarillo */
+       /* Loading Bar - Centrada debajo del botón */
+/* Alternativa: Posición relativa al botón */
+    .loading-bar {
+    position: relative;     /* ← Flujo normal del documento */
+    margin-top: 2rem;      /* ← Espacio fijo debajo del botón */
+    margin-left: auto;     /* ← Centrado auto izquierda */
+    margin-right: auto;    /* ← Centrado auto derecha */
+    width: 200px;
+    height: 7px;
+    background: rgba(250, 204, 21, 0.1);
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInUp 1s ease 1s forwards;
+}
+        .loading-progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            animation: load 2s ease 1.2s forwards;
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
+        @keyframes load {
+            to { width: 100%; }
+        }
+        
+        /* Glow Orbs - Amarillos */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: floatOrb 20s infinite ease-in-out;
+        }
+        
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        
+        /* Logo imagen */
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(250, 204, 21, 0.5));
+            animation: floatLogo 6s ease-in-out infinite;
+        }
+        
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Grid -->
+    <div class="cyber-grid"></div>
+    
+    <!-- Scanlines Overlay -->
+    <div class="scanlines"></div>
+    
+    <!-- Glow Orbs - Amarillos -->
+    <div class="glow-orb" style="width: 600px; height: 600px; background: #facc15; top: -200px; right: -200px;"></div>
+    <div class="glow-orb" style="width: 400px; height: 400px; background: #eab308; bottom: -100px; left: -100px; animation-delay: -5s;"></div>
+    <div class="glow-orb" style="width: 300px; height: 300px; background: #ca8a04; top: 50%; left: 30%; animation-delay: -10s;"></div>
+    
+    <!-- Floating Particles -->
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 3.5s;"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+        
+        
+        
+        <!-- Logo Texto -->
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <h1 class="logo-text brand-font">EXCEL SECT</h1>
+        </div>
+        
+        <!-- Tagline -->
+        <p class="tagline">Domina el Campo • Eleva tu Juego</p>
+        
+        <!-- Enter Button -->
+        <a href="ExcelSet.html" class="enter-btn brand-font">
+            ENTRAR AL SITIO
+            <i class="fas fa-arrow-right"></i>
+        </a>
+        
+        <!-- Loading Bar -->
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+        
+        <!-- Version/Info -->
+        <div class="absolute bottom-4 text-xs text-yellow-600/50 tracking-widest">
+            V 2.0.26 • ROCKET LEAGUE ESPORTS
+        </div>
+    </div>
+
+</body>
+</html>

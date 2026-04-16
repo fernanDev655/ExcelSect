@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Sect - Equipo Profesional de Rocket League</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased bg-black">
+
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="glow-orb" style="width: 600px; height: 600px; background: #facc15; top: -200px; right: -200px;"></div>
+    <div class="glow-orb" style="width: 400px; height: 400px; background: #eab308; bottom: -100px; left: -100px; animation-delay: -5s;"></div>
+    <div class="glow-orb" style="width: 300px; height: 300px; background: #ca8a04; top: 50%; left: 50%; animation-delay: -10s;"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-strong border-b border-yellow-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center animate-bounce">
+                        <i class="fas fa-rocket text-black"></i>
+                    </div>
+                    <span class="text-2xl font-bold brand-font tracking-wider text-white">
+                        EXCEL<span class="text-yellow-400">SECT</span>
+                    </span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="nav-link text-gray-300 hover:text-yellow-400 transition">Inicio</a>
+                    <a href="#jugadores" class="nav-link text-gray-300 hover:text-yellow-400 transition">Jugadores</a>
+                    <a href="#partidos" class="nav-link text-gray-300 hover:text-yellow-400 transition">Partidos</a>
+                    <a href="#noticias" class="nav-link text-gray-300 hover:text-yellow-400 transition">Noticias</a>
+                    <a href="#requisitos" class="nav-link text-gray-300 hover:text-yellow-400 transition">Requisitos</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div id="adminTrigger" class="hidden">
+                        <button onclick="openLoginModal()" class="text-gray-300 hover:text-yellow-400 transition px-3 py-1 rounded border border-yellow-500/30 text-sm">
+                            <i class="fas fa-lock mr-1"></i> Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="reveal active">
+                <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tight">
+                    <span class="block gradient-text">
+                        EXCEL SECT
+                    </span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Domina el campo. Eleva tu juego. <span class="text-yellow-400 font-semibold">Únete a la élite</span> de Rocket League.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <button onclick="openJoinModal()" class="neon-button group relative px-8 py-4 bg-yellow-400 text-black font-bold rounded-full text-lg overflow-hidden hover:shadow-[0_0_30px_rgba(250,204,21,0.6)]">
+                        <span class="relative z-10 flex items-center gap-2">
+                            <i class="fas fa-ticket-alt"></i>
+                            SOLICITAR INGRESO
+                        </span>
+                    </button>
+                    <a href="#partidos" class="px-8 py-4 border border-gray-600 rounded-full text-lg hover:border-yellow-400 hover:text-yellow-400 transition flex items-center gap-2">
+                        <i class="fas fa-play-circle"></i>
+                        VER PARTIDOS
+                    </a>
+                </div>
+
+                <!-- Stats -->
+                <div class="mt-20 flex justify-center items-center gap-8 reveal" id="statsContainer">
+                    <div class="stat-card glass p-6 rounded-2xl border border-yellow-500/20 min-w-[160px] text-center relative group" id="playerCountCard">
+                        <div class="text-3xl font-bold text-yellow-400 mb-2" id="statPlayerCount">12</div>
+                        <div class="text-gray-400 text-sm uppercase tracking-wider">Jugadores</div>
+                        <button onclick="editPlayerCount()" class="stat-edit-btn hidden" id="editPlayerCountBtn" title="Editar">
+                            ✏️
+                        </button>
+                    </div>
+                    <div class="stat-card glass p-6 rounded-2xl border border-yellow-600/20 min-w-[160px] text-center relative group" id="rankCard">
+                        <div class="text-3xl font-bold text-yellow-500 mb-2" id="statMinRank">Diamante 3</div>
+                        <div class="text-gray-400 text-sm uppercase tracking-wider">Rango Mínimo</div>
+                        <button onclick="editMinRank()" class="stat-edit-btn hidden" id="editRankBtn" title="Editar">
+                            ✏️
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Players Section -->
+    <section id="jugadores" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+                    TOP 3 JUGADORES
+                </h2>
+                <p class="text-gray-400 text-lg">Los mejores del equipo</p>
+            </div>
+
+            <div id="playersGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Players loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Matches Section -->
+    <section id="partidos" class="py-20 bg-neutral-900/50">
+        <div class="twitchBanner">
+            <div class="info">
+                <div class="fab fa-twitch twitchIcon"></div>
+                <div>
+                    <h3>Transmisiones en vivo</h3>
+                    <p>Sigue todos los partidos del equipo en nuestro canal de Twitch</p>
+                </div>
+            </div>
+            <a class="btn twitch" href="https://www.twitch.tv/teamexcel_tv" target="_blank" rel="noopener">
+                <span class="play-icon">▶</span>
+                Ver canal
+            </a>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-12 reveal">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-2 gradient-text">
+                        PARTIDOS
+                    </h2>
+                    <p class="text-gray-400">Sigue la acción en tiempo real</p>
+                </div>
+                <div class="flex items-center gap-2 text-red-400">
+                    <span class="w-2 h-2 bg-red-500 rounded-full live-indicator"></span>
+                    <span class="font-semibold">LIVE</span>
+                </div>
+            </div>
+
+            <div id="matchesContainer" class="space-y-6">
+                <!-- Matches loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTICIAS -->
+    <section id="noticias" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+                    NOTICIAS
+                </h2>
+                <p class="text-gray-400 text-lg">Mantente actualizado con Excel Sect</p>
+            </div>
+
+            <!-- Admin Bar -->
+            <div class="card adminBar mb-8 hidden" id="newsAdminBar">
+                <div>
+                    <span class="chip">📰 Panel de noticias</span>
+                    <span class="chip" id="newsAdminChip">Modo edición activo</span>
+                </div>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <button class="btn btnPrimary" onclick="openAddNewsModal()">➕ Publicar noticia</button>
+                    <button class="btn" onclick="resetNews()">🧹 Reset</button>
+                </div>
+            </div>
+
+            <!-- Grid de Noticias -->
+            <div id="newsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Las noticias se renderizan aquí -->
+            </div>
+        </div>
+    </section>
+
+    <!-- REGLAS Y REQUISITOS -->
+    <section id="requisitos" class="py-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+                    REGLAS Y REQUISITOS
+                </h2>
+                <p class="text-gray-400 text-lg">Consulta los requisitos para unirte al equipo</p>
+            </div>
+
+            <!-- Acordeón -->
+            <div class="accordion glass-strong reveal" id="rulesAccordion">
+                
+                <div class="acc-header" id="accHeader" onclick="toggleAccordion()" role="button" tabindex="0" aria-expanded="false">
+                    <div>
+                        <div class="acc-title">📜 Ver requisitos completos</div>
+                        <div class="acc-subtitle">Roles disponibles y reglas del equipo</div>
+                    </div>
+                    <div class="acc-icon">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="acc-body" id="accBody">
+                    <div class="acc-content">
+                        
+                        <div class="rule-card">
+                            <h3><i class="fas fa-clipboard-check"></i> Requisitos Generales</h3>
+                            <ul>
+                                <li>Mínimo 16 años</li>
+                                <li>Mínimo 1 año de experiencia en RL</li>
+                                <li>Usar <strong style="color: #facc15;">#excel_ontop</strong> en posts</li>
+                                <li>Seguirnos en redes sociales</li>
+                                <li>Máximo 2 equipos simultáneos</li>
+                                <li>Tener Instagram para el chat</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-trophy"></i> Comp Player</h3>
+                            <ul>
+                                <li>Mínimo Champion 2v2</li>
+                                <li>Región EU</li>
+                                <li>Epic ID + RL Tracker</li>
+                                <li>Pasar tryouts</li>
+                                <li>Dominar pases y rotaciones</li>
+                                <li>Inglés medio-alto</li>
+                                <li>Clips semanales</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-rocket"></i> Freestyler</h3>
+                            <ul>
+                                <li>15+ clips de calidad</li>
+                                <li>Buenas definiciones</li>
+                                <li>Setups creativos</li>
+                                <li>Control aéreo/suelo</li>
+                                <li>Entrega semanal</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-video"></i> Content Creator</h3>
+                            <ul>
+                                <li>500+ IG / 500+ TikTok / 100+ YT</li>
+                                <li>Publicaciones consistentes</li>
+                                <li>Contenido 100% original</li>
+                                <li>Interacción con el equipo</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-palette"></i> GFX / VFX</h3>
+                            <ul>
+                                <li>Portfolio de trabajos</li>
+                                <li>Dominio de software</li>
+                                <li>Tiempos de entrega rápidos</li>
+                                <li>Calidad 1080p+</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card danger">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Reglas Importantes</h3>
+                            <ul>
+                                <li>Respeto absoluto a todos</li>
+                                <li>Perfil de Discord apropiado</li>
+                                <li>Prohibido spam y MD al staff</li>
+                                <li>Sin autopromoción externa</li>
+                                <li>Lenguaje tóxico = ban</li>
+                                <li>Prohibido contenido NSFW</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-yellow-900/30 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center">
+                            <i class="fas fa-rocket text-black"></i>
+                        </div>
+                        <span class="text-xl font-bold brand-font text-white">EXCEL<span class="text-yellow-400">SECT</span></span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Equipo profesional de Rocket League dedicado a la excelencia competitiva y el crecimiento de talentos.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://discord.com/invite/tvbEDum4Ru" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition transform hover:scale-110">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="https://www.twitch.tv/teamexcel_tv" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-500 hover:text-black transition transform hover:scale-110">
+                            <i class="fab fa-twitch"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@excelsect" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition transform hover:scale-110">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://instagram.com/excelsect" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-500 hover:text-black transition transform hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@excelsect" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-500 hover:text-black transition transform hover:scale-110">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">Enlaces</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#inicio" class="hover:text-yellow-400 transition">Inicio</a></li>
+                        <li><a href="#jugadores" class="hover:text-yellow-400 transition">Jugadores</a></li>
+                        <li><a href="#partidos" class="hover:text-yellow-400 transition">Partidos</a></li>
+                        <li><a href="#noticias" class="hover:text-yellow-400 transition">Noticias</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center gap-2 hover:text-yellow-400 transition cursor-pointer">
+                            <i class="fas fa-envelope text-yellow-400"></i>
+                            excelsect@gmail.com
+                        </li>
+                        <li class="flex items-center gap-2 hover:text-yellow-400 transition cursor-pointer">
+                            <i class="fab fa-discord text-yellow-400"></i>
+                            discord.gg/excelsect
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-yellow-900/20 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Excel Sect. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="glass-strong rounded-2xl p-8 max-w-md w-full mx-4 modal-enter border border-yellow-500/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-yellow-400">Iniciar Sesión</h3>
+                <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Usuario</label>
+                    <input type="text" id="loginUser" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" placeholder="Usuario" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Contraseña</label>
+                    <input type="password" id="loginPass" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="w-full bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 transition transform hover:scale-[1.02]">
+                    Entrar
+                </button>
+            </form>
+            
+            <div class="mt-4 text-center text-xs text-gray-600">
+                <p>Demo: admin / admin123</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Team Modal -->
+    <div id="joinModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-10">
+        <div class="glass-strong rounded-2xl p-8 max-w-2xl w-full mx-4 modal-enter border border-yellow-500/30 my-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-yellow-400">Solicitud de Ingreso</h3>
+                <button onclick="closeJoinModal()" class="text-gray-400 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="ticketForm" onsubmit="generateTicket(event)" class="space-y-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Nombre de RL</label>
+                        <input type="text" id="rlName" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Rango Actual</label>
+                        <select id="rank" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" required>
+                            <option value="">Selecciona...</option>
+                            <option value="D3">Diamante 3</option>
+                            <option value="C1">Campeón 1</option>
+                            <option value="C2">Campeón 2</option>
+                            <option value="C3">Campeón 3</option>
+                            <option value="GC">Grand Champion</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Discord ID</label>
+                    <input type="text" id="discordId" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" placeholder="Usuario#1234" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Experiencia Previa</label>
+                    <textarea id="experience" rows="3" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" placeholder="Describe tu experiencia en equipos anteriores..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Horas Disponibles por Día</label>
+                    <input type="number" id="hours" min="1" max="24" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" required>
+                </div>
+                
+                <button type="submit" class="w-full bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 transition flex items-center justify-center gap-2 transform hover:scale-[1.02]">
+                    <i class="fas fa-ticket-alt"></i>
+                    Generar Ticket
+                </button>
+            </form>
+            
+            <div id="ticketDisplay" class="hidden mt-6 p-6 bg-black/50 rounded-lg border border-yellow-500/30">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="text-lg font-bold text-yellow-400">Tu Ticket</h4>
+                    <button onclick="copyTicket()" class="text-sm bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded hover:bg-yellow-400/30 transition flex items-center gap-2">
+                        <i class="fas fa-copy"></i>
+                        Copiar
+                    </button>
+                </div>
+                <pre id="ticketContent" class="text-sm text-gray-300 font-mono whitespace-pre-wrap break-all bg-black/30 p-4 rounded border border-gray-700"></pre>
+                <p class="mt-4 text-sm text-gray-400 text-center">
+                    Pega este ticket en el canal <span class="text-yellow-400 font-semibold">#solicitudes</span> de nuestro Discord
+                </p>
+                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" class="mt-4 block w-full text-center bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg transition transform hover:scale-[1.02]">
+                    <i class="fab fa-discord mr-2"></i>
+                    Ir al Discord
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel fixed inset-0 z-40 bg-neutral-950 pt-20 overflow-y-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-yellow-400">Panel de Administración</h2>
+                    <p class="text-gray-400">Gestiona el equipo Excel Sect</p>
+                </div>
+                <button onclick="logout()" class="bg-red-500/20 text-red-400 border border-red-500/50 px-4 py-2 rounded-lg hover:bg-red-500/30 transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    Cerrar Sesión
+                </button>
+            </div>
+
+            <!-- Stats del equipo editables -->
+            <div class="mb-8 glass p-6 rounded-2xl border border-yellow-500/20">
+                <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">
+                    <i class="fas fa-chart-line"></i>
+                    Estadísticas del Equipo
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">Número de Jugadores</label>
+                        <input type="number" id="adminPlayerCount" min="0" max="100" 
+                               class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input"
+                               onchange="updateTeamStatsFromAdmin()">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">Rango Mínimo</label>
+                        <input type="text" id="adminMinRank" 
+                               class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input"
+                               onchange="updateTeamStatsFromAdmin()">
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-3">Los cambios se guardan automáticamente</p>
+            </div>
+
+            <div class="flex space-x-4 mb-8 border-b border-yellow-900/30 pb-4">
+                <button onclick="showAdminTab('players')" id="tab-players" class="admin-tab px-4 py-2 text-yellow-400 border-b-2 border-yellow-400 font-semibold transition">
+                    <i class="fas fa-users mr-2"></i>Top 3 Jugadores
+                </button>
+                <button onclick="showAdminTab('matches')" id="tab-matches" class="admin-tab px-4 py-2 text-gray-400 hover:text-yellow-400 transition">
+                    <i class="fas fa-gamepad mr-2"></i>Partidos
+                </button>
+                <button onclick="showAdminTab('news')" id="tab-news" class="admin-tab px-4 py-2 text-gray-400 hover:text-yellow-400 transition">
+                    <i class="fas fa-newspaper mr-2"></i>Noticias
+                </button>
+            </div>
+
+            <div id="admin-players" class="admin-section">
+                <div class="admin-limit-info" id="playerLimitInfo">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Hay <strong id="currentPlayerCount">0</strong>/3 jugadores en el Top 3</span>
+                </div>
+                <div class="flex gap-2 mb-6">
+                    <button onclick="openAddPlayerModal()" class="bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-300 transition flex items-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        Añadir Jugador
+                    </button>
+                    <button onclick="resetTop3()" class="bg-red-500/20 text-red-400 border border-red-500/50 px-6 py-3 rounded-lg hover:bg-red-500/30 transition flex items-center gap-2">
+                        <i class="fas fa-trash-alt"></i>
+                        Resetear Top 3
+                    </button>
+                </div>
+                <div id="adminPlayersList" class="grid gap-4"></div>
+            </div>
+
+            <div id="admin-matches" class="admin-section hidden">
+                <div class="flex gap-2 mb-6">
+                    <button onclick="openAddMatchModal()" class="bg-yellow-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-500 transition flex items-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        Añadir Partido
+                    </button>
+                    <button onclick="resetMatches()" class="bg-red-500/20 text-red-400 border border-red-500/50 px-6 py-3 rounded-lg hover:bg-red-500/30 transition flex items-center gap-2">
+                        <i class="fas fa-trash-alt"></i>
+                        Resetear Partidos
+                    </button>
+                </div>
+                <div id="adminMatchesList" class="space-y-4"></div>
+            </div>
+
+            <div id="admin-news" class="admin-section hidden">
+                <button onclick="openAddNewsModal()" class="mb-6 bg-yellow-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-600 transition flex items-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    Añadir Noticia
+                </button>
+                <div id="adminNewsList" class="grid gap-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Player Modal -->
+    <div id="addPlayerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="glass-strong rounded-2xl p-6 max-w-md w-full mx-4 modal-enter border border-yellow-500/30">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-yellow-400">Añadir al Top 3</h3>
+                <button onclick="closeAddPlayerModal()" class="text-gray-400 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleAddPlayer(event)" class="space-y-4">
+                <input type="text" id="newPlayerName" placeholder="Nombre del jugador" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required>
+                <input type="text" id="newPlayerRole" placeholder="Rol (Ej: Fragger, Support, Capitán)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required>
+                <input type="text" id="newPlayerRank" placeholder="Rango (Ej: GC3, SSL, C3)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required>
+                <input type="text" id="newPlayerStats" placeholder="MMR (Ej: 1850)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input">
+                
+                <!-- Upload de imagen para jugador -->
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Foto de perfil (opcional)</label>
+                    <div id="playerImageUploadArea" class="image-upload-area">
+                        <div id="playerUploadPrompt">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-text">Haz clic para subir foto</div>
+                            <div class="upload-hint">O arrastra una imagen aquí</div>
+                        </div>
+                        <img id="playerImagePreview" class="image-preview" style="display: none;">
+                        <button type="button" class="remove-image-btn" onclick="resetPlayerImageUpload()" style="display: none;">🗑️</button>
+                        <input type="file" id="playerImageFile" class="file-input" accept="image/*">
+                        <input type="text" id="playerImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
+                    </div>
+                </div>
+                
+                <div class="flex gap-2 pt-4">
+                    <button type="button" onclick="closeAddPlayerModal()" class="flex-1 bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 transition">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Match Modal -->
+    <div id="addMatchModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-10">
+        <div class="glass-strong rounded-2xl p-6 max-w-lg w-full mx-4 modal-enter border border-yellow-600/30 my-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-yellow-500">Añadir Partido</h3>
+                <button onclick="closeAddMatchModal()" class="text-gray-400 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleAddMatch(event)" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="matchOpponent" placeholder="Oponente" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input" required>
+                    <input type="text" id="matchTournament" placeholder="Torneo/Liga" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input" required>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4">
+                    <select id="matchStatus" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
+                        <option value="live">🔴 En Vivo</option>
+                        <option value="upcoming">⏳ Próximo</option>
+                        <option value="finished">✅ Finalizado</option>
+                    </select>
+                    <input type="text" id="matchScore" placeholder="Marcador (2-1)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
+                    <input type="text" id="matchTime" placeholder="Hora (20:00)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
+                </div>
+                
+                <!-- MVP de cada equipo -->
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="matchMvpExcel" placeholder="⭐ MVP Excel Sect" class="w-full bg-black/50 border border-yellow-600/30 rounded-lg px-4 py-2 text-white glow-input">
+                    <input type="text" id="matchMvpOpponent" placeholder="⭐ MVP Rival" class="w-full bg-black/50 border border-gray-600/30 rounded-lg px-4 py-2 text-white glow-input">
+                </div>
+                
+                <!-- Goles detallados -->
+                <div class="border border-gray-700 rounded-lg p-4 bg-black/30">
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-sm text-gray-400">Goles detallados</label>
+                        <button type="button" onclick="addGoalInput()" class="text-yellow-400 hover:text-yellow-300 text-sm flex items-center gap-1">
+                            <i class="fas fa-plus"></i> Añadir gol
+                        </button>
+                    </div>
+                    <div id="goalsContainer" class="space-y-2">
+                        <!-- Los goles se añaden aquí dinámicamente -->
+                    </div>
+                </div>
+                
+                <div class="flex gap-2 pt-4">
+                    <button type="button" onclick="closeAddMatchModal()" class="flex-1 bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-yellow-600 text-white font-bold py-3 rounded-lg hover:bg-yellow-500 transition">Guardar Partido</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit News Modal -->
+    <div id="addNewsModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="glass-strong rounded-2xl p-6 max-w-lg w-full mx-4 modal-enter border border-yellow-500/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-yellow-400">📰 Publicar Noticia</h3>
+                <button onclick="closeAddNewsModal()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleSaveNews(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Título *</label>
+                    <input type="text" id="newsTitle" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Categoría</label>
+                    <select id="newsCategory" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input">
+                        <option value="Torneo">🏆 Torneo</option>
+                        <option value="Fichaje">👤 Fichaje</option>
+                        <option value="Entrenamiento">💪 Entrenamiento</option>
+                        <option value="Victoria">✅ Victoria</option>
+                        <option value="Derrota">❌ Derrota</option>
+                        <option value="General" selected>📋 General</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Contenido *</label>
+                    <textarea id="newsContent" rows="4" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required></textarea>
+                </div>
+                
+                <!-- Área de Upload de Imagen -->
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Imagen (opcional)</label>
+                    <div class="image-upload-area" id="imageUploadArea">
+                        <div id="uploadPrompt">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-text">Haz clic para subir imagen</div>
+                            <div class="upload-hint">O arrastra una imagen aquí</div>
+                        </div>
+                        <img id="imagePreview" class="image-preview" style="display: none;">
+                        <button type="button" class="remove-image-btn" onclick="resetNewsImageUpload()" style="display: none;">🗑️</button>
+                        <input type="file" id="newsImageFile" class="file-input" accept="image/*">
+                        <input type="text" id="newsImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
+                    </div>
+                </div>
+                
+                <div class="flex gap-3 pt-4">
+                    <button type="button" onclick="closeAddNewsModal()" class="flex-1 bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 transition">
+                        Publicar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
