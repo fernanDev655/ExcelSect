@@ -244,19 +244,21 @@ export async function signUp(email, password) {
     return { success: true, user: data.user }
 }
 
-export async function signIn(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-    })
+// api.js - Agregar esta función
+export async function signInWithUsername(username, password) {
+    const { data, error } = await supabase
+        .from('admins')
+        .select('*')
+        .eq('username', username)
+        .eq('password', password)  // Comparación directa (simple, no segura)
+        .single()
     
-    if (error) {
-        return { success: false, error: error.message }
+    if (error || !data) {
+        return { success: false, error: 'Usuario o contraseña incorrectos' }
     }
     
-    return { success: true, user: data.user, session: data.session }
+    return { success: true, user: { username: data.username, role: 'admin' } }
 }
-
 export async function signOut() {
     const { error } = await supabase.auth.signOut()
     if (error) {
