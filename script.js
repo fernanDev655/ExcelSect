@@ -5,7 +5,8 @@ import {
     getNews, addNews, updateNews, deleteNews,
     getTeamStats, updateTeamStats,
     uploadImage, uploadImageFromDataUrl,
-    signIn, signOut, getCurrentUser, isAdmin
+    signIn, signOut, getCurrentUser, isAdmin,
+    signInWithUsername  
 } from './api.js'
 
 // ==================== ESTADO GLOBAL ====================
@@ -1121,7 +1122,8 @@ async function handleLogin(e) {
     
     const username = document.getElementById('loginUser').value
     const password = document.getElementById('loginPass').value
-     const result = await signInWithUsername(username, password)
+    
+    const result = await signInWithUsername(username, password)
     
     if (result.success) {
         currentUser = result.user
@@ -1133,22 +1135,6 @@ async function handleLogin(e) {
         alert(result.error)
     }
 }
-    
-    // Login real con Supabase
-    const result = await signIn(email, password)
-    if (result.success) {
-        currentUser = result.user
-        isUserAdmin = await isAdmin()
-        closeLoginModal()
-        if (isUserAdmin) {
-            showAdminPanel()
-        }
-        updateAdminUI()
-    } else {
-        alert('Credenciales incorrectas: ' + result.error)
-    }
-}
-
 function showAdminPanel() {
     document.getElementById('adminPanel').classList.add('active')
     renderAdminPlayers()
