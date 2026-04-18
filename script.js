@@ -1118,18 +1118,21 @@ function closeJoinModal() {
 
 async function handleLogin(e) {
     e.preventDefault()
-    const email = document.getElementById('loginUser').value
-    const password = document.getElementById('loginPass').value
     
-    // Login temporal para desarrollo
-    if (email === 'admin' && password === 'admin123') {
-        currentUser = { email: 'admin', role: 'admin' }
+    const username = document.getElementById('loginUser').value
+    const password = document.getElementById('loginPass').value
+     const result = await signInWithUsername(username, password)
+    
+    if (result.success) {
+        currentUser = result.user
         isUserAdmin = true
         closeLoginModal()
         showAdminPanel()
         updateAdminUI()
-        return
+    } else {
+        alert(result.error)
     }
+}
     
     // Login real con Supabase
     const result = await signIn(email, password)
