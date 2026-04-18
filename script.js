@@ -1257,37 +1257,30 @@ window.updateTeamStatsFromAdmin = updateTeamStatsFromAdmin
 window.resetPlayerImageUpload = resetPlayerImageUpload
 window.resetNewsImageUpload = resetNewsImageUpload
 
-// Cerrar modales al hacer clic fuera
 window.onclick = function(event) {
     if (event.target.classList.contains('fixed')) {
         event.target.classList.add('hidden')
         event.target.classList.remove('flex')
     }
 }
-
-
-
-// ==================== Test ====================
 let keySequence = []
 const SECRET_CODE = ['Control', 'i', 'c', 'q', 'b']
-
-document.addEventListener('keydown', (e) => {
-    // Evitar duplicados si mantiene presionada la tecla
-    if (e.repeat) return
+    document.addEventListener('keydown', (e) => {
+     if (e.repeat) return
     
     const key = e.key
     keySequence.push(key)
     
-    // Mantener solo las últimas 5 teclas
+
     if (keySequence.length > 5) {
         keySequence.shift()
     }
     
-    // Verificar si coincide con el código secreto
+
     if (keySequence.join(',') === SECRET_CODE.join(',')) {
         e.preventDefault()
         toggleAdminTrigger()
-        keySequence = [] // Resetear
+        keySequence = [] 
     }
 })
 
@@ -1305,5 +1298,5 @@ function toggleAdminTrigger() {
     }
 }
 
-// Exponer función global si necesitas llamarla manualmente
+
 window.toggleAdminTrigger = toggleAdminTrigger
