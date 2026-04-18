@@ -244,7 +244,21 @@ export async function signUp(email, password) {
     return { success: true, user: data.user }
 }
 
-// Función de hash
+export async function signIn(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+    })
+    
+    if (error) {
+        return { success: false, error: error.message }
+    }
+    
+    return { success: true, user: data.user, session: data.session }
+}
+
+
+// api.js - Función de hash
 function simpleHash(str) {
     let hash = 0
     for (let i = 0; i < str.length; i++) {
