@@ -244,17 +244,33 @@ export async function signUp(email, password) {
     return { success: true, user: data.user }
 }
 
-export async function signIn(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-    })
+// Función de hash
+function simpleHash(str) {
+    let hash = 0
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i)
+        hash = ((hash << 5) - hash) + char
+        hash = hash & hash
+    }
+    return hash.toString(16)
+}
+
+// Login con usuario + contraseña hasheada
+export async function signInWithUsername(username, password) {
+    const hashedPassword = simpleHash(password)
     
-    if (error) {
-        return { success: false, error: error.message }
+    const { data, error } = await supabase
+        .from('admins')
+        .select('*')
+        .eq('username', username)
+        .eq('password', hashedPassword)
+        .single()
+    
+    if (error || !data) {
+        return { success: false, error: 'Usuario o contraseña incorrectos' }
     }
     
-    return { success: true, user: data.user, session: data.session }
+    return { success: true, user: { username: data.username, role: 'admin' } }
 }
 
 export async function signOut() {
