@@ -1281,7 +1281,7 @@ window.onclick = function(event) {
 
 
 
-// ==================== CÓDIGO SECRETO ADMIN ====================
+// ==================== Test ====================
 let keySequence = []
 const SECRET_CODE = ['Control', 'i', 'c', 'q', 'b']
 
