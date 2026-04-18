@@ -472,7 +472,7 @@ function renderMatches() {
     if (matches.length === 0) {
         container.innerHTML = `
             <div class="text-center py-16">
-                <div class="text-6xl mb-4">🏟️</div>
+                <img src="Stadium.jpg" alt="No matches Logo" class="w-full h-full object-cover">
                 <h3 class="text-xl font-bold text-yellow-400 mb-2">Sin partidos</h3>
                 <p class="text-gray-400">No hay partidos programados actualmente.</p>
             </div>
