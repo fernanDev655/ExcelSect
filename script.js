@@ -214,7 +214,7 @@ function renderPlayers() {
     if (players.length === 0) {
         grid.innerHTML = `
             <div class="col-span-full text-center py-16">
-                <div class="text-6xl mb-4">👑</div>
+                <i class="fas fa-user-group text-4xl text-yellow-400/60 mb-4"></i>
                 <h3 class="text-xl font-bold text-yellow-400 mb-2">Top 3 vacío</h3>
                 <p class="text-gray-400">El administrador aún no ha designado los mejores jugadores.</p>
             </div>
@@ -225,9 +225,9 @@ function renderPlayers() {
     const topPlayers = players.slice(0, 3)
     
     const ranks = [
-        { color: '#FFD700', glow: '0 0 40px rgba(255, 215, 0, 0.5)', icon: '👑', label: '#1' },
-        { color: '#C0C0C0', glow: '0 0 30px rgba(192, 192, 192, 0.4)', icon: '🥈', label: '#2' },
-        { color: '#CD7F32', glow: '0 0 30px rgba(205, 127, 50, 0.4)', icon: '🥉', label: '#3' }
+        { color: '#e6bf5c', label: '#1' },
+        { color: '#c7c7cc', label: '#2' },
+        { color: '#b08d57', label: '#3' }
     ]
     
     grid.innerHTML = topPlayers.map((player, index) => {
@@ -236,20 +236,19 @@ function renderPlayers() {
         const adminActions = isUserAdmin ? `
             <div class="player-admin-actions">
                 <button onclick="event.stopPropagation(); window.editPlayer(${player.id})" class="player-btn edit" title="Editar">
-                    ✏️
+                    <i class="fas fa-pen"></i>
                 </button>
                 <button onclick="event.stopPropagation(); window.deletePlayerHandler(${player.id})" class="player-btn delete" title="Eliminar">
-                    🗑️
+                    <i class="fas fa-trash"></i>
                 </button>
             </div>
         ` : ''
         
         return `
-            <div class="top-player-card" style="--rank-color: ${rank.color}; --rank-glow: ${rank.glow};">
-                <div class="rank-badge">${rank.icon} ${rank.label}</div>
+            <div class="top-player-card" style="--rank-color: ${rank.color};">
+                <div class="rank-badge">${rank.label}</div>
                 ${adminActions}
                 <div class="player-avatar-container">
-                    <div class="player-avatar-glow"></div>
                     <img src="${player.image_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + player.name}" 
                          alt="${player.name}" 
                          class="player-avatar"
@@ -516,13 +515,13 @@ function renderMatches() {
                 <div class="match-mvps mt-4 flex gap-4">
                     ${match.mvp_excel ? `
                         <div class="mvp-badge mvp-excel">
-                            <span class="mvp-label">⭐ MVP Excel Sect</span>
+                            <span class="mvp-label"><i class="fas fa-star"></i> MVP Excel Sect</span>
                             <span class="mvp-name">${match.mvp_excel}</span>
                         </div>
                     ` : ''}
                     ${match.mvp_opponent ? `
                         <div class="mvp-badge mvp-opponent">
-                            <span class="mvp-label">⭐ MVP ${match.opponent}</span>
+                            <span class="mvp-label"><i class="fas fa-star"></i> MVP ${match.opponent}</span>
                             <span class="mvp-name">${match.mvp_opponent}</span>
                         </div>
                     ` : ''}
@@ -533,30 +532,30 @@ function renderMatches() {
         const adminActions = isUserAdmin ? `
             <div class="match-admin-actions absolute top-4 right-4 flex gap-2">
                 <button onclick="event.stopPropagation(); window.editMatchHandler(${match.id})" class="match-btn edit" title="Editar">
-                    ✏️
+                    <i class="fas fa-pen"></i>
                 </button>
                 <button onclick="event.stopPropagation(); window.deleteMatchHandler(${match.id})" class="match-btn delete" title="Eliminar">
-                    🗑️
+                    <i class="fas fa-trash"></i>
                 </button>
             </div>
         ` : ''
         
         return `
-            <div class="match-card glass rounded-xl p-6 border ${statusColors[match.status]} relative hover:scale-[1.02] transition duration-300">
+            <div class="match-card glass rounded-xl p-6 border ${statusColors[match.status]} relative transition duration-300">
                 ${adminActions}
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <div class="flex items-center gap-4 flex-1">
                         <div class="team-excel text-center">
                             <div class="text-2xl font-bold text-white">Excel Sect</div>
-                            <div class="text-sm text-yellow-400">${match.mvp_excel ? '⭐ ' + match.mvp_excel : ''}</div>
+                            <div class="text-sm text-yellow-400">${match.mvp_excel ? '<i class="fas fa-star text-xs"></i> ' + match.mvp_excel : ''}</div>
                         </div>
                         <div class="score-display text-center px-6">
-                            <div class="text-4xl font-bold text-yellow-400">${match.score || '-'}</div>
+                            <div class="text-4xl font-bold text-yellow-400 mono">${match.score || '-'}</div>
                             <div class="text-xs text-gray-500 uppercase mt-1">${match.tournament}</div>
                         </div>
                         <div class="team-opponent text-center">
                             <div class="text-2xl font-bold text-gray-300">${match.opponent}</div>
-                            <div class="text-sm text-gray-400">${match.mvp_opponent ? '⭐ ' + match.mvp_opponent : ''}</div>
+                            <div class="text-sm text-gray-400">${match.mvp_opponent ? '<i class="fas fa-star text-xs"></i> ' + match.mvp_opponent : ''}</div>
                         </div>
                     </div>
                     <div class="text-center md:text-right">
@@ -610,7 +609,7 @@ function addGoalInput() {
             </select>
             <input type="text" class="goal-scorer bg-black/50 border border-gray-700 rounded px-3 py-2 text-white text-sm" placeholder="Jugador">
             <input type="text" class="goal-time bg-black/50 border border-gray-700 rounded px-3 py-2 text-white text-sm w-20" placeholder="Min">
-            <button type="button" onclick="window.removeGoalInput('${goalId}')" class="text-red-400 hover:text-red-300">❌</button>
+            <button type="button" onclick="window.removeGoalInput('${goalId}')" class="text-red-400 hover:text-red-300"><i class="fas fa-xmark"></i></button>
         </div>
     `
     
@@ -751,21 +750,12 @@ function renderNews() {
     if (news.length === 0) {
         grid.innerHTML = `
             <div class="col-span-full text-center py-16">
-                <div class="text-6xl mb-4">📰</div>
+                <i class="fas fa-newspaper text-4xl text-yellow-400/60 mb-4"></i>
                 <h3 class="text-xl font-bold text-yellow-400 mb-2">Sin noticias</h3>
                 <p class="text-gray-400">No hay publicaciones recientes.</p>
             </div>
         `
         return
-    }
-
-    const categoryColors = {
-        'Torneo': 'from-yellow-400 to-orange-500',
-        'Fichaje': 'from-yellow-300 to-yellow-500',
-        'Entrenamiento': 'from-yellow-500 to-amber-600',
-        'General': 'from-amber-400 to-yellow-600',
-        'Victoria': 'from-green-400 to-emerald-500',
-        'Derrota': 'from-red-400 to-rose-500'
     }
 
     grid.innerHTML = news.map(item => {
@@ -774,16 +764,16 @@ function renderNews() {
                 <img src="${item.image_url}" alt="${item.title}" class="news-image" loading="lazy">
             </div>` :
             `<div class="news-image-container news-image-placeholder">
-                📰
+                <i class="fas fa-newspaper"></i>
             </div>`
 
         const adminActions = isUserAdmin ? `
             <div class="news-actions">
                 <button onclick="window.editNewsHandler(${item.id})" class="btn" style="font-size:12px; padding:8px 14px;">
-                    ✏️ Editar
+                    <i class="fas fa-pen"></i> Editar
                 </button>
                 <button onclick="window.deleteNewsHandler(${item.id})" class="btn" style="font-size:12px; padding:8px 14px; color:var(--danger);">
-                    🗑️ Eliminar
+                    <i class="fas fa-trash"></i> Eliminar
                 </button>
             </div>
         ` : ''
@@ -792,11 +782,11 @@ function renderNews() {
             <article class="news-card reveal">
                 ${imageHtml}
                 <div class="news-content">
-                    <span class="news-category" style="background: linear-gradient(135deg, ${categoryColors[item.category] || 'from-yellow-400 to-yellow-600'}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; border: 1px solid rgba(250,204,21,0.3);">
+                    <span class="news-category">
                         ${item.category}
                     </span>
                     <div class="news-date">
-                        📅 ${item.date || item.created_at?.split('T')[0] || 'Hoy'}
+                        <i class="fas fa-calendar-day"></i> ${item.date || item.created_at?.split('T')[0] || 'Hoy'}
                     </div>
                     <h3 class="news-title">${item.title}</h3>
                     <p class="news-text">${item.content}</p>
