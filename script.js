@@ -1290,3 +1290,22 @@ function toggleAdminTrigger() {
 
 
 window.toggleAdminTrigger = toggleAdminTrigger
+
+// ==================== SMOOTH SCROLL PARA NAV LINKS ====================
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault()
+            const targetId = this.getAttribute('href')
+            const targetElement = document.querySelector(targetId)
+            if (targetElement) {
+                const navHeight = document.querySelector('nav')?.offsetHeight || 80
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                })
+            }
+        })
+    })
+})
