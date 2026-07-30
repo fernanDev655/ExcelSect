@@ -6,29 +6,21 @@
     <title>Excel Sect - Equipo Profesional de Rocket League</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="antialiased bg-black">
 
-    <!-- Background Elements -->
-    <div class="bg-grid"></div>
-    <div class="glow-orb" style="width: 600px; height: 600px; background: #facc15; top: -200px; right: -200px;"></div>
-    <div class="glow-orb" style="width: 400px; height: 400px; background: #eab308; bottom: -100px; left: -100px; animation-delay: -5s;"></div>
-    <div class="glow-orb" style="width: 300px; height: 300px; background: #ca8a04; top: 50%; left: 50%; animation-delay: -10s;"></div>
-
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-strong border-b border-yellow-500/20">
+    <nav class="fixed w-full z-50 border-b border-white/10" style="background: rgba(8,8,10,0.92); backdrop-filter: blur(10px);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center animate-bounce">
-                      <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center overflow-hidden">
-                    <img src="ExcelSect.jpg" alt="Excel Sect Logo" class="w-full h-full object-cover">
+                    <div class="w-9 h-9 rounded border border-yellow-500/40 flex items-center justify-center overflow-hidden">
+                        <img src="ExcelSect.jpg" alt="Excel Sect Logo" class="w-full h-full object-cover">
                     </div>
-                    </div>
-                    <span class="text-2xl font-bold brand-font tracking-wider text-white">
+                    <span class="text-xl font-semibold brand-font tracking-wide text-white uppercase">
                         EXCEL<span class="text-yellow-400">SECT</span>
                     </span>
                 </div>
@@ -43,7 +35,7 @@
 
                 <div class="flex items-center space-x-4">
                     <div id="adminTrigger" class="hidden">
-                        <button onclick="openLoginModal()" class="text-gray-300 hover:text-yellow-400 transition px-3 py-1 rounded border border-yellow-500/30 text-sm">
+                        <button onclick="openLoginModal()" class="text-gray-300 hover:text-yellow-400 transition px-3 py-1.5 rounded border border-white/15 text-sm">
                             <i class="fas fa-lock mr-1"></i> Admin
                         </button>
                     </div>
@@ -54,45 +46,47 @@
 
     <!-- Hero Section -->
     <section id="inicio" class="min-h-screen flex items-center justify-center relative pt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="reveal active">
-                <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tight">
-                    <span class="block gradient-text">
-                        EXCEL SECT
-                    </span>
+                <div class="eyebrow justify-center mb-7">Equipo profesional &middot; Rocket League</div>
+
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight uppercase brand-font gradient-text">
+                    Excel Sect
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
-                    Domina el campo. Eleva tu juego. <span class="text-yellow-400 font-semibold">Únete a la élite</span> de Rocket League.
+                <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Domina el campo. Eleva tu juego. <span class="text-yellow-400 font-medium">Únete a la élite</span> de Rocket League.
                 </p>
                 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                    <button onclick="openJoinModal()" class="neon-button group relative px-8 py-4 bg-yellow-400 text-black font-bold rounded-full text-lg overflow-hidden hover:shadow-[0_0_30px_rgba(250,204,21,0.6)]">
-                        <span class="relative z-10 flex items-center gap-2">
-                            <i class="fas fa-ticket-alt"></i>
-                            SOLICITAR INGRESO
-                        </span>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+                    <button onclick="openJoinModal()" class="neon-button px-8 py-4 bg-yellow-400 text-black font-semibold rounded text-sm uppercase tracking-wider flex items-center gap-2 hover:bg-yellow-300 transition">
+                        <i class="fas fa-ticket-alt"></i>
+                        Solicitar ingreso
                     </button>
-                    <a href="#partidos" class="px-8 py-4 border border-gray-600 rounded-full text-lg hover:border-yellow-400 hover:text-yellow-400 transition flex items-center gap-2">
+                    <a href="#partidos" class="px-8 py-4 border border-white/15 rounded text-sm uppercase tracking-wider hover:border-yellow-400 hover:text-yellow-400 transition flex items-center gap-2">
                         <i class="fas fa-play-circle"></i>
-                        VER PARTIDOS
+                        Ver partidos
                     </a>
                 </div>
 
-                <!-- Stats -->
-                <div class="mt-20 flex justify-center items-center gap-8 reveal" id="statsContainer">
-                    <div class="stat-card glass p-6 rounded-2xl border border-yellow-500/20 min-w-[160px] text-center relative group" id="playerCountCard">
-                        <div class="text-3xl font-bold text-yellow-400 mb-2" id="statPlayerCount">12</div>
-                        <div class="text-gray-400 text-sm uppercase tracking-wider">Jugadores</div>
+                <!-- Scoreboard strip -->
+                <div class="scoreboard reveal" id="statsContainer">
+                    <div class="scoreboard-cell stat-card" id="playerCountCard">
+                        <div class="scoreboard-value" id="statPlayerCount">12</div>
+                        <div class="scoreboard-label">Jugadores</div>
                         <button onclick="editPlayerCount()" class="stat-edit-btn hidden" id="editPlayerCountBtn" title="Editar">
-                            ✏️
+                            <i class="fas fa-pen"></i>
                         </button>
                     </div>
-                    <div class="stat-card glass p-6 rounded-2xl border border-yellow-600/20 min-w-[160px] text-center relative group" id="rankCard">
-                        <div class="text-3xl font-bold text-yellow-500 mb-2" id="statMinRank">Diamante 3</div>
-                        <div class="text-gray-400 text-sm uppercase tracking-wider">Rango Mínimo</div>
+                    <div class="scoreboard-cell stat-card" id="rankCard">
+                        <div class="scoreboard-value" id="statMinRank">Diamante 3</div>
+                        <div class="scoreboard-label">Rango mínimo</div>
                         <button onclick="editMinRank()" class="stat-edit-btn hidden" id="editRankBtn" title="Editar">
-                            ✏️
+                            <i class="fas fa-pen"></i>
                         </button>
+                    </div>
+                    <div class="scoreboard-cell">
+                        <div class="scoreboard-value">EU</div>
+                        <div class="scoreboard-label">Región</div>
                     </div>
                 </div>
             </div>
@@ -103,10 +97,11 @@
     <section id="jugadores" class="py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-                    TOP 3 JUGADORES
+                <div class="eyebrow justify-center mb-3">Plantilla</div>
+                <h2 class="text-3xl md:text-4xl font-semibold mb-3 brand-font uppercase tracking-wide text-white">
+                    Top 3 jugadores
                 </h2>
-                <p class="text-gray-400 text-lg">Los mejores del equipo</p>
+                <p class="text-gray-400">Los mejores del equipo</p>
             </div>
 
             <div id="playersGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -117,30 +112,33 @@
 
     <!-- Live Matches Section -->
     <section id="partidos" class="py-20 bg-neutral-900/50">
-        <div class="twitchBanner">
-            <div class="info">
-                <div class="fab fa-twitch twitchIcon"></div>
-                <div>
-                    <h3>Transmisiones en vivo</h3>
-                    <p>Sigue todos los partidos del equipo en nuestro canal de Twitch</p>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+            <div class="twitchBanner">
+                <div class="info">
+                    <div class="fab fa-twitch twitchIcon"></div>
+                    <div>
+                        <h3>Transmisiones en vivo</h3>
+                        <p>Sigue todos los partidos del equipo en nuestro canal de Twitch</p>
+                    </div>
                 </div>
+                <a class="btn twitch" href="https://www.twitch.tv/teamexcel_tv" target="_blank" rel="noopener">
+                    <i class="fas fa-play play-icon"></i>
+                    Ver canal
+                </a>
             </div>
-            <a class="btn twitch" href="https://www.twitch.tv/teamexcel_tv" target="_blank" rel="noopener">
-                <span class="play-icon">▶</span>
-                Ver canal
-            </a>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-end mb-12 reveal">
                 <div>
-                    <h2 class="text-4xl md:text-5xl font-bold mb-2 gradient-text">
-                        PARTIDOS
+                    <div class="eyebrow mb-3">En directo</div>
+                    <h2 class="text-3xl md:text-4xl font-semibold mb-2 brand-font uppercase tracking-wide text-white">
+                        Partidos
                     </h2>
                     <p class="text-gray-400">Sigue la acción en tiempo real</p>
                 </div>
-                <div class="flex items-center gap-2 text-red-400">
+                <div class="flex items-center gap-2 text-red-400 mono text-xs uppercase tracking-wider">
                     <span class="w-2 h-2 bg-red-500 rounded-full live-indicator"></span>
-                    <span class="font-semibold">LIVE</span>
+                    <span class="font-semibold">Live</span>
                 </div>
             </div>
 
@@ -154,21 +152,22 @@
     <section id="noticias" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-                    NOTICIAS
+                <div class="eyebrow justify-center mb-3">Actualidad</div>
+                <h2 class="text-3xl md:text-4xl font-semibold mb-3 brand-font uppercase tracking-wide text-white">
+                    Noticias
                 </h2>
-                <p class="text-gray-400 text-lg">Mantente actualizado con Excel Sect</p>
+                <p class="text-gray-400">Mantente actualizado con Excel Sect</p>
             </div>
 
             <!-- Admin Bar -->
             <div class="card adminBar mb-8 hidden" id="newsAdminBar">
                 <div>
-                    <span class="chip">📰 Panel de noticias</span>
+                    <span class="chip"><i class="fas fa-newspaper"></i> Panel de noticias</span>
                     <span class="chip" id="newsAdminChip">Modo edición activo</span>
                 </div>
                 <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                    <button class="btn btnPrimary" onclick="openAddNewsModal()">➕ Publicar noticia</button>
-                    <button class="btn" onclick="resetNews()">🧹 Reset</button>
+                    <button class="btn btnPrimary" onclick="openAddNewsModal()"><i class="fas fa-plus"></i> Publicar noticia</button>
+                    <button class="btn" onclick="resetNews()"><i class="fas fa-broom"></i> Reset</button>
                 </div>
             </div>
 
@@ -184,10 +183,11 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center mb-12 reveal">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-                    REGLAS Y REQUISITOS
+                <div class="eyebrow justify-center mb-3">Únete al equipo</div>
+                <h2 class="text-3xl md:text-4xl font-semibold mb-3 brand-font uppercase tracking-wide text-white">
+                    Reglas y requisitos
                 </h2>
-                <p class="text-gray-400 text-lg">Consulta los requisitos para unirte al equipo</p>
+                <p class="text-gray-400">Consulta los requisitos para unirte al equipo</p>
             </div>
 
             <!-- Acordeón -->
@@ -195,7 +195,7 @@
                 
                 <div class="acc-header" id="accHeader" onclick="toggleAccordion()" role="button" tabindex="0" aria-expanded="false">
                     <div>
-                        <div class="acc-title">📜 Ver requisitos completos</div>
+                        <div class="acc-title"><i class="fas fa-scroll mr-2"></i> Ver requisitos completos</div>
                         <div class="acc-subtitle">Roles disponibles y reglas del equipo</div>
                     </div>
                     <div class="acc-icon">
@@ -281,9 +281,9 @@
     </section>
  <!-- Login Modal -->
     <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div class="glass-strong rounded-2xl p-8 max-w-md w-full mx-4 modal-enter border border-yellow-500/30">
+        <div class="glass-strong rounded-lg p-8 max-w-md w-full mx-4 modal-enter border border-white/15">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-yellow-400">Iniciar Sesión</h3>
+                <h3 class="text-xl font-semibold text-yellow-400 brand-font uppercase tracking-wide">Iniciar Sesión</h3>
                 <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white transition">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -311,9 +311,9 @@
 
     <!-- Join Team Modal -->
     <div id="joinModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-10">
-        <div class="glass-strong rounded-2xl p-8 max-w-2xl w-full mx-4 modal-enter border border-yellow-500/30 my-auto">
+        <div class="glass-strong rounded-lg p-8 max-w-2xl w-full mx-4 modal-enter border border-white/15 my-auto">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-yellow-400">Solicitud de Ingreso</h3>
+                <h3 class="text-xl font-semibold text-yellow-400 brand-font uppercase tracking-wide">Solicitud de Ingreso</h3>
                 <button onclick="closeJoinModal()" class="text-gray-400 hover:text-white transition">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -359,7 +359,7 @@
                 </button>
             </form>
             
-            <div id="ticketDisplay" class="hidden mt-6 p-6 bg-black/50 rounded-lg border border-yellow-500/30">
+            <div id="ticketDisplay" class="hidden mt-6 p-6 bg-black/50 rounded border border-white/15">
                 <div class="flex justify-between items-center mb-4">
                     <h4 class="text-lg font-bold text-yellow-400">Tu Ticket</h4>
                     <button onclick="copyTicket()" class="text-sm bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded hover:bg-yellow-400/30 transition flex items-center gap-2">
@@ -384,7 +384,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="flex justify-between items-center mb-8">
                 <div>
-                    <h2 class="text-3xl font-bold text-yellow-400">Panel de Administración</h2>
+                    <h2 class="text-2xl font-semibold text-yellow-400 brand-font uppercase tracking-wide">Panel de Administración</h2>
                     <p class="text-gray-400">Gestiona el equipo Excel Sect</p>
                 </div>
                 <button onclick="logout()" class="bg-red-500/20 text-red-400 border border-red-500/50 px-4 py-2 rounded-lg hover:bg-red-500/30 transition">
@@ -394,7 +394,7 @@
             </div>
 
             <!-- Stats del equipo editables -->
-            <div class="mb-8 glass p-6 rounded-2xl border border-yellow-500/20">
+            <div class="mb-8 glass p-6 rounded-lg border border-white/10">
                 <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">
                     <i class="fas fa-chart-line"></i>
                     Estadísticas del Equipo
@@ -472,9 +472,9 @@
 
     <!-- Add Player Modal -->
     <div id="addPlayerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div class="glass-strong rounded-2xl p-6 max-w-md w-full mx-4 modal-enter border border-yellow-500/30">
+        <div class="glass-strong rounded-lg p-6 max-w-md w-full mx-4 modal-enter border border-white/15">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-yellow-400">Añadir al Top 3</h3>
+                <h3 class="text-lg font-semibold text-yellow-400 brand-font uppercase tracking-wide">Añadir al Top 3</h3>
                 <button onclick="closeAddPlayerModal()" class="text-gray-400 hover:text-white transition">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -491,12 +491,12 @@
                     <label class="block text-sm text-gray-400 mb-2">Foto de perfil (opcional)</label>
                     <div id="playerImageUploadArea" class="image-upload-area">
                         <div id="playerUploadPrompt">
-                            <div class="upload-icon">📷</div>
+                            <div class="upload-icon"><i class="fas fa-camera"></i></div>
                             <div class="upload-text">Haz clic para subir foto</div>
                             <div class="upload-hint">O arrastra una imagen aquí</div>
                         </div>
                         <img id="playerImagePreview" class="image-preview" style="display: none;">
-                        <button type="button" class="remove-image-btn" onclick="resetPlayerImageUpload()" style="display: none;">🗑️</button>
+                        <button type="button" class="remove-image-btn" onclick="resetPlayerImageUpload()" style="display: none;"><i class="fas fa-trash"></i></button>
                         <input type="file" id="playerImageFile" class="file-input" accept="image/*">
                         <input type="text" id="playerImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
                     </div>
@@ -512,9 +512,9 @@
 
     <!-- Add Match Modal -->
     <div id="addMatchModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-10">
-        <div class="glass-strong rounded-2xl p-6 max-w-lg w-full mx-4 modal-enter border border-yellow-600/30 my-auto">
+        <div class="glass-strong rounded-lg p-6 max-w-lg w-full mx-4 modal-enter border border-white/15 my-auto">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-yellow-500">Añadir Partido</h3>
+                <h3 class="text-lg font-semibold text-yellow-400 brand-font uppercase tracking-wide">Añadir Partido</h3>
                 <button onclick="closeAddMatchModal()" class="text-gray-400 hover:text-white transition">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -528,9 +528,9 @@
                 
                 <div class="grid grid-cols-3 gap-4">
                     <select id="matchStatus" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
-                        <option value="live">🔴 En Vivo</option>
-                        <option value="upcoming">⏳ Próximo</option>
-                        <option value="finished">✅ Finalizado</option>
+                        <option value="live">En vivo</option>
+                        <option value="upcoming">Próximo</option>
+                        <option value="finished">Finalizado</option>
                     </select>
                     <input type="text" id="matchScore" placeholder="Marcador (2-1)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
                     <input type="text" id="matchTime" placeholder="Hora (20:00)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
@@ -538,8 +538,8 @@
                 
                 <!-- MVP de cada equipo -->
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="matchMvpExcel" placeholder="⭐ MVP Excel Sect" class="w-full bg-black/50 border border-yellow-600/30 rounded-lg px-4 py-2 text-white glow-input">
-                    <input type="text" id="matchMvpOpponent" placeholder="⭐ MVP Rival" class="w-full bg-black/50 border border-gray-600/30 rounded-lg px-4 py-2 text-white glow-input">
+                    <input type="text" id="matchMvpExcel" placeholder="MVP Excel Sect" class="w-full bg-black/50 border border-yellow-600/30 rounded-lg px-4 py-2 text-white glow-input">
+                    <input type="text" id="matchMvpOpponent" placeholder="MVP Rival" class="w-full bg-black/50 border border-gray-600/30 rounded-lg px-4 py-2 text-white glow-input">
                 </div>
                 
                 <!-- Goles detallados -->
@@ -565,9 +565,9 @@
 
     <!-- Add/Edit News Modal -->
     <div id="addNewsModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div class="glass-strong rounded-2xl p-6 max-w-lg w-full mx-4 modal-enter border border-yellow-500/30">
+        <div class="glass-strong rounded-lg p-6 max-w-lg w-full mx-4 modal-enter border border-white/15">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-yellow-400">📰 Publicar Noticia</h3>
+                <h3 class="text-lg font-semibold text-yellow-400 brand-font uppercase tracking-wide"><i class="fas fa-newspaper mr-2"></i>Publicar Noticia</h3>
                 <button onclick="closeAddNewsModal()" class="text-gray-400 hover:text-white">
                     <i class="fas fa-times"></i>
                 </button>
@@ -582,12 +582,12 @@
                 <div>
                     <label class="block text-sm text-gray-400 mb-2">Categoría</label>
                     <select id="newsCategory" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input">
-                        <option value="Torneo">🏆 Torneo</option>
-                        <option value="Fichaje">👤 Fichaje</option>
-                        <option value="Entrenamiento">💪 Entrenamiento</option>
-                        <option value="Victoria">✅ Victoria</option>
-                        <option value="Derrota">❌ Derrota</option>
-                        <option value="General" selected>📋 General</option>
+                        <option value="Torneo">Torneo</option>
+                        <option value="Fichaje">Fichaje</option>
+                        <option value="Entrenamiento">Entrenamiento</option>
+                        <option value="Victoria">Victoria</option>
+                        <option value="Derrota">Derrota</option>
+                        <option value="General" selected>General</option>
                     </select>
                 </div>
                 
@@ -601,12 +601,12 @@
                     <label class="block text-sm text-gray-400 mb-2">Imagen (opcional)</label>
                     <div class="image-upload-area" id="imageUploadArea">
                         <div id="uploadPrompt">
-                            <div class="upload-icon">📷</div>
+                            <div class="upload-icon"><i class="fas fa-camera"></i></div>
                             <div class="upload-text">Haz clic para subir imagen</div>
                             <div class="upload-hint">O arrastra una imagen aquí</div>
                         </div>
                         <img id="imagePreview" class="image-preview" style="display: none;">
-                        <button type="button" class="remove-image-btn" onclick="resetNewsImageUpload()" style="display: none;">🗑️</button>
+                        <button type="button" class="remove-image-btn" onclick="resetNewsImageUpload()" style="display: none;"><i class="fas fa-trash"></i></button>
                         <input type="file" id="newsImageFile" class="file-input" accept="image/*">
                         <input type="text" id="newsImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
                     </div>
@@ -629,12 +629,10 @@
             <div class="grid md:grid-cols-4 gap-8 mb-8">
                 <div class="col-span-2">
                     <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center">
-                            <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center overflow-hidden">
-                <img src="ExcelSect.jpg" alt="Excel Sect Logo" class="w-full h-full object-cover">
-                    </div>
+                        <div class="w-9 h-9 rounded border border-yellow-500/40 flex items-center justify-center overflow-hidden">
+                            <img src="ExcelSect.jpg" alt="Excel Sect Logo" class="w-full h-full object-cover">
                         </div>
-                        <span class="text-xl font-bold brand-font text-white">EXCEL<span class="text-yellow-400">SECT</span></span>
+                        <span class="text-lg font-semibold brand-font uppercase text-white">EXCEL<span class="text-yellow-400">SECT</span></span>
                     </div>
                     <p class="text-gray-400 mb-4">Equipo profesional de Rocket League dedicado a la excelencia competitiva y el crecimiento de talentos.</p>
                     <div class="flex space-x-4">
