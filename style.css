@@ -5,10 +5,10 @@
 
 :root {
     /* Core palette */
-    --black:        #08080a;
-    --black-2:      #0e0e11;
-    --surface:      #17171b;
-    --surface-2:    #1e1e23;
+    --black:        #0b0b10;
+    --black-2:      #12121a;
+    --surface:      #1a1a24;
+    --surface-2:    #22222e;
     --line:         rgba(255, 255, 255, 0.09);
     --line-strong:  rgba(255, 255, 255, 0.16);
 
@@ -40,31 +40,24 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--black);
-    background-image:
-        radial-gradient(ellipse 900px 520px at 15% -8%, rgba(201, 161, 59, 0.07), transparent 60%),
-        radial-gradient(ellipse 1000px 640px at 100% 10%, rgba(255, 255, 255, 0.035), transparent 55%),
-        linear-gradient(180deg, var(--black-2) 0%, var(--black) 480px);
+    background: radial-gradient(ellipse 85% 60% at 50% -5%, #181824 0%, #0b0b10 45%, #07070a 100%);
+    background-attachment: fixed;
     color: var(--ink);
     overflow-x: hidden;
-    position: relative;
+    min-height: 100vh;
 }
 
-/* Fine grain — adds texture to the black instead of a flat void */
+/* Grano sutil para romper la planicidad del fondo oscuro */
 body::before {
-    content: '';
+    content: "";
     position: fixed;
     inset: 0;
-    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
     pointer-events: none;
-    opacity: 0.035;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-}
-
-body > * {
-    position: relative;
-    z-index: 1;
+    z-index: 9999;
+    opacity: 0.5;
 }
 
 h1, h2, h3, .brand-font {
@@ -319,27 +312,28 @@ h1, h2, h3, .brand-font {
 }
 
 .scoreboard-cell {
-    position: relative;
     flex: 1;
     text-align: center;
-    padding: 20px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 84px;
+    padding: 20px 24px;
+    position: relative;
 }
 
-.scoreboard-cell + .scoreboard-cell {
-    border-left: 1px solid var(--line-strong);
+.scoreboard-cell + .scoreboard-cell::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background: var(--line-strong);
 }
 
 .scoreboard-value {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 600;
     color: var(--gold-bright);
-    line-height: 1.15;
-    white-space: nowrap;
+    line-height: 1;
 }
 
 .scoreboard-label {
@@ -350,7 +344,18 @@ h1, h2, h3, .brand-font {
     color: var(--ink-dim);
 }
 
-/* Stat edit button reveal (used inside scoreboard cells) */
+/* Legacy stat-card hooks kept quiet and consistent with the strip */
+.stat-card {
+    position: relative;
+    transition: border-color 0.2s ease;
+    background: var(--black-2);
+    border-radius: var(--radius);
+}
+
+.stat-card:hover {
+    border-color: var(--gold);
+}
+
 .stat-edit-btn {
     position: absolute;
     top: 8px;
@@ -370,7 +375,7 @@ h1, h2, h3, .brand-font {
     transition: opacity 0.2s ease, border-color 0.2s ease;
 }
 
-.scoreboard-cell:hover .stat-edit-btn { opacity: 1; }
+.stat-card:hover .stat-edit-btn { opacity: 1; }
 .stat-edit-btn:hover { border-color: var(--gold); }
 
 .stat-input {
