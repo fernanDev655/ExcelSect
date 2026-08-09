@@ -797,6 +797,110 @@ h1, h2, h3, .brand-font {
     .btn.twitch { width: 100%; justify-content: center; }
 }
 
+/* ---------------------------------------------------------
+   Redes Sociales — social cards
+--------------------------------------------------------- */
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 1024px) {
+    .social-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+    .social-grid { grid-template-columns: 1fr; }
+}
+
+.social-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--social-color, var(--gold));
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.social-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, var(--social-color, var(--gold)) 0%, transparent 55%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.social-card:hover {
+    transform: translateY(-4px);
+    background: var(--surface-2);
+}
+
+.social-card:hover::before {
+    opacity: 0.08;
+}
+
+.social-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--social-color, var(--gold)) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--social-color, var(--gold)) 35%, transparent);
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    color: var(--social-color, var(--gold));
+    margin-bottom: 18px;
+    flex-shrink: 0;
+}
+
+.social-card h3 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--ink);
+    font-size: 17px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin: 0 0 6px;
+}
+
+.social-card p {
+    color: var(--ink-dim);
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin: 0 0 18px;
+    flex-grow: 1;
+}
+
+.social-card .social-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--social-color, var(--gold));
+}
+
+.social-card .social-cta i {
+    font-size: 11px;
+    transition: transform 0.2s ease;
+}
+
+.social-card:hover .social-cta i {
+    transform: translateX(4px);
+}
+
 /* ============================================================
    TOP 3 PLAYERS — roster cards
    ============================================================ */
