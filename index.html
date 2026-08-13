@@ -3,251 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Sect - Equipo Profesional de Rocket League</title>
+    <title>Excel Sect — Equipo Profesional de Rocket League</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <base target="_blank">
 <base target="_blank">
 </head>
-<body class="antialiased bg-black">
+<body class="antialiased">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 border-b border-white/10" style="background: rgba(8,8,10,0.92); backdrop-filter: blur(10px);">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <div class="w-9 h-9 rounded border border-yellow-500/40 flex items-center justify-center overflow-hidden">
-                        <img src="ExcelSect.jpg" alt="Excel Sect Logo" class="w-full h-full object-cover">
-                    </div>
-                    <span class="text-xl font-semibold brand-font tracking-wide text-white uppercase">
-                        EXCEL<span class="text-yellow-400">SECT</span>
-                    </span>
+    <nav id="mainNav">
+        <div class="nav-inner">
+            <div class="nav-brand" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+                <div class="logo-mark">
+                    <img src="ExcelSect.jpg" alt="Excel Sect Logo">
                 </div>
-                
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#inicio" class="nav-link text-gray-300 hover:text-yellow-400 transition">Inicio</a>
-                    <a href="#jugadores" class="nav-link text-gray-300 hover:text-yellow-400 transition">Jugadores</a>
-                    <a href="#partidos" class="nav-link text-gray-300 hover:text-yellow-400 transition">Partidos</a>
-                    <a href="#noticias" class="nav-link text-gray-300 hover:text-yellow-400 transition">Noticias</a>
-                    <a href="#requisitos" class="nav-link text-gray-300 hover:text-yellow-400 transition">Requisitos</a>
-                    <a href="#redes" class="nav-link text-gray-300 hover:text-yellow-400 transition">Redes</a>
-                </div>
-
-                <div class="flex items-center space-x-4">
-                    <div id="adminTrigger" class="hidden">
-                        <button onclick="openLoginModal()" class="text-gray-300 hover:text-yellow-400 transition px-3 py-1.5 rounded border border-white/15 text-sm">
-                            <i class="fas fa-lock mr-1"></i> Admin
-                        </button>
-                    </div>
-                </div>
+                <span class="logo-text">
+                    EXCEL<span class="logo-accent">SECT</span>
+                </span>
             </div>
+
+            <div class="nav-links">
+                <a href="#inicio" class="nav-link">Inicio</a>
+                <a href="#jugadores" class="nav-link">Jugadores</a>
+                <a href="#partidos" class="nav-link">Partidos</a>
+                <a href="#noticias" class="nav-link">Noticias</a>
+                <a href="#requisitos" class="nav-link">Requisitos</a>
+                <a href="#redes" class="nav-link">Redes</a>
+            </div>
+
+            <div class="nav-actions">
+                <div id="adminTrigger" class="hidden">
+                    <button onclick="openLoginModal()" class="btn-ghost">
+                        <i class="fas fa-lock"></i>
+                        <span>Admin</span>
+                    </button>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu">
+            <a href="#inicio" onclick="toggleMobileMenu()">Inicio</a>
+            <a href="#jugadores" onclick="toggleMobileMenu()">Jugadores</a>
+            <a href="#partidos" onclick="toggleMobileMenu()">Partidos</a>
+            <a href="#noticias" onclick="toggleMobileMenu()">Noticias</a>
+            <a href="#requisitos" onclick="toggleMobileMenu()">Requisitos</a>
+            <a href="#redes" onclick="toggleMobileMenu()">Redes</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="inicio" class="min-h-screen flex items-center justify-center relative pt-20 hero-section">
-        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.jpg">
-            <source src="assets/hero-bg.mp4" type="video/mp4">
+    <section id="inicio" class="hero-section">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="hero-poster.jpg">
+            <source src="hero-bg.mp4" type="video/mp4">
         </video>
-        <div class="hero-video-overlay"></div>
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="reveal active">
-                <div class="eyebrow justify-center mb-7">Equipo profesional &middot; Rocket League</div>
+        <div class="hero-overlay"></div>
+        <div class="hero-vignette"></div>
 
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight uppercase brand-font gradient-text">
-                    Excel Sect
-                </h1>
-                <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                    Domina el campo. Eleva tu juego. <span class="text-yellow-400 font-medium">Únete a la élite</span> de Rocket League.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-                    <button onclick="openJoinModal()" class="neon-button px-8 py-4 bg-yellow-400 text-black font-semibold rounded text-sm uppercase tracking-wider flex items-center gap-2 hover:bg-yellow-300 transition">
-                        <i class="fas fa-ticket-alt"></i>
-                        Solicitar ingreso
+        <div class="hero-content">
+            <div class="hero-badge reveal">
+                <span class="badge-line"></span>
+                <span>Equipo profesional · Rocket League</span>
+            </div>
+
+            <h1 class="hero-title reveal">
+                <span class="title-line">Excel</span>
+                <span class="title-line accent">Sect</span>
+            </h1>
+
+            <p class="hero-subtitle reveal">
+                Domina el campo. Eleva tu juego. 
+                <span class="highlight">Únete a la élite</span> de Rocket League.
+            </p>
+
+            <div class="hero-actions reveal">
+                <button onclick="openJoinModal()" class="btn-primary">
+                    <i class="fas fa-ticket-alt"></i>
+                    Solicitar ingreso
+                </button>
+                <a href="#partidos" class="btn-outline">
+                    <i class="fas fa-play-circle"></i>
+                    Ver partidos
+                </a>
+            </div>
+
+            <!-- Scoreboard Strip -->
+            <div class="scoreboard-strip reveal" id="statsContainer">
+                <div class="score-item stat-card" id="playerCountCard">
+                    <div class="score-value" id="statPlayerCount">12</div>
+                    <div class="score-label">Jugadores</div>
+                    <button onclick="editPlayerCount()" class="stat-edit hidden" id="editPlayerCountBtn" title="Editar">
+                        <i class="fas fa-pen"></i>
                     </button>
-                    <a href="#partidos" class="px-8 py-4 border border-white/15 rounded text-sm uppercase tracking-wider hover:border-yellow-400 hover:text-yellow-400 transition flex items-center gap-2">
-                        <i class="fas fa-play-circle"></i>
-                        Ver partidos
-                    </a>
                 </div>
-
-                <!-- Scoreboard strip -->
-                <div class="scoreboard reveal" id="statsContainer">
-                    <div class="scoreboard-cell stat-card" id="playerCountCard">
-                        <div class="scoreboard-value" id="statPlayerCount">12</div>
-                        <div class="scoreboard-label">Jugadores</div>
-                        <button onclick="editPlayerCount()" class="stat-edit-btn hidden" id="editPlayerCountBtn" title="Editar">
-                            <i class="fas fa-pen"></i>
-                        </button>
-                    </div>
-                    <div class="scoreboard-cell stat-card" id="rankCard">
-                        <div class="scoreboard-value" id="statMinRank">Diamante 3</div>
-                        <div class="scoreboard-label">Rango mínimo</div>
-                        <button onclick="editMinRank()" class="stat-edit-btn hidden" id="editRankBtn" title="Editar">
-                            <i class="fas fa-pen"></i>
-                        </button>
-                    </div>
-                    <div class="scoreboard-cell">
-                        <div class="scoreboard-value">EU</div>
-                        <div class="scoreboard-label">Región</div>
-                    </div>
+                <div class="score-divider"></div>
+                <div class="score-item stat-card" id="rankCard">
+                    <div class="score-value" id="statMinRank">Diamante 3</div>
+                    <div class="score-label">Rango mínimo</div>
+                    <button onclick="editMinRank()" class="stat-edit hidden" id="editRankBtn" title="Editar">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                </div>
+                <div class="score-divider"></div>
+                <div class="score-item">
+                    <div class="score-value">EU</div>
+                    <div class="score-label">Región</div>
                 </div>
             </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Desplaza</span>
         </div>
     </section>
 
     <!-- Players Section -->
-    <section id="jugadores" class="py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <div class="eyebrow justify-center mb-3">Plantilla</div>
-                <h2 class="text-3xl md:text-4xl font-semibold mb-3 brand-font uppercase tracking-wide text-white">
-                    Top 3 jugadores
-                </h2>
-                <p class="text-gray-400">Los mejores del equipo</p>
+    <section id="jugadores" class="section">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <div class="eyebrow">
+                    <span></span>
+                    Plantilla
+                </div>
+                <h2 class="section-title">Top 3 jugadores</h2>
+                <p class="section-desc">Los mejores del equipo</p>
             </div>
 
-            <div id="playersGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="playersGrid" class="players-grid">
                 <!-- Players loaded via JS -->
             </div>
         </div>
     </section>
 
-    <!-- REDES SOCIALES -->
-    <section id="redes" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <div class="eyebrow justify-center mb-3">Síguenos</div>
-                <h2 class="text-3xl md:text-4xl font-semibold mb-3 brand-font uppercase tracking-wide text-white">
-                    Redes sociales
-                </h2>
-                <p class="text-gray-400">Encuentra a Excel Sect en todas las plataformas</p>
+    <!-- Social Section -->
+    <section id="redes" class="section section-dark">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <div class="eyebrow">
+                    <span></span>
+                    Síguenos
+                </div>
+                <h2 class="section-title">Redes sociales</h2>
+                <p class="section-desc">Encuentra a Excel Sect en todas las plataformas</p>
             </div>
 
             <div class="social-grid reveal">
-
-                <a href="https://www.twitch.tv/teamexcel_tv" target="_blank" rel="noopener" class="social-card" style="--social-color:#9146ff;">
+                <a href="https://www.twitch.tv/teamexcel_tv" target="_blank" rel="noopener" class="social-card" style="--brand:#9146ff;">
                     <div class="social-icon"><i class="fab fa-twitch"></i></div>
-                    <h3>Twitch</h3>
-                    <p>Partidos y directos en vivo</p>
-                    <span class="social-cta">Ver canal <i class="fas fa-arrow-right"></i></span>
+                    <div class="social-info">
+                        <h3>Twitch</h3>
+                        <p>Partidos y directos en vivo</p>
+                    </div>
+                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="social-glow"></div>
                 </a>
 
-                <a href="https://www.youtube.com/@excelsect" target="_blank" rel="noopener" class="social-card" style="--social-color:#ff0000;">
+                <a href="https://www.youtube.com/@excelsect" target="_blank" rel="noopener" class="social-card" style="--brand:#ff0000;">
                     <div class="social-icon"><i class="fab fa-youtube"></i></div>
-                    <h3>YouTube</h3>
-                    <p>Highlights, resúmenes y clips</p>
-                    <span class="social-cta">Suscribirse <i class="fas fa-arrow-right"></i></span>
+                    <div class="social-info">
+                        <h3>YouTube</h3>
+                        <p>Highlights, resúmenes y clips</p>
+                    </div>
+                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="social-glow"></div>
                 </a>
 
-                <a href="https://www.tiktok.com/@excelsect" target="_blank" rel="noopener" class="social-card" style="--social-color:#ffffff;">
+                <a href="https://www.tiktok.com/@excelsect" target="_blank" rel="noopener" class="social-card" style="--brand:#ffffff;">
                     <div class="social-icon"><i class="fab fa-tiktok"></i></div>
-                    <h3>TikTok</h3>
-                    <p>Freestyle, memes y contenido corto</p>
-                    <span class="social-cta">Seguir <i class="fas fa-arrow-right"></i></span>
+                    <div class="social-info">
+                        <h3>TikTok</h3>
+                        <p>Freestyle, memes y contenido corto</p>
+                    </div>
+                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="social-glow"></div>
                 </a>
 
-                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" rel="noopener" class="social-card" style="--social-color:#5865f2;">
+                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" rel="noopener" class="social-card" style="--brand:#5865f2;">
                     <div class="social-icon"><i class="fab fa-discord"></i></div>
-                    <h3>Discord</h3>
-                    <p>Comunidad oficial del equipo</p>
-                    <span class="social-cta">Unirse <i class="fas fa-arrow-right"></i></span>
+                    <div class="social-info">
+                        <h3>Discord</h3>
+                        <p>Comunidad oficial del equipo</p>
+                    </div>
+                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="social-glow"></div>
                 </a>
-
             </div>
         </div>
     </section>
 
-    <!-- Live Matches Section -->
-    <section id="partidos" class="py-20 bg-neutral-900/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-end mb-12 reveal">
+    <!-- Matches Section -->
+    <section id="partidos" class="section">
+        <div class="section-inner">
+            <div class="section-header section-header-row reveal">
                 <div>
-                    <div class="eyebrow mb-3">En directo</div>
-                    <h2 class="text-3xl md:text-4xl font-semibold mb-2 brand-font uppercase tracking-wide text-white">
-                        Partidos
-                    </h2>
-                    <p class="text-gray-400">Sigue la acción en tiempo real</p>
+                    <div class="eyebrow"><span></span>En directo</div>
+                    <h2 class="section-title">Partidos</h2>
+                    <p class="section-desc">Sigue la acción en tiempo real</p>
                 </div>
-                <div class="flex items-center gap-2 text-red-400 mono text-xs uppercase tracking-wider">
-                    <span class="w-2 h-2 bg-red-500 rounded-full live-indicator"></span>
-                    <span class="font-semibold">Live</span>
+                <div class="live-pill">
+                    <span class="live-dot"></span>
+                    <span>Live</span>
                 </div>
             </div>
 
-            <div id="matchesContainer" class="space-y-6">
+            <div id="matchesContainer" class="matches-list">
                 <!-- Matches loaded via JS -->
             </div>
         </div>
     </section>
 
-    <!-- NOTICIAS -->
-    <section id="noticias" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <div class="eyebrow justify-center mb-3">Actualidad</div>
-                <h2 class="text-3xl md:text-4xl font-semibold mb-3 brand-font uppercase tracking-wide text-white">
-                    Noticias
-                </h2>
-                <p class="text-gray-400">Mantente actualizado con Excel Sect</p>
+    <!-- News Section -->
+    <section id="noticias" class="section section-dark">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <div class="eyebrow"><span></span>Actualidad</div>
+                <h2 class="section-title">Noticias</h2>
+                <p class="section-desc">Mantente actualizado con Excel Sect</p>
             </div>
 
             <!-- Admin Bar -->
-            <div class="card adminBar mb-8 hidden" id="newsAdminBar">
-                <div>
+            <div class="admin-bar hidden" id="newsAdminBar">
+                <div class="admin-bar-info">
                     <span class="chip"><i class="fas fa-newspaper"></i> Panel de noticias</span>
-                    <span class="chip" id="newsAdminChip">Modo edición activo</span>
+                    <span class="chip chip-dim" id="newsAdminChip">Modo edición activo</span>
                 </div>
-                <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                    <button class="btn btnPrimary" onclick="openAddNewsModal()"><i class="fas fa-plus"></i> Publicar noticia</button>
-                    <button class="btn" onclick="resetNews()"><i class="fas fa-broom"></i> Reset</button>
+                <div class="admin-bar-actions">
+                    <button class="btn btn-primary" onclick="openAddNewsModal()">
+                        <i class="fas fa-plus"></i> Publicar
+                    </button>
+                    <button class="btn" onclick="resetNews()">
+                        <i class="fas fa-broom"></i> Reset
+                    </button>
                 </div>
             </div>
 
-            <!-- Grid de Noticias -->
-            <div id="newsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Las noticias se renderizan aquí -->
+            <div id="newsGrid" class="news-grid">
+                <!-- News loaded via JS -->
             </div>
         </div>
     </section>
 
-    <!-- REGLAS Y REQUISITOS -->
-    <section id="requisitos" class="py-20">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center mb-12 reveal">
-                <div class="eyebrow justify-center mb-3">Únete al equipo</div>
-                <h2 class="text-3xl md:text-4xl font-semibold mb-3 brand-font uppercase tracking-wide text-white">
-                    Reglas y requisitos
-                </h2>
-                <p class="text-gray-400">Consulta los requisitos para unirte al equipo</p>
+    <!-- Requirements Section -->
+    <section id="requisitos" class="section">
+        <div class="section-inner narrow">
+            <div class="section-header reveal">
+                <div class="eyebrow"><span></span>Únete al equipo</div>
+                <h2 class="section-title">Reglas y requisitos</h2>
+                <p class="section-desc">Consulta los requisitos para unirte al equipo</p>
             </div>
 
-            <!-- Acordeón -->
-            <div class="accordion glass-strong reveal" id="rulesAccordion">
-                
-                <div class="acc-header" id="accHeader" onclick="toggleAccordion()" role="button" tabindex="0" aria-expanded="false">
-                    <div>
-                        <div class="acc-title"><i class="fas fa-scroll mr-2"></i> Ver requisitos completos</div>
-                        <div class="acc-subtitle">Roles disponibles y reglas del equipo</div>
+            <div class="accordion reveal" id="rulesAccordion">
+                <div class="accordion-header" id="accHeader" onclick="toggleAccordion()" role="button" tabindex="0" aria-expanded="false">
+                    <div class="accordion-header-text">
+                        <div class="accordion-title"><i class="fas fa-scroll"></i> Ver requisitos completos</div>
+                        <div class="accordion-subtitle">Roles disponibles y reglas del equipo</div>
                     </div>
-                    <div class="acc-icon">
+                    <div class="accordion-icon">
                         <i class="fas fa-chevron-down"></i>
                     </div>
                 </div>
 
-                <div class="acc-body" id="accBody">
-                    <div class="acc-content">
-                        
+                <div class="accordion-body" id="accBody">
+                    <div class="accordion-content">
+
                         <div class="rule-card">
                             <h3><i class="fas fa-clipboard-check"></i> Requisitos Generales</h3>
                             <ul>
                                 <li>Mínimo 16 años</li>
                                 <li>Mínimo 1 año de experiencia en RL</li>
-                                <li>Usar <strong style="color: #facc15;">#excel_ontop</strong> en posts</li>
+                                <li>Usar <strong>#excel_ontop</strong> en posts</li>
                                 <li>Seguirnos en redes sociales</li>
                                 <li>Máximo 2 equipos simultáneos</li>
                                 <li>Tener Instagram para el chat</li>
@@ -298,7 +334,7 @@
                             </ul>
                         </div>
 
-                        <div class="rule-card danger">
+                        <div class="rule-card rule-danger">
                             <h3><i class="fas fa-exclamation-triangle"></i> Reglas Importantes</h3>
                             <ul>
                                 <li>Respeto absoluto a todos</li>
@@ -316,55 +352,50 @@
         </div>
     </section>
 
- <!-- Login Modal -->
-    <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div class="glass-strong rounded-lg p-8 max-w-md w-full mx-4 modal-enter border border-white/15">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-semibold text-yellow-400 brand-font uppercase tracking-wide">Iniciar Sesión</h3>
-                <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white transition">
-                    <i class="fas fa-times text-xl"></i>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Iniciar Sesión</h3>
+                <button onclick="closeLoginModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-            
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Usuario</label>
-                    <input type="text" id="loginUser" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" placeholder="Usuario" required>
+            <form onsubmit="handleLogin(event)" class="modal-form">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" id="loginUser" placeholder="Usuario" required>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Contraseña</label>
-                    <input type="password" id="loginPass" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" placeholder="••••••••" required>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="loginPass" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="w-full bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 transition transform hover:scale-[1.02]">
+                <button type="submit" class="btn btn-primary btn-full">
                     Entrar
                 </button>
             </form>
-            
-            <div class="mt-4 text-center text-xs text-gray-600">
-                <p></p>
-            </div>
         </div>
     </div>
 
     <!-- Join Team Modal -->
-    <div id="joinModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-10">
-        <div class="glass-strong rounded-lg p-8 max-w-2xl w-full mx-4 modal-enter border border-white/15 my-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-semibold text-yellow-400 brand-font uppercase tracking-wide">Solicitud de Ingreso</h3>
-                <button onclick="closeJoinModal()" class="text-gray-400 hover:text-white transition">
-                    <i class="fas fa-times text-xl"></i>
+    <div id="joinModal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3>Solicitud de Ingreso</h3>
+                <button onclick="closeJoinModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-            
-            <form id="ticketForm" onsubmit="generateTicket(event)" class="space-y-4">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-2">Nombre de RL</label>
-                        <input type="text" id="rlName" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" required>
+
+            <form id="ticketForm" onsubmit="generateTicket(event)" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre de RL</label>
+                        <input type="text" id="rlName" required>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-2">Rango Actual</label>
-                        <select id="rank" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" required>
+                    <div class="form-group">
+                        <label>Rango Actual</label>
+                        <select id="rank" required>
                             <option value="">Selecciona...</option>
                             <option value="D3">Diamante 3</option>
                             <option value="C1">Campeón 1</option>
@@ -374,50 +405,49 @@
                         </select>
                     </div>
                 </div>
-                
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Discord ID</label>
-                    <input type="text" id="discordId" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" placeholder="Usuario#1234" required>
+
+                <div class="form-group">
+                    <label>Discord ID</label>
+                    <input type="text" id="discordId" placeholder="Usuario#1234" required>
                 </div>
-                
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Experiencia Previa</label>
-                    <textarea id="experience" rows="3" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" placeholder="Describe tu experiencia en equipos anteriores..."></textarea>
+
+                <div class="form-group">
+                    <label>Experiencia Previa</label>
+                    <textarea id="experience" rows="3" placeholder="Describe tu experiencia en equipos anteriores..."></textarea>
                 </div>
-                
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Horas Disponibles por Día</label>
-                    <input type="number" id="hours" min="1" max="24" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input transition" required>
+
+                <div class="form-group">
+                    <label>Horas Disponibles por Día</label>
+                    <input type="number" id="hours" min="1" max="24" required>
                 </div>
-                
-                <button type="submit" class="w-full bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 transition flex items-center justify-center gap-2 transform hover:scale-[1.02]">
+
+                <button type="submit" class="btn btn-primary btn-full">
                     <i class="fas fa-ticket-alt"></i>
                     Generar Ticket
                 </button>
             </form>
-            
-            <div id="ticketDisplay" class="hidden mt-6 p-6 bg-black/50 rounded border border-white/15">
-                <div class="flex justify-between items-center mb-4">
-                    <h4 class="text-lg font-bold text-yellow-400">Tu Ticket</h4>
-                    <button onclick="copyTicket()" class="text-sm bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded hover:bg-yellow-400/30 transition flex items-center gap-2">
+
+            <div id="ticketDisplay" class="ticket-display hidden">
+                <div class="ticket-header">
+                    <h4>Tu Ticket</h4>
+                    <button onclick="copyTicket()" class="btn btn-sm">
                         <i class="fas fa-copy"></i>
                         Copiar
                     </button>
                 </div>
-                <pre id="ticketContent" class="text-sm text-gray-300 font-mono whitespace-pre-wrap break-all bg-black/30 p-4 rounded border border-gray-700"></pre>
-                <p class="mt-4 text-sm text-gray-400 text-center">
-                    Pega este ticket en el canal <span class="text-yellow-400 font-semibold">#unirse-aqui</span> de nuestro Discord
+                <pre id="ticketContent"></pre>
+                <p class="ticket-hint">
+                    Pega este ticket en el canal <span class="accent">#unirse-aqui</span> de nuestro Discord
                 </p>
 
-                <div class="ticket-guide mt-6">
+                <div class="ticket-guide">
                     <div class="ticket-step">
                         <div class="ticket-step-num">1</div>
                         <div class="ticket-step-body">
                             <h4>Pulsa "Copiar"</h4>
-                            <p>Arriba del texto del ticket. Se copia todo automáticamente, no hace falta seleccionar nada a mano.</p>
+                            <p>Arriba del texto del ticket. Se copia todo automáticamente.</p>
                         </div>
                     </div>
-
                     <div class="ticket-step">
                         <div class="ticket-step-num">2</div>
                         <div class="ticket-step-body">
@@ -425,30 +455,27 @@
                             <p>Pulsa el botón morado "Ir al Discord" que hay justo debajo.</p>
                         </div>
                     </div>
-
                     <div class="ticket-step">
                         <div class="ticket-step-num">3</div>
                         <div class="ticket-step-body">
                             <h4>Busca el canal <code>#unirse-aqui</code></h4>
-                            <p>Está en la lista de canales de la izquierda (en el móvil, en el menú de arriba).</p>
+                            <p>Está en la lista de canales de la izquierda.</p>
                         </div>
                     </div>
-
                     <div class="ticket-step">
                         <div class="ticket-step-num">4</div>
                         <div class="ticket-step-body">
                             <h4>Pega el ticket y envíalo</h4>
-                            <p>Haz click en la caja de texto de abajo del todo, pega lo que copiaste (<code>Ctrl + V</code> en ordenador, mantener pulsado y "Pegar" en móvil) y dale a Enter o al botón de enviar.</p>
+                            <p>Haz click en la caja de texto, pega (<code>Ctrl + V</code>) y dale a Enter.</p>
                         </div>
                     </div>
-
                     <div class="ticket-note">
-                        <strong>Importante:</strong> no vale con escribir "quiero entrar" por tu cuenta. Tiene que ser el ticket generado por la web, tal cual, para que el staff pueda revisar tus datos correctamente.
+                        <strong>Importante:</strong> no vale con escribir "quiero entrar". Tiene que ser el ticket generado por la web.
                     </div>
                 </div>
 
-                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" class="mt-4 block w-full text-center bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg transition transform hover:scale-[1.02]">
-                    <i class="fab fa-discord mr-2"></i>
+                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" class="btn btn-discord btn-full">
+                    <i class="fab fa-discord"></i>
                     Ir al Discord
                 </a>
             </div>
@@ -456,208 +483,214 @@
     </div>
 
     <!-- Admin Panel -->
-    <div id="adminPanel" class="admin-panel fixed inset-0 z-40 bg-neutral-950 pt-20 overflow-y-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="flex justify-between items-center mb-8">
+    <div id="adminPanel" class="admin-panel">
+        <div class="admin-panel-inner">
+            <div class="admin-header">
                 <div>
-                    <h2 class="text-2xl font-semibold text-yellow-400 brand-font uppercase tracking-wide">Panel de Administración</h2>
-                    <p class="text-gray-400">Gestiona el equipo Excel Sect</p>
+                    <h2>Panel de Administración</h2>
+                    <p>Gestiona el equipo Excel Sect</p>
                 </div>
-                <button onclick="logout()" class="bg-red-500/20 text-red-400 border border-red-500/50 px-4 py-2 rounded-lg hover:bg-red-500/30 transition">
-                    <i class="fas fa-sign-out-alt mr-2"></i>
+                <button onclick="logout()" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i>
                     Cerrar Sesión
                 </button>
             </div>
 
-            <!-- Stats del equipo editables -->
-            <div class="mb-8 glass p-6 rounded-lg border border-white/10">
-                <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">
-                    <i class="fas fa-chart-line"></i>
-                    Estadísticas del Equipo
-                </h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-2">Número de Jugadores</label>
-                        <input type="number" id="adminPlayerCount" min="0" max="100" 
-                               class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input"
-                               onchange="updateTeamStatsFromAdmin()">
+            <!-- Team Stats -->
+            <div class="admin-stats">
+                <h3><i class="fas fa-chart-line"></i> Estadísticas del Equipo</h3>
+                <div class="admin-stats-grid">
+                    <div class="form-group">
+                        <label>Número de Jugadores</label>
+                        <input type="number" id="adminPlayerCount" min="0" max="100" onchange="updateTeamStatsFromAdmin()">
                     </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-2">Rango Mínimo</label>
-                        <input type="text" id="adminMinRank" 
-                               class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input"
-                               onchange="updateTeamStatsFromAdmin()">
+                    <div class="form-group">
+                        <label>Rango Mínimo</label>
+                        <input type="text" id="adminMinRank" onchange="updateTeamStatsFromAdmin()">
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 mt-3">Los cambios se guardan automáticamente</p>
+                <p class="form-hint">Los cambios se guardan automáticamente</p>
             </div>
 
-            <div class="flex space-x-4 mb-8 border-b border-yellow-900/30 pb-4">
-                <button onclick="showAdminTab('players')" id="tab-players" class="admin-tab px-4 py-2 text-yellow-400 border-b-2 border-yellow-400 font-semibold transition">
-                    <i class="fas fa-users mr-2"></i>Top 3 Jugadores
+            <div class="admin-tabs">
+                <button onclick="showAdminTab('players')" id="tab-players" class="admin-tab active">
+                    <i class="fas fa-users"></i> Top 3
                 </button>
-                <button onclick="showAdminTab('matches')" id="tab-matches" class="admin-tab px-4 py-2 text-gray-400 hover:text-yellow-400 transition">
-                    <i class="fas fa-gamepad mr-2"></i>Partidos
+                <button onclick="showAdminTab('matches')" id="tab-matches" class="admin-tab">
+                    <i class="fas fa-gamepad"></i> Partidos
                 </button>
-                <button onclick="showAdminTab('news')" id="tab-news" class="admin-tab px-4 py-2 text-gray-400 hover:text-yellow-400 transition">
-                    <i class="fas fa-newspaper mr-2"></i>Noticias
+                <button onclick="showAdminTab('news')" id="tab-news" class="admin-tab">
+                    <i class="fas fa-newspaper"></i> Noticias
                 </button>
             </div>
 
             <div id="admin-players" class="admin-section">
-                <div class="admin-limit-info" id="playerLimitInfo">
+                <div class="admin-limit" id="playerLimitInfo">
                     <i class="fas fa-info-circle"></i>
                     <span>Hay <strong id="currentPlayerCount">0</strong>/3 jugadores en el Top 3</span>
                 </div>
-                <div class="flex gap-2 mb-6">
-                    <button onclick="openAddPlayerModal()" class="bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-300 transition flex items-center gap-2">
-                        <i class="fas fa-plus"></i>
-                        Añadir Jugador
+                <div class="admin-actions">
+                    <button onclick="openAddPlayerModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Añadir Jugador
                     </button>
-                    <button onclick="resetTop3()" class="bg-red-500/20 text-red-400 border border-red-500/50 px-6 py-3 rounded-lg hover:bg-red-500/30 transition flex items-center gap-2">
-                        <i class="fas fa-trash-alt"></i>
-                        Resetear Top 3
+                    <button onclick="resetTop3()" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Resetear
                     </button>
                 </div>
-                <div id="adminPlayersList" class="grid gap-4"></div>
+                <div id="adminPlayersList" class="admin-list"></div>
             </div>
 
             <div id="admin-matches" class="admin-section hidden">
-                <div class="flex gap-2 mb-6">
-                    <button onclick="openAddMatchModal()" class="bg-yellow-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-500 transition flex items-center gap-2">
-                        <i class="fas fa-plus"></i>
-                        Añadir Partido
+                <div class="admin-actions">
+                    <button onclick="openAddMatchModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Añadir Partido
                     </button>
-                    <button onclick="resetMatches()" class="bg-red-500/20 text-red-400 border border-red-500/50 px-6 py-3 rounded-lg hover:bg-red-500/30 transition flex items-center gap-2">
-                        <i class="fas fa-trash-alt"></i>
-                        Resetear Partidos
+                    <button onclick="resetMatches()" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Resetear
                     </button>
                 </div>
-                <div id="adminMatchesList" class="space-y-4"></div>
+                <div id="adminMatchesList" class="admin-list"></div>
             </div>
 
             <div id="admin-news" class="admin-section hidden">
-                <button onclick="openAddNewsModal()" class="mb-6 bg-yellow-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-600 transition flex items-center gap-2">
-                    <i class="fas fa-plus"></i>
-                    Añadir Noticia
-                </button>
-                <div id="adminNewsList" class="grid gap-4"></div>
+                <div class="admin-actions">
+                    <button onclick="openAddNewsModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Añadir Noticia
+                    </button>
+                </div>
+                <div id="adminNewsList" class="admin-list"></div>
             </div>
         </div>
     </div>
 
     <!-- Add Player Modal -->
-    <div id="addPlayerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div class="glass-strong rounded-lg p-6 max-w-md w-full mx-4 modal-enter border border-white/15">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-yellow-400 brand-font uppercase tracking-wide">Añadir al Top 3</h3>
-                <button onclick="closeAddPlayerModal()" class="text-gray-400 hover:text-white transition">
-                    <i class="fas fa-times text-xl"></i>
+    <div id="addPlayerModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Añadir al Top 3</h3>
+                <button onclick="closeAddPlayerModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-            
-            <form onsubmit="handleAddPlayer(event)" class="space-y-4">
-                <input type="text" id="newPlayerName" placeholder="Nombre del jugador" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required>
-                <input type="text" id="newPlayerRole" placeholder="Rol (Ej: Fragger, Support, Capitán)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required>
-                <input type="text" id="newPlayerRank" placeholder="Rango (Ej: GC3, SSL, C3)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required>
-                <input type="text" id="newPlayerStats" placeholder="MMR (Ej: 1850)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input">
-                
-                <!-- Upload de imagen para jugador -->
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">Foto de perfil (opcional)</label>
-                    <div id="playerImageUploadArea" class="image-upload-area">
+            <form onsubmit="handleAddPlayer(event)" class="modal-form">
+                <div class="form-group">
+                    <input type="text" id="newPlayerName" placeholder="Nombre del jugador" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="newPlayerRole" placeholder="Rol (Ej: Fragger, Support, Capitán)" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="newPlayerRank" placeholder="Rango (Ej: GC3, SSL, C3)" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="newPlayerStats" placeholder="MMR (Ej: 1850)">
+                </div>
+
+                <div class="form-group">
+                    <label>Foto de perfil (opcional)</label>
+                    <div id="playerImageUploadArea" class="upload-area">
                         <div id="playerUploadPrompt">
                             <div class="upload-icon"><i class="fas fa-camera"></i></div>
                             <div class="upload-text">Haz clic para subir foto</div>
                             <div class="upload-hint">O arrastra una imagen aquí</div>
                         </div>
-                        <img id="playerImagePreview" class="image-preview" style="display: none;">
-                        <button type="button" class="remove-image-btn" onclick="resetPlayerImageUpload()" style="display: none;"><i class="fas fa-trash"></i></button>
+                        <img id="playerImagePreview" class="upload-preview" style="display: none;">
+                        <button type="button" class="upload-remove" onclick="resetPlayerImageUpload()" style="display: none;">
+                            <i class="fas fa-trash"></i>
+                        </button>
                         <input type="file" id="playerImageFile" class="file-input" accept="image/*">
                         <input type="text" id="playerImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
                     </div>
                 </div>
-                
-                <div class="flex gap-2 pt-4">
-                    <button type="button" onclick="closeAddPlayerModal()" class="flex-1 bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition">Cancelar</button>
-                    <button type="submit" class="flex-1 bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 transition">Guardar</button>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeAddPlayerModal()" class="btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Add Match Modal -->
-    <div id="addMatchModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-10">
-        <div class="glass-strong rounded-lg p-6 max-w-lg w-full mx-4 modal-enter border border-white/15 my-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-semibold text-yellow-400 brand-font uppercase tracking-wide">Añadir Partido</h3>
-                <button onclick="closeAddMatchModal()" class="text-gray-400 hover:text-white transition">
-                    <i class="fas fa-times text-xl"></i>
+    <div id="addMatchModal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3>Añadir Partido</h3>
+                <button onclick="closeAddMatchModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-            
-            <form onsubmit="handleAddMatch(event)" class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="matchOpponent" placeholder="Oponente" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input" required>
-                    <input type="text" id="matchTournament" placeholder="Torneo/Liga" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input" required>
+            <form onsubmit="handleAddMatch(event)" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="matchOpponent" placeholder="Oponente" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="matchTournament" placeholder="Torneo/Liga" required>
+                    </div>
                 </div>
-                
-                <div class="grid grid-cols-3 gap-4">
-                    <select id="matchStatus" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
-                        <option value="live">En vivo</option>
-                        <option value="upcoming">Próximo</option>
-                        <option value="finished">Finalizado</option>
-                    </select>
-                    <input type="text" id="matchScore" placeholder="Marcador (2-1)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
-                    <input type="text" id="matchTime" placeholder="Hora (20:00)" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white glow-input">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <select id="matchStatus">
+                            <option value="live">En vivo</option>
+                            <option value="upcoming">Próximo</option>
+                            <option value="finished">Finalizado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="matchScore" placeholder="Marcador (2-1)">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="matchTime" placeholder="Hora (20:00)">
+                    </div>
                 </div>
-                
-                <!-- MVP de cada equipo -->
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="matchMvpExcel" placeholder="MVP Excel Sect" class="w-full bg-black/50 border border-yellow-600/30 rounded-lg px-4 py-2 text-white glow-input">
-                    <input type="text" id="matchMvpOpponent" placeholder="MVP Rival" class="w-full bg-black/50 border border-gray-600/30 rounded-lg px-4 py-2 text-white glow-input">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="matchMvpExcel" placeholder="MVP Excel Sect">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="matchMvpOpponent" placeholder="MVP Rival">
+                    </div>
                 </div>
-                
-                <!-- Goles detallados -->
-                <div class="border border-gray-700 rounded-lg p-4 bg-black/30">
-                    <div class="flex justify-between items-center mb-3">
-                        <label class="text-sm text-gray-400">Goles detallados</label>
-                        <button type="button" onclick="addGoalInput()" class="text-yellow-400 hover:text-yellow-300 text-sm flex items-center gap-1">
+
+                <div class="goals-section">
+                    <div class="goals-header">
+                        <label>Goles detallados</label>
+                        <button type="button" onclick="addGoalInput()" class="btn btn-sm">
                             <i class="fas fa-plus"></i> Añadir gol
                         </button>
                     </div>
-                    <div id="goalsContainer" class="space-y-2">
-                        <!-- Los goles se añaden aquí dinámicamente -->
-                    </div>
+                    <div id="goalsContainer" class="goals-list"></div>
                 </div>
-                
-                <div class="flex gap-2 pt-4">
-                    <button type="button" onclick="closeAddMatchModal()" class="flex-1 bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition">Cancelar</button>
-                    <button type="submit" class="flex-1 bg-yellow-600 text-white font-bold py-3 rounded-lg hover:bg-yellow-500 transition">Guardar Partido</button>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeAddMatchModal()" class="btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Partido</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Add/Edit News Modal -->
-    <div id="addNewsModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div class="glass-strong rounded-lg p-6 max-w-lg w-full mx-4 modal-enter border border-white/15">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-semibold text-yellow-400 brand-font uppercase tracking-wide"><i class="fas fa-newspaper mr-2"></i>Publicar Noticia</h3>
-                <button onclick="closeAddNewsModal()" class="text-gray-400 hover:text-white">
+    <div id="addNewsModal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3><i class="fas fa-newspaper"></i> Publicar Noticia</h3>
+                <button onclick="closeAddNewsModal()" class="modal-close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            
-            <form onsubmit="handleSaveNews(event)" class="space-y-4">
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">Título *</label>
-                    <input type="text" id="newsTitle" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required>
+            <form onsubmit="handleSaveNews(event)" class="modal-form">
+                <div class="form-group">
+                    <label>Título *</label>
+                    <input type="text" id="newsTitle" required>
                 </div>
-                
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">Categoría</label>
-                    <select id="newsCategory" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input">
+
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select id="newsCategory">
                         <option value="Torneo">Torneo</option>
                         <option value="Fichaje">Fichaje</option>
                         <option value="Entrenamiento">Entrenamiento</option>
@@ -666,101 +699,82 @@
                         <option value="General" selected>General</option>
                     </select>
                 </div>
-                
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">Contenido *</label>
-                    <textarea id="newsContent" rows="4" class="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white glow-input" required></textarea>
+
+                <div class="form-group">
+                    <label>Contenido *</label>
+                    <textarea id="newsContent" rows="4" required></textarea>
                 </div>
-                
-                <!-- Área de Upload de Imagen -->
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">Imagen (opcional)</label>
-                    <div class="image-upload-area" id="imageUploadArea">
+
+                <div class="form-group">
+                    <label>Imagen (opcional)</label>
+                    <div class="upload-area" id="imageUploadArea">
                         <div id="uploadPrompt">
                             <div class="upload-icon"><i class="fas fa-camera"></i></div>
                             <div class="upload-text">Haz clic para subir imagen</div>
                             <div class="upload-hint">O arrastra una imagen aquí</div>
                         </div>
-                        <img id="imagePreview" class="image-preview" style="display: none;">
-                        <button type="button" class="remove-image-btn" onclick="resetNewsImageUpload()" style="display: none;"><i class="fas fa-trash"></i></button>
+                        <img id="imagePreview" class="upload-preview" style="display: none;">
+                        <button type="button" class="upload-remove" onclick="resetNewsImageUpload()" style="display: none;">
+                            <i class="fas fa-trash"></i>
+                        </button>
                         <input type="file" id="newsImageFile" class="file-input" accept="image/*">
                         <input type="text" id="newsImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
                     </div>
                 </div>
-                
-                <div class="flex gap-3 pt-4">
-                    <button type="button" onclick="closeAddNewsModal()" class="flex-1 bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="flex-1 bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-300 transition">
-                        Publicar
-                    </button>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeAddNewsModal()" class="btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Publicar</button>
                 </div>
             </form>
         </div>
     </div>
- <!-- Footer -->
-    <footer class="bg-black border-t border-yellow-900/30 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div class="col-span-2">
-                    <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-9 h-9 rounded border border-yellow-500/40 flex items-center justify-center overflow-hidden">
-                            <img src="ExcelSect.jpg" alt="Excel Sect Logo" class="w-full h-full object-cover">
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-mark">
+                            <img src="ExcelSect.jpg" alt="Excel Sect Logo">
                         </div>
-                        <span class="text-lg font-semibold brand-font uppercase text-white">EXCEL<span class="text-yellow-400">SECT</span></span>
+                        <span class="logo-text">EXCEL<span class="logo-accent">SECT</span></span>
                     </div>
-                    <p class="text-gray-400 mb-4">Equipo profesional de Rocket League dedicado a la excelencia competitiva y el crecimiento de talentos.</p>
-                    <div class="flex space-x-4">
-                        <a href="https://discord.com/invite/tvbEDum4Ru" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition transform hover:scale-110">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                        <a href="https://www.twitch.tv/teamexcel_tv" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-500 hover:text-black transition transform hover:scale-110">
-                            <i class="fab fa-twitch"></i>
-                        </a>
-                        <a href="https://www.tiktok.com/@excelsect" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-400 hover:text-black transition transform hover:scale-110">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
-                        <a href="https://instagram.com/excelsect" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-500 hover:text-black transition transform hover:scale-110">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://www.youtube.com/@excelsect" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-yellow-500 hover:text-black transition transform hover:scale-110">
-                            <i class="fab fa-youtube"></i>
-                        </a>
+                    <p>Equipo profesional de Rocket League dedicado a la excelencia competitiva y el crecimiento de talentos.</p>
+                    <div class="footer-socials">
+                        <a href="https://discord.com/invite/tvbEDum4Ru" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="https://www.twitch.tv/teamexcel_tv" class="social-link"><i class="fab fa-twitch"></i></a>
+                        <a href="https://www.tiktok.com/@excelsect" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://instagram.com/excelsect" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@excelsect" class="social-link"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                
-                <div>
-                    <h4 class="text-white font-bold mb-4">Enlaces</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#inicio" class="hover:text-yellow-400 transition">Inicio</a></li>
-                        <li><a href="#jugadores" class="hover:text-yellow-400 transition">Jugadores</a></li>
-                        <li><a href="#partidos" class="hover:text-yellow-400 transition">Partidos</a></li>
-                        <li><a href="#noticias" class="hover:text-yellow-400 transition">Noticias</a></li>
+
+                <div class="footer-links">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#jugadores">Jugadores</a></li>
+                        <li><a href="#partidos">Partidos</a></li>
+                        <li><a href="#noticias">Noticias</a></li>
                     </ul>
                 </div>
-                
-                <div>
-                    <h4 class="text-white font-bold mb-4">Contacto</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li class="flex items-center gap-2 hover:text-yellow-400 transition cursor-pointer">
-                            <i class="fas fa-envelope text-yellow-400"></i>
-                            teamexcel.esports.gg@gmail.com
-                        </li>
-                        <li class="flex items-center gap-2 hover:text-yellow-400 transition cursor-pointer">
-                            <i class="fab fa-discord text-yellow-400"></i>
-                              https://discord.com/invite/tvbEDum4Ru
-                        </li>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> teamexcel.esports.gg@gmail.com</li>
+                        <li><i class="fab fa-discord"></i> discord.com/invite/tvbEDum4Ru</li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="border-t border-yellow-900/20 pt-8 text-center text-gray-500 text-sm">
+
+            <div class="footer-bottom">
                 <p>&copy; 2026 Excel Sect. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
-   
 </body>
 </html>
