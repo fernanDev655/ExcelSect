@@ -57,7 +57,7 @@ body::before {
     background-size: 256px 256px;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.5;
+    opacity: 1;
 }
 
 h1, h2, h3, .brand-font {
