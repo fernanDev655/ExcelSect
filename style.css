@@ -1,1303 +1,780 @@
-/* ============================================================
-   EXCEL SECT — Design System
-   Palette: black + gold. Editorial sports-org tone, not "gamer".
-   ============================================================ */
-
-:root {
-    /* Core palette */
-    --black:        #0b0b10;
-    --black-2:      #12121a;
-    --surface:      #1a1a24;
-    --surface-2:    #22222e;
-    --line:         rgba(255, 255, 255, 0.09);
-    --line-strong:  rgba(255, 255, 255, 0.16);
-
-    /* Gold — muted brass, not neon */
-    --gold:         #c9a13b;
-    --gold-bright:  #e6bf5c;
-    --gold-deep:    #8a6a1f;
-    --gold-wash:    rgba(201, 161, 59, 0.10);
-    --gold-wash-2:  rgba(201, 161, 59, 0.18);
-
-    /* Ink */
-    --ink:          #f4f3ef;
-    --ink-dim:      #9a999e;
-    --ink-faint:    #6b6a70;
-
-    /* Status */
-    --danger:       #d24b4b;
-    --danger-wash:  rgba(210, 75, 75, 0.12);
-    --live:         #d24b4b;
-    --success:      #4caf7d;
-    --twitch:       #9146ff;
-
-    --radius-sm:    4px;
-    --radius:       8px;
-    --radius-lg:    14px;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    font-family: 'Inter', sans-serif;
-    background: radial-gradient(ellipse 85% 60% at 50% -5%, #181824 0%, #0b0b10 45%, #07070a 100%);
-    background-attachment: fixed;
-    color: var(--ink);
-    overflow-x: hidden;
-    min-height: 100vh;
-}
-
-/* Grano sutil para romper la planicidad del fondo oscuro */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px 256px;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.5;
-}
-
-h1, h2, h3, .brand-font {
-    font-family: 'Oswald', sans-serif;
-    letter-spacing: 0.01em;
-}
-
-.mono {
-    font-family: 'IBM Plex Mono', monospace;
-}
-
-/* ---------------------------------------------------------
-   Eyebrow labels — replace the old glitch/neon headline device
---------------------------------------------------------- */
-.eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold);
-}
-
-.eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 18px;
-    height: 1px;
-    background: var(--gold);
-}
-
-/* ---------------------------------------------------------
-   Background — flat black, no animated grid / orbs / particles
---------------------------------------------------------- */
-.bg-grid,
-.glow-orb,
-.cyber-grid,
-.particle,
-.scanlines {
-    display: none;
-}
-
-/* ---------------------------------------------------------
-   Hero background video
---------------------------------------------------------- */
-.hero-section {
-    overflow: hidden;
-    min-height: 100vh;
-}
-
-.hero-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    object-fit: cover;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 1;
-}
-
-.hero-video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    inset: 0;
-    z-index: 1;
-    background:
-        radial-gradient(ellipse 85% 60% at 50% -5%, rgba(24,24,36,0.35) 0%, rgba(11,11,16,0.55) 45%, #07070a 100%),
-        linear-gradient(180deg, rgba(7,7,10,0.35) 0%, rgba(7,7,10,0.5) 55%, #07070a 100%);
-}
-
-@media (max-width: 768px) {
-    .hero-video { display: none; }
-}
-
-/* ---------------------------------------------------------
-   Surfaces (replaces heavy glassmorphism)
---------------------------------------------------------- */
-.glass {
-    background: var(--surface);
-    border: 1px solid var(--line);
-}
-
-.glass-strong {
-    background: var(--black-2);
-    border: 1px solid var(--line-strong);
-    backdrop-filter: blur(6px);
-}
-
-/* ---------------------------------------------------------
-   Generic building blocks used across admin bars / news actions
---------------------------------------------------------- */
-.card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 22px;
-    border-radius: var(--radius-sm);
-    background: var(--surface-2);
-    border: 1px solid var(--line-strong);
-    color: var(--ink);
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-}
-
-.btn:hover {
-    border-color: var(--gold);
-    color: var(--gold-bright);
-}
-
-.btn.btnPrimary {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: #0c0c0e;
-}
-
-.btn.btnPrimary:hover {
-    background: var(--gold-bright);
-    border-color: var(--gold-bright);
-    color: #0c0c0e;
-}
-
-.chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: var(--gold-wash);
-    border: 1px solid rgba(201, 161, 59, 0.35);
-    color: var(--gold-bright);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-}
-
-.adminBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-/* ---------------------------------------------------------
-   Buttons / CTA polish — no sweeping neon shine
---------------------------------------------------------- */
-.neon-button {
-    position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.neon-button:hover {
-    transform: translateY(-1px);
-}
-
-/* ---------------------------------------------------------
-   Live indicator — kept subtle, standard broadcast convention
---------------------------------------------------------- */
-.live-indicator {
-    animation: pulse 1.8s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-}
-
-/* ---------------------------------------------------------
-   Scroll reveal — quiet fade, no bounce
---------------------------------------------------------- */
-.reveal {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ---------------------------------------------------------
-   Scrollbar
---------------------------------------------------------- */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--gold-deep); }
-
-/* ---------------------------------------------------------
-   Modals
---------------------------------------------------------- */
-.modal-enter {
-    animation: modalIn 0.2s ease;
-}
-
-@keyframes modalIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-.admin-panel { display: none; }
-.admin-panel.active { display: block; }
-
-.glow-input:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px var(--gold-wash);
-}
-
-/* ---------------------------------------------------------
-   Navigation
---------------------------------------------------------- */
-.nav-link {
-    position: relative;
-    font-size: 14px;
-    letter-spacing: 0.03em;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--gold);
-    transition: width 0.25s ease;
-}
-
-.nav-link:hover::after { width: 100%; }
-
-/* ---------------------------------------------------------
-   Copy success
---------------------------------------------------------- */
-.copy-success {
-    animation: copyPulse 0.4s ease;
-}
-
-@keyframes copyPulse {
-    0%   { background: var(--gold-wash-2); }
-    100% { background: transparent; }
-}
-
-/* ---------------------------------------------------------
-   Gradient text -> replaced with a flat, confident gold
---------------------------------------------------------- */
-.gradient-text {
-    color: var(--gold-bright);
-    background: none;
-    -webkit-text-fill-color: currentColor;
-}
-
-.text-primary { color: var(--gold); }
-.text-primary-dark { color: var(--gold-deep); }
-.border-primary { border-color: var(--gold); }
-.bg-primary { background-color: var(--gold); }
-.hover-text-primary:hover { color: var(--gold); }
-.hover-border-primary:hover { border-color: var(--gold); }
-.hover-bg-primary:hover { background-color: var(--gold); }
-
-/* ============================================================
-   SIGNATURE ELEMENT — Scoreboard strip
-   Used in: hero stats, match score display, admin stat cards.
-   A flat broadcast-style data bar: hairline rules, mono numerals.
-   ============================================================ */
-.scoreboard {
-    display: flex;
-    align-items: stretch;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-}
-
-.scoreboard-cell {
-    flex: 1;
-    text-align: center;
-    padding: 20px 24px;
-    position: relative;
-    background: transparent;
-}
-
-.scoreboard-cell + .scoreboard-cell::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 20%;
-    bottom: 20%;
-    width: 1px;
-    background: var(--line);
-}
-
-.scoreboard-value {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 30px;
-    font-weight: 600;
-    color: var(--gold-bright);
-    line-height: 1;
-}
-
-.scoreboard-label {
-    margin-top: 8px;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-}
-
-/* Legacy stat-card hooks kept quiet and consistent with the strip */
-.stat-card {
-    position: relative;
-    transition: border-color 0.2s ease;
-    background: transparent;
-    border-radius: var(--radius);
-}
-
-.stat-card:hover {
-    border-color: var(--gold);
-}
-
-.stat-edit-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 26px;
-    height: 26px;
-    border-radius: var(--radius-sm);
-    background: var(--surface-2);
-    border: 1px solid var(--line-strong);
-    color: var(--gold);
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s ease, border-color 0.2s ease;
-}
-
-.stat-card:hover .stat-edit-btn { opacity: 1; }
-.stat-edit-btn:hover { border-color: var(--gold); }
-
-.stat-input {
-    width: 90px;
-    background: var(--black);
-    border: 1px solid var(--gold);
-    border-radius: var(--radius-sm);
-    padding: 8px;
-    color: var(--gold-bright);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-    outline: none;
-}
-
-/* ============================================================
-   Admin mode indicator — quiet, no infinite glow pulse
-   ============================================================ */
-.admin-mode-active {
-    box-shadow: 0 0 0 1px var(--gold) inset;
-}
-
-/* ============================================================
-   Rules / requirements accordion
-   ============================================================ */
-.accordion {
-    overflow: hidden;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-lg);
-}
-
-.acc-header {
-    padding: 22px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    cursor: pointer;
-    background: var(--surface);
-    transition: background 0.2s ease;
-    user-select: none;
-}
-
-.acc-header:hover { background: var(--surface-2); }
-
-.acc-header.active {
-    background: var(--surface-2);
-    border-bottom: 1px solid var(--line-strong);
-}
-
-.acc-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 19px;
-    color: var(--ink);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-}
-
-.acc-subtitle {
-    font-size: 13px;
-    color: var(--ink-dim);
-    margin-top: 6px;
-}
-
-.acc-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-sm);
-    display: grid;
-    place-items: center;
-    border: 1px solid var(--line-strong);
-    background: var(--black-2);
-    color: var(--gold);
-    font-size: 16px;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    flex-shrink: 0;
-}
-
-.acc-header.active .acc-icon {
-    transform: rotate(180deg);
-    border-color: var(--gold);
-}
-
-.acc-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-    background: var(--black);
-}
-
-.acc-body.open { max-height: 2400px; }
-
-.acc-content {
-    padding: 28px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.rule-card {
-    border: 1px solid var(--line);
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 22px;
-    transition: border-color 0.2s ease;
-}
-
-.rule-card:hover { border-color: var(--line-strong); }
-
-.rule-card h3 {
-    margin: 0 0 14px 0;
-    font-family: 'Oswald', sans-serif;
-    color: var(--gold);
-    font-size: 16px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.rule-card ul {
-    margin: 0;
-    padding-left: 18px;
-    font-size: 14px;
-    line-height: 1.75;
-    color: var(--ink-dim);
-}
-
-.rule-card li { margin-bottom: 6px; }
-
-.rule-card.danger {
-    border-color: rgba(210, 75, 75, 0.3);
-    background: var(--danger-wash);
-}
-
-.rule-card.danger h3 { color: var(--danger); }
-
-/* ---------------------------------------------------------
-   Ticket guide — Discord step-by-step
---------------------------------------------------------- */
-.ticket-guide {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.ticket-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 16px 18px;
-    border: 1px solid var(--line);
-    background: var(--surface);
-    border-radius: var(--radius);
-    transition: border-color 0.2s ease;
-}
-
-.ticket-step:hover { border-color: var(--line-strong); }
-
-.ticket-step-num {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: var(--gold);
-    color: #000;
-    display: grid;
-    place-items: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700;
-    font-size: 14px;
-    flex-shrink: 0;
-}
-
-.ticket-step-body h4 {
-    margin: 0 0 4px;
-    font-family: 'Oswald', sans-serif;
-    color: var(--ink);
-    font-size: 15px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-}
-
-.ticket-step-body p {
-    margin: 0;
-    color: var(--ink-dim);
-    font-size: 13.5px;
-    line-height: 1.6;
-}
-
-.ticket-step-body code {
-    background: var(--black-2);
-    border: 1px solid var(--line);
-    padding: 2px 6px;
-    border-radius: 4px;
-    color: var(--gold);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-}
-
-.ticket-note {
-    margin-top: 4px;
-    padding: 16px 18px;
-    border-radius: var(--radius);
-    border: 1px solid rgba(250, 204, 21, 0.3);
-    background: rgba(250, 204, 21, 0.06);
-    color: var(--ink-dim);
-    font-size: 13.5px;
-    line-height: 1.65;
-}
-
-.ticket-note strong { color: var(--gold); }
-
-/* ============================================================
-   News
-   ============================================================ */
-.news-card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-    transition: border-color 0.2s ease, transform 0.2s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.news-card:hover {
-    border-color: var(--line-strong);
-    transform: translateY(-3px);
-}
-
-.news-image-container {
-    position: relative;
-    width: 100%;
-    height: 190px;
-    overflow: hidden;
-    background: var(--black-2);
-}
-
-.news-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(35%) contrast(1.05);
-    transition: filter 0.3s ease, transform 0.4s ease;
-}
-
-.news-card:hover .news-image {
-    filter: grayscale(0%) contrast(1.05);
-    transform: scale(1.03);
-}
-
-.news-image-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: var(--ink-faint);
-    background: var(--black-2);
-}
-
-.news-content {
-    padding: 22px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.news-category {
-    display: inline-block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 6px 10px;
-    border-radius: var(--radius-sm);
-    background: var(--gold-wash);
-    color: var(--gold-bright) !important;
-    -webkit-text-fill-color: var(--gold-bright) !important;
-    border: 1px solid rgba(201, 161, 59, 0.3);
-    margin-bottom: 14px;
-    width: fit-content;
-}
-
-.news-date {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    letter-spacing: 0.02em;
-}
-
-.news-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 19px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 10px;
-    line-height: 1.3;
-    transition: color 0.2s ease;
-}
-
-.news-card:hover .news-title { color: var(--gold-bright); }
-
-.news-text {
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--ink-dim);
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.news-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-}
-
-/* ============================================================
-   Image upload areas (news + player modals)
-   ============================================================ */
-.image-upload-area,
-#playerImageUploadArea {
-    grid-column: 1 / -1;
-    border: 1px dashed var(--line-strong);
-    border-radius: var(--radius);
-    padding: 28px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease;
-    background: var(--black-2);
-    position: relative;
-    overflow: hidden;
-}
-
-.image-upload-area:hover,
-#playerImageUploadArea:hover {
-    border-color: var(--gold);
-    background: var(--surface);
-}
-
-.image-upload-area.has-image,
-#playerImageUploadArea.has-image {
-    border-style: solid;
-    border-color: var(--success);
-    background: rgba(76, 175, 125, 0.06);
-    padding: 0;
-}
-
-.upload-icon { font-size: 32px; margin-bottom: 10px; opacity: 0.6; }
-.upload-text { color: var(--gold); font-weight: 600; margin-bottom: 6px; font-size: 14px; }
-.upload-hint { font-size: 12px; color: var(--ink-faint); }
-
-.image-preview,
-#playerImagePreview {
-    width: 100%;
-    max-height: 220px;
-    object-fit: cover;
-    border-radius: var(--radius-sm);
-}
-
-.remove-image-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(210, 75, 75, 0.85);
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    transition: transform 0.2s ease;
-    z-index: 10;
-}
-
-.remove-image-btn:hover { transform: scale(1.08); }
-
-.file-input { display: none; }
-
-.url-input {
-    margin-top: 14px;
-    width: 100%;
-    padding: 11px 14px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--line-strong);
-    background: var(--black);
-    color: var(--ink);
-    font-size: 14px;
-}
-
-.url-input:focus { outline: none; border-color: var(--gold); }
-
-/* ============================================================
-   Live streams banner — brand purple kept (Twitch identity),
-   effects toned down to a single quiet card
-   ============================================================ */
-.twitchBanner {
-    background: var(--surface);
-    border: 1px solid var(--line-strong);
-    border-left: 3px solid var(--twitch);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.twitchBanner .info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.twitchIcon {
-    width: 52px;
-    height: 52px;
-    border-radius: var(--radius);
-    background: rgba(145, 70, 255, 0.12);
-    display: grid;
-    place-items: center;
-    font-size: 24px;
-    color: var(--twitch);
-    border: 1px solid rgba(145, 70, 255, 0.3);
-    flex-shrink: 0;
-}
-
-.twitchBanner h3 {
-    font-family: 'Oswald', sans-serif;
-    color: var(--ink);
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-}
-
-.twitchBanner p {
-    color: var(--ink-dim);
-    font-size: 14px;
-    margin: 4px 0 0;
-    line-height: 1.5;
-}
-
-.btn.twitch {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
-    background: var(--twitch);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: var(--radius-sm);
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
-    text-decoration: none;
-}
-
-.btn.twitch:hover {
-    background: #7c2ee0;
-    transform: translateY(-1px);
-}
-
-.btn.twitch .play-icon { display: inline-block; }
-
-@media (max-width: 640px) {
-    .twitchBanner { flex-direction: column; align-items: flex-start; }
-    .btn.twitch { width: 100%; justify-content: center; }
-}
-
-/* ---------------------------------------------------------
-   Redes Sociales — social cards
---------------------------------------------------------- */
-.social-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-@media (max-width: 1024px) {
-    .social-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 560px) {
-    .social-grid { grid-template-columns: 1fr; }
-}
-
-.social-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    background: var(--surface);
-    border: 1px solid var(--line-strong);
-    border-top: 3px solid var(--social-color, var(--gold));
-    border-radius: var(--radius-lg);
-    padding: 28px 24px;
-    text-decoration: none;
-    overflow: hidden;
-    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-}
-
-.social-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(160deg, var(--social-color, var(--gold)) 0%, transparent 55%);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    pointer-events: none;
-}
-
-.social-card:hover {
-    transform: translateY(-4px);
-    background: var(--surface-2);
-}
-
-.social-card:hover::before {
-    opacity: 0.08;
-}
-
-.social-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: var(--radius);
-    background: color-mix(in srgb, var(--social-color, var(--gold)) 14%, transparent);
-    border: 1px solid color-mix(in srgb, var(--social-color, var(--gold)) 35%, transparent);
-    display: grid;
-    place-items: center;
-    font-size: 22px;
-    color: var(--social-color, var(--gold));
-    margin-bottom: 18px;
-    flex-shrink: 0;
-}
-
-.social-card h3 {
-    font-family: 'Oswald', sans-serif;
-    color: var(--ink);
-    font-size: 17px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    margin: 0 0 6px;
-}
-
-.social-card p {
-    color: var(--ink-dim);
-    font-size: 13.5px;
-    line-height: 1.5;
-    margin: 0 0 18px;
-    flex-grow: 1;
-}
-
-.social-card .social-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--social-color, var(--gold));
-}
-
-.social-card .social-cta i {
-    font-size: 11px;
-    transition: transform 0.2s ease;
-}
-
-.social-card:hover .social-cta i {
-    transform: translateX(4px);
-}
-
-/* ============================================================
-   TOP 3 PLAYERS — roster cards
-   ============================================================ */
-#playersGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-@media (max-width: 968px) {
-    #playersGrid { grid-template-columns: 1fr; max-width: 420px; }
-}
-
-.top-player-card {
-    position: relative;
-    background: var(--surface);
-    border: 1px solid var(--line-strong);
-    border-top: 3px solid var(--rank-color, var(--gold));
-    border-radius: var(--radius);
-    padding: 30px 24px 24px;
-    text-align: center;
-    transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.top-player-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--rank-color, var(--gold));
-}
-
-.rank-badge {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    background: var(--black);
-    border: 1px solid var(--rank-color, var(--gold));
-    color: var(--rank-color, var(--gold));
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 600;
-    font-size: 12px;
-    padding: 5px 10px;
-    border-radius: var(--radius-sm);
-    z-index: 10;
-}
-
-.player-admin-actions {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: flex;
-    gap: 8px;
-    z-index: 10;
-}
-
-.player-btn,
-.match-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--line-strong);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    background: var(--black-2);
-    transition: border-color 0.2s ease, color 0.2s ease;
-}
-
-.player-btn.edit, .match-btn.edit {
-    color: var(--gold);
-}
-.player-btn.edit:hover, .match-btn.edit:hover {
-    border-color: var(--gold);
-}
-
-.player-btn.delete, .match-btn.delete {
-    color: var(--danger);
-}
-.player-btn.delete:hover, .match-btn.delete:hover {
-    border-color: var(--danger);
-}
-
-.player-avatar-container {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 18px;
-}
-
-.player-avatar-glow { display: none; }
-
-.player-avatar {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid var(--rank-color, var(--gold));
-    filter: grayscale(20%);
-    transition: filter 0.2s ease;
-}
-
-.top-player-card:hover .player-avatar { filter: grayscale(0%); }
-
-.player-name {
-    font-family: 'Oswald', sans-serif;
-    font-size: 21px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-}
-
-.player-role {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--rank-color, var(--gold));
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-bottom: 18px;
-}
-
-.player-stats {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
-}
-
-.stat { display: flex; flex-direction: column; gap: 4px; }
-
-.stat-label {
-    font-size: 11px;
-    color: var(--ink-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-.stat-value {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--ink);
-}
-
-/* ============================================================
-   Admin panel — limit info
-   ============================================================ */
-.admin-limit-info {
-    background: var(--gold-wash);
-    border: 1px solid rgba(201, 161, 59, 0.3);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: var(--gold-bright);
-    font-size: 14px;
-}
-
-.admin-limit-info.full {
-    background: var(--danger-wash);
-    border-color: rgba(210, 75, 75, 0.3);
-    color: var(--danger);
-}
-
-/* ============================================================
-   Match cards — broadcast scoreboard styling
-   ============================================================ */
-.match-card {
-    position: relative;
-    transition: border-color 0.2s ease;
-}
-
-.match-admin-actions {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.match-card:hover .match-admin-actions { opacity: 1; }
-
-.score-display {
-    background: var(--black);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--line-strong);
-    padding: 14px 26px;
-}
-
-.match-goals { }
-
-.goals-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.goal-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
-    background: var(--black);
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-}
-
-.goal-excel { border-left: 2px solid var(--gold); }
-.goal-opponent { border-left: 2px solid var(--ink-faint); }
-
-.goal-time {
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--gold);
-    font-weight: 600;
-    min-width: 36px;
-}
-
-.goal-scorer { color: var(--ink); font-weight: 500; }
-
-.goal-team {
-    color: var(--ink-faint);
-    font-size: 11.5px;
-    margin-left: auto;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.match-mvps { }
-
-.mvp-badge {
-    display: flex;
-    flex-direction: column;
-    padding: 12px 16px;
-    border-radius: var(--radius-sm);
-    flex: 1;
-}
-
-.mvp-excel {
-    background: var(--gold-wash);
-    border: 1px solid rgba(201, 161, 59, 0.3);
-}
-
-.mvp-opponent {
-    background: var(--surface);
-    border: 1px solid var(--line);
-}
-
-.mvp-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-faint);
-    margin-bottom: 4px;
-}
-
-.mvp-excel .mvp-label { color: var(--gold); }
-
-.mvp-name {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    color: var(--ink);
-    font-size: 14px;
-}
-
-/* Goal inputs inside the "add match" modal */
-.goal-input-item {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.goal-input-item button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    color: var(--danger);
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Sect — Equipo Profesional de Rocket League</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <base target="_blank">
+<base target="_blank">
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav id="mainNav">
+        <div class="nav-inner">
+            <div class="nav-brand" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+                <div class="logo-mark">
+                    <img src="ExcelSect.jpg" alt="Excel Sect Logo">
+                </div>
+                <span class="logo-text">
+                    EXCEL<span class="logo-accent">SECT</span>
+                </span>
+            </div>
+
+            <div class="nav-links">
+                <a href="#inicio" class="nav-link">Inicio</a>
+                <a href="#jugadores" class="nav-link">Jugadores</a>
+                <a href="#partidos" class="nav-link">Partidos</a>
+                <a href="#noticias" class="nav-link">Noticias</a>
+                <a href="#requisitos" class="nav-link">Requisitos</a>
+                <a href="#redes" class="nav-link">Redes</a>
+            </div>
+
+            <div class="nav-actions">
+                <div id="adminTrigger" class="hidden">
+                    <button onclick="openLoginModal()" class="btn-ghost">
+                        <i class="fas fa-lock"></i>
+                        <span>Admin</span>
+                    </button>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu">
+            <a href="#inicio" onclick="toggleMobileMenu()">Inicio</a>
+            <a href="#jugadores" onclick="toggleMobileMenu()">Jugadores</a>
+            <a href="#partidos" onclick="toggleMobileMenu()">Partidos</a>
+            <a href="#noticias" onclick="toggleMobileMenu()">Noticias</a>
+            <a href="#requisitos" onclick="toggleMobileMenu()">Requisitos</a>
+            <a href="#redes" onclick="toggleMobileMenu()">Redes</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="hero-poster.jpg">
+            <source src="hero-bg.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-vignette"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge reveal">
+                <span class="badge-line"></span>
+                <span>Equipo profesional · Rocket League</span>
+            </div>
+
+            <h1 class="hero-title reveal">
+                <span class="title-line">Excel</span>
+                <span class="title-line accent">Sect</span>
+            </h1>
+
+            <p class="hero-subtitle reveal">
+                Domina el campo. Eleva tu juego. 
+                <span class="highlight">Únete a la élite</span> de Rocket League.
+            </p>
+
+            <div class="hero-actions reveal">
+                <button onclick="openJoinModal()" class="btn-primary">
+                    <i class="fas fa-ticket-alt"></i>
+                    Solicitar ingreso
+                </button>
+                <a href="#partidos" class="btn-outline">
+                    <i class="fas fa-play-circle"></i>
+                    Ver partidos
+                </a>
+            </div>
+
+            <!-- Scoreboard Strip -->
+            <div class="scoreboard-strip reveal" id="statsContainer">
+                <div class="score-item stat-card" id="playerCountCard">
+                    <div class="score-value" id="statPlayerCount">12</div>
+                    <div class="score-label">Jugadores</div>
+                    <button onclick="editPlayerCount()" class="stat-edit hidden" id="editPlayerCountBtn" title="Editar">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                </div>
+                <div class="score-divider"></div>
+                <div class="score-item stat-card" id="rankCard">
+                    <div class="score-value" id="statMinRank">Diamante 3</div>
+                    <div class="score-label">Rango mínimo</div>
+                    <button onclick="editMinRank()" class="stat-edit hidden" id="editRankBtn" title="Editar">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                </div>
+                <div class="score-divider"></div>
+                <div class="score-item">
+                    <div class="score-value">EU</div>
+                    <div class="score-label">Región</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Desplaza</span>
+        </div>
+    </section>
+
+    <!-- Players Section -->
+    <section id="jugadores" class="section">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <div class="eyebrow">
+                    <span></span>
+                    Plantilla
+                </div>
+                <h2 class="section-title">Top 3 jugadores</h2>
+                <p class="section-desc">Los mejores del equipo</p>
+            </div>
+
+            <div id="playersGrid" class="players-grid">
+                <!-- Players loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Section -->
+    <section id="redes" class="section section-dark">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <div class="eyebrow">
+                    <span></span>
+                    Síguenos
+                </div>
+                <h2 class="section-title">Redes sociales</h2>
+                <p class="section-desc">Encuentra a Excel Sect en todas las plataformas</p>
+            </div>
+
+            <div class="social-grid reveal">
+                <a href="https://www.twitch.tv/teamexcel_tv" target="_blank" rel="noopener" class="social-card" style="--brand:#9146ff;">
+                    <div class="social-icon"><i class="fab fa-twitch"></i></div>
+                    <div class="social-info">
+                        <h3>Twitch</h3>
+                        <p>Partidos y directos en vivo</p>
+                    </div>
+                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="social-glow"></div>
+                </a>
+
+                <a href="https://www.youtube.com/@excelsect" target="_blank" rel="noopener" class="social-card" style="--brand:#ff0000;">
+                    <div class="social-icon"><i class="fab fa-youtube"></i></div>
+                    <div class="social-info">
+                        <h3>YouTube</h3>
+                        <p>Highlights, resúmenes y clips</p>
+                    </div>
+                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="social-glow"></div>
+                </a>
+
+                <a href="https://www.tiktok.com/@excelsect" target="_blank" rel="noopener" class="social-card" style="--brand:#ffffff;">
+                    <div class="social-icon"><i class="fab fa-tiktok"></i></div>
+                    <div class="social-info">
+                        <h3>TikTok</h3>
+                        <p>Freestyle, memes y contenido corto</p>
+                    </div>
+                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="social-glow"></div>
+                </a>
+
+                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" rel="noopener" class="social-card" style="--brand:#5865f2;">
+                    <div class="social-icon"><i class="fab fa-discord"></i></div>
+                    <div class="social-info">
+                        <h3>Discord</h3>
+                        <p>Comunidad oficial del equipo</p>
+                    </div>
+                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="social-glow"></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Matches Section -->
+    <section id="partidos" class="section">
+        <div class="section-inner">
+            <div class="section-header section-header-row reveal">
+                <div>
+                    <div class="eyebrow"><span></span>En directo</div>
+                    <h2 class="section-title">Partidos</h2>
+                    <p class="section-desc">Sigue la acción en tiempo real</p>
+                </div>
+                <div class="live-pill">
+                    <span class="live-dot"></span>
+                    <span>Live</span>
+                </div>
+            </div>
+
+            <div id="matchesContainer" class="matches-list">
+                <!-- Matches loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="noticias" class="section section-dark">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <div class="eyebrow"><span></span>Actualidad</div>
+                <h2 class="section-title">Noticias</h2>
+                <p class="section-desc">Mantente actualizado con Excel Sect</p>
+            </div>
+
+            <!-- Admin Bar -->
+            <div class="admin-bar hidden" id="newsAdminBar">
+                <div class="admin-bar-info">
+                    <span class="chip"><i class="fas fa-newspaper"></i> Panel de noticias</span>
+                    <span class="chip chip-dim" id="newsAdminChip">Modo edición activo</span>
+                </div>
+                <div class="admin-bar-actions">
+                    <button class="btn btn-primary" onclick="openAddNewsModal()">
+                        <i class="fas fa-plus"></i> Publicar
+                    </button>
+                    <button class="btn" onclick="resetNews()">
+                        <i class="fas fa-broom"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <div id="newsGrid" class="news-grid">
+                <!-- News loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Requirements Section -->
+    <section id="requisitos" class="section">
+        <div class="section-inner narrow">
+            <div class="section-header reveal">
+                <div class="eyebrow"><span></span>Únete al equipo</div>
+                <h2 class="section-title">Reglas y requisitos</h2>
+                <p class="section-desc">Consulta los requisitos para unirte al equipo</p>
+            </div>
+
+            <div class="accordion reveal" id="rulesAccordion">
+                <div class="accordion-header" id="accHeader" onclick="toggleAccordion()" role="button" tabindex="0" aria-expanded="false">
+                    <div class="accordion-header-text">
+                        <div class="accordion-title"><i class="fas fa-scroll"></i> Ver requisitos completos</div>
+                        <div class="accordion-subtitle">Roles disponibles y reglas del equipo</div>
+                    </div>
+                    <div class="accordion-icon">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="accordion-body" id="accBody">
+                    <div class="accordion-content">
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-clipboard-check"></i> Requisitos Generales</h3>
+                            <ul>
+                                <li>Mínimo 16 años</li>
+                                <li>Mínimo 1 año de experiencia en RL</li>
+                                <li>Usar <strong>#excel_ontop</strong> en posts</li>
+                                <li>Seguirnos en redes sociales</li>
+                                <li>Máximo 2 equipos simultáneos</li>
+                                <li>Tener Instagram para el chat</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-trophy"></i> Comp Player</h3>
+                            <ul>
+                                <li>Mínimo Diamante 3</li>
+                                <li>Región EU</li>
+                                <li>Epic ID + RL Tracker</li>
+                                <li>Pasar tryouts</li>
+                                <li>Dominar pases y rotaciones</li>
+                                <li>Inglés medio-alto</li>
+                                <li>Clips semanales</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-rocket"></i> Freestyler</h3>
+                            <ul>
+                                <li>15+ clips de calidad</li>
+                                <li>Buenas definiciones</li>
+                                <li>Setups creativos</li>
+                                <li>Control aéreo/suelo</li>
+                                <li>Entrega semanal</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-video"></i> Content Creator</h3>
+                            <ul>
+                                <li>500+ IG / 500+ TikTok / 100+ YT</li>
+                                <li>Publicaciones consistentes</li>
+                                <li>Contenido 100% original</li>
+                                <li>Interacción con el equipo</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card">
+                            <h3><i class="fas fa-palette"></i> GFX / VFX</h3>
+                            <ul>
+                                <li>Portfolio de trabajos</li>
+                                <li>Dominio de software</li>
+                                <li>Tiempos de entrega rápidos</li>
+                                <li>Calidad 1080p+</li>
+                            </ul>
+                        </div>
+
+                        <div class="rule-card rule-danger">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Reglas Importantes</h3>
+                            <ul>
+                                <li>Respeto absoluto a todos</li>
+                                <li>Perfil de Discord apropiado</li>
+                                <li>Prohibido spam y MD al staff</li>
+                                <li>Sin autopromoción externa</li>
+                                <li>Lenguaje tóxico = ban</li>
+                                <li>Prohibido contenido NSFW</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Iniciar Sesión</h3>
+                <button onclick="closeLoginModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="handleLogin(event)" class="modal-form">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" id="loginUser" placeholder="Usuario" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="loginPass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    Entrar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Join Team Modal -->
+    <div id="joinModal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3>Solicitud de Ingreso</h3>
+                <button onclick="closeJoinModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="ticketForm" onsubmit="generateTicket(event)" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre de RL</label>
+                        <input type="text" id="rlName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rango Actual</label>
+                        <select id="rank" required>
+                            <option value="">Selecciona...</option>
+                            <option value="D3">Diamante 3</option>
+                            <option value="C1">Campeón 1</option>
+                            <option value="C2">Campeón 2</option>
+                            <option value="C3">Campeón 3</option>
+                            <option value="GC">Grand Champion</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Discord ID</label>
+                    <input type="text" id="discordId" placeholder="Usuario#1234" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Experiencia Previa</label>
+                    <textarea id="experience" rows="3" placeholder="Describe tu experiencia en equipos anteriores..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Horas Disponibles por Día</label>
+                    <input type="number" id="hours" min="1" max="24" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-ticket-alt"></i>
+                    Generar Ticket
+                </button>
+            </form>
+
+            <div id="ticketDisplay" class="ticket-display hidden">
+                <div class="ticket-header">
+                    <h4>Tu Ticket</h4>
+                    <button onclick="copyTicket()" class="btn btn-sm">
+                        <i class="fas fa-copy"></i>
+                        Copiar
+                    </button>
+                </div>
+                <pre id="ticketContent"></pre>
+                <p class="ticket-hint">
+                    Pega este ticket en el canal <span class="accent">#unirse-aqui</span> de nuestro Discord
+                </p>
+
+                <div class="ticket-guide">
+                    <div class="ticket-step">
+                        <div class="ticket-step-num">1</div>
+                        <div class="ticket-step-body">
+                            <h4>Pulsa "Copiar"</h4>
+                            <p>Arriba del texto del ticket. Se copia todo automáticamente.</p>
+                        </div>
+                    </div>
+                    <div class="ticket-step">
+                        <div class="ticket-step-num">2</div>
+                        <div class="ticket-step-body">
+                            <h4>Entra al Discord</h4>
+                            <p>Pulsa el botón morado "Ir al Discord" que hay justo debajo.</p>
+                        </div>
+                    </div>
+                    <div class="ticket-step">
+                        <div class="ticket-step-num">3</div>
+                        <div class="ticket-step-body">
+                            <h4>Busca el canal <code>#unirse-aqui</code></h4>
+                            <p>Está en la lista de canales de la izquierda.</p>
+                        </div>
+                    </div>
+                    <div class="ticket-step">
+                        <div class="ticket-step-num">4</div>
+                        <div class="ticket-step-body">
+                            <h4>Pega el ticket y envíalo</h4>
+                            <p>Haz click en la caja de texto, pega (<code>Ctrl + V</code>) y dale a Enter.</p>
+                        </div>
+                    </div>
+                    <div class="ticket-note">
+                        <strong>Importante:</strong> no vale con escribir "quiero entrar". Tiene que ser el ticket generado por la web.
+                    </div>
+                </div>
+
+                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" class="btn btn-discord btn-full">
+                    <i class="fab fa-discord"></i>
+                    Ir al Discord
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="admin-panel-inner">
+            <div class="admin-header">
+                <div>
+                    <h2>Panel de Administración</h2>
+                    <p>Gestiona el equipo Excel Sect</p>
+                </div>
+                <button onclick="logout()" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </button>
+            </div>
+
+            <!-- Team Stats -->
+            <div class="admin-stats">
+                <h3><i class="fas fa-chart-line"></i> Estadísticas del Equipo</h3>
+                <div class="admin-stats-grid">
+                    <div class="form-group">
+                        <label>Número de Jugadores</label>
+                        <input type="number" id="adminPlayerCount" min="0" max="100" onchange="updateTeamStatsFromAdmin()">
+                    </div>
+                    <div class="form-group">
+                        <label>Rango Mínimo</label>
+                        <input type="text" id="adminMinRank" onchange="updateTeamStatsFromAdmin()">
+                    </div>
+                </div>
+                <p class="form-hint">Los cambios se guardan automáticamente</p>
+            </div>
+
+            <div class="admin-tabs">
+                <button onclick="showAdminTab('players')" id="tab-players" class="admin-tab active">
+                    <i class="fas fa-users"></i> Top 3
+                </button>
+                <button onclick="showAdminTab('matches')" id="tab-matches" class="admin-tab">
+                    <i class="fas fa-gamepad"></i> Partidos
+                </button>
+                <button onclick="showAdminTab('news')" id="tab-news" class="admin-tab">
+                    <i class="fas fa-newspaper"></i> Noticias
+                </button>
+            </div>
+
+            <div id="admin-players" class="admin-section">
+                <div class="admin-limit" id="playerLimitInfo">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Hay <strong id="currentPlayerCount">0</strong>/3 jugadores en el Top 3</span>
+                </div>
+                <div class="admin-actions">
+                    <button onclick="openAddPlayerModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Añadir Jugador
+                    </button>
+                    <button onclick="resetTop3()" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Resetear
+                    </button>
+                </div>
+                <div id="adminPlayersList" class="admin-list"></div>
+            </div>
+
+            <div id="admin-matches" class="admin-section hidden">
+                <div class="admin-actions">
+                    <button onclick="openAddMatchModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Añadir Partido
+                    </button>
+                    <button onclick="resetMatches()" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Resetear
+                    </button>
+                </div>
+                <div id="adminMatchesList" class="admin-list"></div>
+            </div>
+
+            <div id="admin-news" class="admin-section hidden">
+                <div class="admin-actions">
+                    <button onclick="openAddNewsModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Añadir Noticia
+                    </button>
+                </div>
+                <div id="adminNewsList" class="admin-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Player Modal -->
+    <div id="addPlayerModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Añadir al Top 3</h3>
+                <button onclick="closeAddPlayerModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="handleAddPlayer(event)" class="modal-form">
+                <div class="form-group">
+                    <input type="text" id="newPlayerName" placeholder="Nombre del jugador" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="newPlayerRole" placeholder="Rol (Ej: Fragger, Support, Capitán)" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="newPlayerRank" placeholder="Rango (Ej: GC3, SSL, C3)" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="newPlayerStats" placeholder="MMR (Ej: 1850)">
+                </div>
+
+                <div class="form-group">
+                    <label>Foto de perfil (opcional)</label>
+                    <div id="playerImageUploadArea" class="upload-area">
+                        <div id="playerUploadPrompt">
+                            <div class="upload-icon"><i class="fas fa-camera"></i></div>
+                            <div class="upload-text">Haz clic para subir foto</div>
+                            <div class="upload-hint">O arrastra una imagen aquí</div>
+                        </div>
+                        <img id="playerImagePreview" class="upload-preview" style="display: none;">
+                        <button type="button" class="upload-remove" onclick="resetPlayerImageUpload()" style="display: none;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <input type="file" id="playerImageFile" class="file-input" accept="image/*">
+                        <input type="text" id="playerImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeAddPlayerModal()" class="btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Match Modal -->
+    <div id="addMatchModal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3>Añadir Partido</h3>
+                <button onclick="closeAddMatchModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="handleAddMatch(event)" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="matchOpponent" placeholder="Oponente" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="matchTournament" placeholder="Torneo/Liga" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <select id="matchStatus">
+                            <option value="live">En vivo</option>
+                            <option value="upcoming">Próximo</option>
+                            <option value="finished">Finalizado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="matchScore" placeholder="Marcador (2-1)">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="matchTime" placeholder="Hora (20:00)">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="matchMvpExcel" placeholder="MVP Excel Sect">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="matchMvpOpponent" placeholder="MVP Rival">
+                    </div>
+                </div>
+
+                <div class="goals-section">
+                    <div class="goals-header">
+                        <label>Goles detallados</label>
+                        <button type="button" onclick="addGoalInput()" class="btn btn-sm">
+                            <i class="fas fa-plus"></i> Añadir gol
+                        </button>
+                    </div>
+                    <div id="goalsContainer" class="goals-list"></div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeAddMatchModal()" class="btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Partido</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit News Modal -->
+    <div id="addNewsModal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3><i class="fas fa-newspaper"></i> Publicar Noticia</h3>
+                <button onclick="closeAddNewsModal()" class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="handleSaveNews(event)" class="modal-form">
+                <div class="form-group">
+                    <label>Título *</label>
+                    <input type="text" id="newsTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select id="newsCategory">
+                        <option value="Torneo">Torneo</option>
+                        <option value="Fichaje">Fichaje</option>
+                        <option value="Entrenamiento">Entrenamiento</option>
+                        <option value="Victoria">Victoria</option>
+                        <option value="Derrota">Derrota</option>
+                        <option value="General" selected>General</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Contenido *</label>
+                    <textarea id="newsContent" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Imagen (opcional)</label>
+                    <div class="upload-area" id="imageUploadArea">
+                        <div id="uploadPrompt">
+                            <div class="upload-icon"><i class="fas fa-camera"></i></div>
+                            <div class="upload-text">Haz clic para subir imagen</div>
+                            <div class="upload-hint">O arrastra una imagen aquí</div>
+                        </div>
+                        <img id="imagePreview" class="upload-preview" style="display: none;">
+                        <button type="button" class="upload-remove" onclick="resetNewsImageUpload()" style="display: none;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <input type="file" id="newsImageFile" class="file-input" accept="image/*">
+                        <input type="text" id="newsImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeAddNewsModal()" class="btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Publicar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-mark">
+                            <img src="ExcelSect.jpg" alt="Excel Sect Logo">
+                        </div>
+                        <span class="logo-text">EXCEL<span class="logo-accent">SECT</span></span>
+                    </div>
+                    <p>Equipo profesional de Rocket League dedicado a la excelencia competitiva y el crecimiento de talentos.</p>
+                    <div class="footer-socials">
+                        <a href="https://discord.com/invite/tvbEDum4Ru" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="https://www.twitch.tv/teamexcel_tv" class="social-link"><i class="fab fa-twitch"></i></a>
+                        <a href="https://www.tiktok.com/@excelsect" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://instagram.com/excelsect" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@excelsect" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#jugadores">Jugadores</a></li>
+                        <li><a href="#partidos">Partidos</a></li>
+                        <li><a href="#noticias">Noticias</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> teamexcel.esports.gg@gmail.com</li>
+                        <li><i class="fab fa-discord"></i> discord.com/invite/tvbEDum4Ru</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Excel Sect. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
