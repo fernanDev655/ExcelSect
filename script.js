@@ -1,4 +1,4 @@
-// script.js - Conectado a Supabase API
+// script.js — Excel Sect Premium v2
 import { 
     getPlayers, addPlayer, updatePlayer, deletePlayer,
     getMatches, addMatch, updateMatch, deleteMatch,
@@ -17,7 +17,6 @@ let teamStats = { player_count: 12, min_rank: 'Diamante 3' }
 let currentUser = null
 let isUserAdmin = false
 
-// Variables para edición
 let editingPlayerId = null
 let editingMatchId = null
 let editingNewsId = null
@@ -27,18 +26,12 @@ let matchGoals = []
 
 // ==================== INICIALIZACIÓN ====================
 document.addEventListener('DOMContentLoaded', async () => {
-    // Verificar sesión
     await checkAuth()
-    
-    // Cargar todos los datos
     await loadAllData()
-    
-    // Renderizar todo
     renderAll()
-    
-    // Setup UI
     setupScrollReveal()
     setupEventListeners()
+    setupNavScroll()
     updateAdminUI()
 })
 
@@ -51,14 +44,13 @@ async function checkAuth() {
 }
 
 async function loadAllData() {
-    // Mostrar loading si quieres
     const [playersData, matchesData, newsData, statsData] = await Promise.all([
         getPlayers(),
         getMatches(),
         getNews(),
         getTeamStats()
     ])
-    
+
     players = playersData
     matches = matchesData
     news = newsData
@@ -80,31 +72,65 @@ function setupEventListeners() {
     document.getElementById('newsImageFile')?.addEventListener('change', handleNewsImageSelect)
     document.getElementById('newsImageUrl')?.addEventListener('blur', handleNewsImageUrl)
     document.getElementById('imageUploadArea')?.addEventListener('click', (e) => {
-        if (e.target.closest('.remove-image-btn')) return
+        if (e.target.closest('.upload-remove')) return
         document.getElementById('newsImageFile')?.click()
     })
-    
+
     document.getElementById('playerImageFile')?.addEventListener('change', handlePlayerImageSelect)
     document.getElementById('playerImageUrl')?.addEventListener('blur', handlePlayerImageUrl)
     document.getElementById('playerImageUploadArea')?.addEventListener('click', (e) => {
-        if (e.target.closest('.remove-image-btn')) return
+        if (e.target.closest('.upload-remove')) return
         document.getElementById('playerImageFile')?.click()
+    })
+
+    // Close modals on backdrop click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.add('hidden')
+            }
+        })
+    })
+}
+
+function setupNavScroll() {
+    const nav = document.getElementById('mainNav')
+    let ticking = false
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled')
+                } else {
+                    nav.classList.remove('scrolled')
+                }
+                ticking = false
+            })
+            ticking = true
+        }
     })
 }
 
 function updateAdminUI() {
     const adminTrigger = document.getElementById('adminTrigger')
     const newsAdminBar = document.getElementById('newsAdminBar')
-    
+
     if (isUserAdmin) {
         adminTrigger?.classList.remove('hidden')
         newsAdminBar?.classList.remove('hidden')
-        newsAdminBar.style.display = 'flex'
     } else {
         adminTrigger?.classList.add('hidden')
         newsAdminBar?.classList.add('hidden')
-        newsAdminBar.style.display = 'none'
     }
+}
+
+// ==================== MOBILE MENU ====================
+window.toggleMobileMenu = function() {
+    const menu = document.getElementById('mobileMenu')
+    const btn = document.querySelector('.mobile-menu-btn')
+    menu.classList.toggle('active')
+    btn.classList.toggle('active')
 }
 
 // ==================== STATS EDITABLES ====================
@@ -113,24 +139,24 @@ function renderTeamStats() {
     const minRankEl = document.getElementById('statMinRank')
     const adminPlayerCount = document.getElementById('adminPlayerCount')
     const adminMinRank = document.getElementById('adminMinRank')
-    
+
     if (playerCountEl) playerCountEl.textContent = teamStats.player_count
     if (minRankEl) minRankEl.textContent = teamStats.min_rank
     if (adminPlayerCount) adminPlayerCount.value = teamStats.player_count
     if (adminMinRank) adminMinRank.value = teamStats.min_rank
 }
 
-async function updateTeamStatsFromAdmin() {
+window.updateTeamStatsFromAdmin = async function() {
     if (!isUserAdmin) return
-    
+
     const countInput = document.getElementById('adminPlayerCount')
     const rankInput = document.getElementById('adminMinRank')
-    
+
     const updates = {
         player_count: parseInt(countInput?.value) || 12,
         min_rank: rankInput?.value || 'Diamante 3'
     }
-    
+
     const saved = await updateTeamStats(updates)
     if (saved) {
         teamStats = saved
@@ -138,24 +164,25 @@ async function updateTeamStatsFromAdmin() {
     }
 }
 
-function editPlayerCount() {
+window.editPlayerCount = function() {
     if (!isUserAdmin) return
-    
+
     const currentEl = document.getElementById('statPlayerCount')
     const currentValue = teamStats.player_count
-    
+
     const input = document.createElement('input')
     input.type = 'number'
     input.className = 'stat-input'
     input.value = currentValue
     input.min = '0'
     input.max = '99'
-    
+    input.style.cssText = 'width:80px;background:var(--bg);border:1px solid var(--gold);border-radius:6px;padding:8px;color:var(--gold-bright);font-family:IBM Plex Mono;font-size:20px;font-weight:600;text-align:center;outline:none;'
+
     currentEl.innerHTML = ''
     currentEl.appendChild(input)
     input.focus()
     input.select()
-    
+
     const save = async () => {
         const newValue = parseInt(input.value) || 0
         const saved = await updateTeamStats({ player_count: newValue, min_rank: teamStats.min_rank })
@@ -164,7 +191,7 @@ function editPlayerCount() {
             renderTeamStats()
         }
     }
-    
+
     input.addEventListener('blur', save)
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') input.blur()
@@ -172,24 +199,23 @@ function editPlayerCount() {
     })
 }
 
-function editMinRank() {
+window.editMinRank = function() {
     if (!isUserAdmin) return
-    
+
     const currentEl = document.getElementById('statMinRank')
     const currentValue = teamStats.min_rank
-    
+
     const input = document.createElement('input')
     input.type = 'text'
     input.className = 'stat-input'
     input.value = currentValue
-    input.style.width = '140px'
-    input.style.fontSize = '18px'
-    
+    input.style.cssText = 'width:140px;background:var(--bg);border:1px solid var(--gold);border-radius:6px;padding:8px;color:var(--gold-bright);font-family:IBM Plex Mono;font-size:18px;font-weight:600;text-align:center;outline:none;'
+
     currentEl.innerHTML = ''
     currentEl.appendChild(input)
     input.focus()
     input.select()
-    
+
     const save = async () => {
         const newValue = input.value.trim() || 'Diamante 3'
         const saved = await updateTeamStats({ player_count: teamStats.player_count, min_rank: newValue })
@@ -198,7 +224,7 @@ function editMinRank() {
             renderTeamStats()
         }
     }
-    
+
     input.addEventListener('blur', save)
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') input.blur()
@@ -210,7 +236,7 @@ function editMinRank() {
 function renderPlayers() {
     const grid = document.getElementById('playersGrid')
     if (!grid) return
-    
+
     if (players.length === 0) {
         grid.innerHTML = `
             <div class="col-span-full text-center py-16">
@@ -221,34 +247,34 @@ function renderPlayers() {
         `
         return
     }
-    
+
     const topPlayers = players.slice(0, 3)
-    
+
     const ranks = [
         { color: '#e6bf5c', label: '#1' },
         { color: '#c7c7cc', label: '#2' },
         { color: '#b08d57', label: '#3' }
     ]
-    
+
     grid.innerHTML = topPlayers.map((player, index) => {
         const rank = ranks[index] || ranks[2]
-        
+
         const adminActions = isUserAdmin ? `
-            <div class="player-admin-actions">
-                <button onclick="event.stopPropagation(); window.editPlayer(${player.id})" class="player-btn edit" title="Editar">
+            <div class="player-actions">
+                <button onclick="event.stopPropagation(); window.editPlayer(${player.id})" title="Editar">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button onclick="event.stopPropagation(); window.deletePlayerHandler(${player.id})" class="player-btn delete" title="Eliminar">
+                <button onclick="event.stopPropagation(); window.deletePlayerHandler(${player.id})" class="delete" title="Eliminar">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
         ` : ''
-        
+
         return `
-            <div class="top-player-card" style="--rank-color: ${rank.color};">
-                <div class="rank-badge">${rank.label}</div>
+            <div class="player-card reveal" style="--rank-color: ${rank.color};">
+                <div class="player-rank">${rank.label}</div>
                 ${adminActions}
-                <div class="player-avatar-container">
+                <div class="player-avatar-wrap">
                     <img src="${player.image_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + player.name}" 
                          alt="${player.name}" 
                          class="player-avatar"
@@ -257,57 +283,58 @@ function renderPlayers() {
                 <h3 class="player-name">${player.name}</h3>
                 <p class="player-role">${player.role}</p>
                 <div class="player-stats">
-                    <div class="stat">
-                        <span class="stat-label">Rango</span>
-                        <span class="stat-value" style="color: ${rank.color}">${player.rank}</span>
+                    <div class="player-stat">
+                        <span class="player-stat-label">Rango</span>
+                        <span class="player-stat-value" style="color: ${rank.color}">${player.rank}</span>
                     </div>
-                    <div class="stat">
-                        <span class="stat-label">MMR</span>
-                        <span class="stat-value">${player.mmr || 'N/A'}</span>
+                    <div class="player-stat">
+                        <span class="player-stat-label">MMR</span>
+                        <span class="player-stat-value">${player.mmr || 'N/A'}</span>
                     </div>
                 </div>
             </div>
         `
     }).join('')
+
+    // Re-trigger reveal for new elements
+    setupScrollReveal()
 }
 
-function openAddPlayerModal() {
+window.openAddPlayerModal = function() {
     if (players.length >= 3) {
         alert('Solo puede haber 3 jugadores en el Top. Elimina uno primero.')
         return
     }
-    
+
     editingPlayerId = null
     currentPlayerImage = null
-    
+
     document.getElementById('newPlayerName').value = ''
     document.getElementById('newPlayerRole').value = ''
     document.getElementById('newPlayerRank').value = ''
     document.getElementById('newPlayerStats').value = ''
     resetPlayerImageUpload()
-    
+
     const modalTitle = document.querySelector('#addPlayerModal h3')
     if (modalTitle) modalTitle.textContent = 'Añadir al Top 3'
-    
+
     document.getElementById('addPlayerModal').classList.remove('hidden')
-    document.getElementById('addPlayerModal').classList.add('flex')
 }
 
-function closeAddPlayerModal() {
+window.closeAddPlayerModal = function() {
     document.getElementById('addPlayerModal').classList.add('hidden')
-    document.getElementById('addPlayerModal').classList.remove('flex')
     editingPlayerId = null
     currentPlayerImage = null
 }
 
-function resetPlayerImageUpload() {
+window.resetPlayerImageUpload = function() {
     const uploadArea = document.getElementById('playerImageUploadArea')
     const preview = document.getElementById('playerImagePreview')
     const fileInput = document.getElementById('playerImageFile')
     const urlInput = document.getElementById('playerImageUrl')
-    const removeBtn = uploadArea?.querySelector('.remove-image-btn')
+    const removeBtn = uploadArea?.querySelector('.upload-remove')
     const prompt = document.getElementById('playerUploadPrompt')
-    
+
     if (uploadArea) uploadArea.classList.remove('has-image')
     if (preview) {
         preview.style.display = 'none'
@@ -326,17 +353,17 @@ function resetPlayerImageUpload() {
 async function handlePlayerImageSelect(e) {
     const file = e.target.files[0]
     if (!file) return
-    
+
     if (!file.type.startsWith('image/')) {
         alert('Por favor selecciona una imagen válida')
         return
     }
-    
+
     if (file.size > 5 * 1024 * 1024) {
         alert('La imagen es demasiado grande. Máximo 5MB.')
         return
     }
-    
+
     const imageUrl = await uploadImage(file, 'players')
     if (imageUrl) {
         showPlayerImagePreview(imageUrl)
@@ -349,9 +376,9 @@ function showPlayerImagePreview(src) {
     const uploadArea = document.getElementById('playerImageUploadArea')
     const preview = document.getElementById('playerImagePreview')
     const urlInput = document.getElementById('playerImageUrl')
-    const removeBtn = uploadArea?.querySelector('.remove-image-btn')
+    const removeBtn = uploadArea?.querySelector('.upload-remove')
     const prompt = document.getElementById('playerUploadPrompt')
-    
+
     if (preview) {
         preview.src = src
         preview.style.display = 'block'
@@ -377,19 +404,19 @@ async function handlePlayerImageUrl(e) {
     }
 }
 
-async function handleAddPlayer(e) {
+window.handleAddPlayer = async function(e) {
     e.preventDefault()
-    
+
     const name = document.getElementById('newPlayerName').value.trim()
     const role = document.getElementById('newPlayerRole').value.trim()
     const rank = document.getElementById('newPlayerRank').value.trim()
     const mmr = document.getElementById('newPlayerStats').value.trim() || 'N/A'
-    
+
     if (!name || !role || !rank) {
         alert('Nombre, rol y rango son obligatorios')
         return
     }
-    
+
     const playerData = {
         name,
         role,
@@ -398,14 +425,14 @@ async function handleAddPlayer(e) {
         image_url: currentPlayerImage,
         position: editingPlayerId ? undefined : players.length + 1
     }
-    
+
     let saved
     if (editingPlayerId) {
         saved = await updatePlayer(editingPlayerId, playerData)
     } else {
         saved = await addPlayer(playerData)
     }
-    
+
     if (saved) {
         players = await getPlayers()
         renderPlayers()
@@ -418,31 +445,30 @@ async function handleAddPlayer(e) {
 window.editPlayer = async function(id) {
     const player = players.find(p => p.id === id)
     if (!player) return
-    
+
     editingPlayerId = id
     currentPlayerImage = player.image_url
-    
+
     document.getElementById('newPlayerName').value = player.name
     document.getElementById('newPlayerRole').value = player.role
     document.getElementById('newPlayerRank').value = player.rank
     document.getElementById('newPlayerStats').value = player.mmr || ''
-    
+
     if (player.image_url) {
         showPlayerImagePreview(player.image_url)
     } else {
         resetPlayerImageUpload()
     }
-    
+
     const modalTitle = document.querySelector('#addPlayerModal h3')
     if (modalTitle) modalTitle.textContent = 'Editar Jugador'
-    
+
     document.getElementById('addPlayerModal').classList.remove('hidden')
-    document.getElementById('addPlayerModal').classList.add('flex')
 }
 
 window.deletePlayerHandler = async function(id) {
     if (!confirm('¿Eliminar este jugador?')) return
-    
+
     const success = await deletePlayer(id)
     if (success) {
         players = await getPlayers()
@@ -451,13 +477,13 @@ window.deletePlayerHandler = async function(id) {
     }
 }
 
-async function resetTop3() {
+window.resetTop3 = async function() {
     if (!confirm('¿Eliminar TODO el Top 3?')) return
-    
+
     for (const player of players) {
         await deletePlayer(player.id)
     }
-    
+
     players = []
     renderPlayers()
     renderAdminPlayers()
@@ -467,113 +493,109 @@ async function resetTop3() {
 function renderMatches() {
     const container = document.getElementById('matchesContainer')
     if (!container) return
-    
+
     if (matches.length === 0) {
         container.innerHTML = `
             <div class="text-center py-16">
-            <img src="Stadium.png" alt="No matches Logo" class="w-32 h-auto mx-auto mb-4">
+                <img src="Stadium.png" alt="No matches" class="w-32 h-auto mx-auto mb-6 opacity-60">
                 <h3 class="text-xl font-bold text-yellow-400 mb-2">Sin partidos</h3>
                 <p class="text-gray-400">No hay partidos programados actualmente.</p>
             </div>
         `
         return
     }
-    
+
     container.innerHTML = matches.map(match => {
-        const statusColors = {
-            live: 'border-red-500/50 bg-red-500/10',
-            upcoming: 'border-yellow-500/50 bg-yellow-500/10',
-            finished: 'border-gray-500/50 bg-gray-500/10'
-        }
+        const statusClass = match.status
         const statusText = {
-            live: '<span class="text-red-400 font-bold flex items-center gap-2"><span class="w-2 h-2 bg-red-500 rounded-full live-indicator"></span>EN VIVO</span>',
-            upcoming: '<span class="text-yellow-400 font-bold">PRÓXIMO</span>',
-            finished: '<span class="text-gray-400 font-bold">FINALIZADO</span>'
+            live: '<span class="match-status live"><span class="live-dot"></span> EN VIVO</span>',
+            upcoming: '<span class="match-status upcoming">PRÓXIMO</span>',
+            finished: '<span class="match-status finished">FINALIZADO</span>'
         }
-        
+
         let goalsHtml = ''
         if (match.goals && match.goals.length > 0) {
             goalsHtml = `
-                <div class="match-goals mt-4 pt-4 border-t border-white/10">
-                    <div class="text-xs text-gray-400 mb-2 uppercase tracking-wider">Goles</div>
+                <div class="match-goals">
+                    <div class="goals-title">Goles</div>
                     <div class="goals-list">
                         ${match.goals.map(g => `
-                            <div class="goal-item ${g.team === 'excel' ? 'goal-excel' : 'goal-opponent'}">
+                            <div class="goal-row ${g.team}">
                                 <span class="goal-time">${g.time}'</span>
                                 <span class="goal-scorer">${g.scorer}</span>
-                                <span class="goal-team">${g.team === 'excel' ? 'Excel Sect' : match.opponent}</span>
+                                <span class="goal-team-name">${g.team === 'excel' ? 'Excel Sect' : match.opponent}</span>
                             </div>
                         `).join('')}
                     </div>
                 </div>
             `
         }
-        
+
         let mvpHtml = ''
         if (match.mvp_excel || match.mvp_opponent) {
             mvpHtml = `
-                <div class="match-mvps mt-4 flex gap-4">
+                <div class="match-mvps">
                     ${match.mvp_excel ? `
-                        <div class="mvp-badge mvp-excel">
-                            <span class="mvp-label"><i class="fas fa-star"></i> MVP Excel Sect</span>
-                            <span class="mvp-name">${match.mvp_excel}</span>
+                        <div class="mvp-tag excel">
+                            <div class="mvp-label"><i class="fas fa-star"></i> MVP Excel Sect</div>
+                            <div class="mvp-name">${match.mvp_excel}</div>
                         </div>
                     ` : ''}
                     ${match.mvp_opponent ? `
-                        <div class="mvp-badge mvp-opponent">
-                            <span class="mvp-label"><i class="fas fa-star"></i> MVP ${match.opponent}</span>
-                            <span class="mvp-name">${match.mvp_opponent}</span>
+                        <div class="mvp-tag opponent">
+                            <div class="mvp-label"><i class="fas fa-star"></i> MVP ${match.opponent}</div>
+                            <div class="mvp-name">${match.mvp_opponent}</div>
                         </div>
                     ` : ''}
                 </div>
             `
         }
-        
+
         const adminActions = isUserAdmin ? `
-            <div class="match-admin-actions absolute top-4 right-4 flex gap-2">
-                <button onclick="event.stopPropagation(); window.editMatchHandler(${match.id})" class="match-btn edit" title="Editar">
+            <div class="match-actions">
+                <button onclick="event.stopPropagation(); window.editMatchHandler(${match.id})" title="Editar">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button onclick="event.stopPropagation(); window.deleteMatchHandler(${match.id})" class="match-btn delete" title="Eliminar">
+                <button onclick="event.stopPropagation(); window.deleteMatchHandler(${match.id})" class="delete" title="Eliminar">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
         ` : ''
-        
+
         return `
-            <div class="match-card glass rounded-xl p-6 border ${statusColors[match.status]} relative transition duration-300">
+            <div class="match-card ${statusClass} reveal">
                 ${adminActions}
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div class="flex items-center gap-4 flex-1">
-                        <div class="team-excel text-center">
-                            <div class="text-2xl font-bold text-white">Excel Sect</div>
-                            <div class="text-sm text-yellow-400">${match.mvp_excel ? '<i class="fas fa-star text-xs"></i> ' + match.mvp_excel : ''}</div>
-                        </div>
-                        <div class="score-display text-center px-6">
-                            <div class="text-4xl font-bold text-yellow-400 mono">${match.score || '-'}</div>
-                            <div class="text-xs text-gray-500 uppercase mt-1">${match.tournament}</div>
-                        </div>
-                        <div class="team-opponent text-center">
-                            <div class="text-2xl font-bold text-gray-300">${match.opponent}</div>
-                            <div class="text-sm text-gray-400">${match.mvp_opponent ? '<i class="fas fa-star text-xs"></i> ' + match.mvp_opponent : ''}</div>
-                        </div>
+                <div class="match-teams">
+                    <div class="match-team">
+                        <div class="match-team-name">Excel Sect</div>
+                        ${match.mvp_excel ? `<div class="match-team-mvp"><i class="fas fa-star text-xs"></i> ${match.mvp_excel}</div>` : ''}
                     </div>
-                    <div class="text-center md:text-right">
-                        ${statusText[match.status]}
-                        <div class="text-sm text-gray-400 mt-1">${match.match_time || ''}</div>
+                    <div class="match-score-box">
+                        <div class="match-score">${match.score || '-'}</div>
+                        <div class="match-tournament">${match.tournament}</div>
                     </div>
+                    <div class="match-team">
+                        <div class="match-team-name opponent">${match.opponent}</div>
+                        ${match.mvp_opponent ? `<div class="match-team-mvp"><i class="fas fa-star text-xs"></i> ${match.mvp_opponent}</div>` : ''}
+                    </div>
+                </div>
+                <div class="match-meta">
+                    ${statusText[match.status]}
+                    <div class="match-time">${match.match_time || ''}</div>
                 </div>
                 ${goalsHtml}
                 ${mvpHtml}
             </div>
         `
     }).join('')
+
+    setupScrollReveal()
 }
 
-function openAddMatchModal() {
+window.openAddMatchModal = function() {
     editingMatchId = null
     matchGoals = []
-    
+
     document.getElementById('matchOpponent').value = ''
     document.getElementById('matchTournament').value = ''
     document.getElementById('matchStatus').value = 'upcoming'
@@ -582,37 +604,35 @@ function openAddMatchModal() {
     document.getElementById('matchMvpExcel').value = ''
     document.getElementById('matchMvpOpponent').value = ''
     document.getElementById('goalsContainer').innerHTML = ''
-    
+
     const modalTitle = document.querySelector('#addMatchModal h3')
     if (modalTitle) modalTitle.textContent = 'Añadir Partido'
-    
+
     document.getElementById('addMatchModal').classList.remove('hidden')
-    document.getElementById('addMatchModal').classList.add('flex')
 }
 
-function closeAddMatchModal() {
+window.closeAddMatchModal = function() {
     document.getElementById('addMatchModal').classList.add('hidden')
-    document.getElementById('addMatchModal').classList.remove('flex')
     editingMatchId = null
     matchGoals = []
 }
 
-function addGoalInput() {
+window.addGoalInput = function() {
     const container = document.getElementById('goalsContainer')
     const goalId = Date.now()
-    
+
     const goalHtml = `
-        <div class="goal-input-item" id="goal-${goalId}">
-            <select class="goal-team-select bg-black/50 border border-gray-700 rounded px-3 py-2 text-white text-sm">
+        <div class="goal-input-row" id="goal-${goalId}">
+            <select class="goal-team-select">
                 <option value="excel">Excel Sect</option>
                 <option value="opponent">Rival</option>
             </select>
-            <input type="text" class="goal-scorer bg-black/50 border border-gray-700 rounded px-3 py-2 text-white text-sm" placeholder="Jugador">
-            <input type="text" class="goal-time bg-black/50 border border-gray-700 rounded px-3 py-2 text-white text-sm w-20" placeholder="Min">
-            <button type="button" onclick="window.removeGoalInput('${goalId}')" class="text-red-400 hover:text-red-300"><i class="fas fa-xmark"></i></button>
+            <input type="text" class="goal-scorer" placeholder="Jugador">
+            <input type="text" class="goal-time" placeholder="Min" style="width:70px;">
+            <button type="button" onclick="window.removeGoalInput('${goalId}')"><i class="fas fa-xmark"></i></button>
         </div>
     `
-    
+
     container.insertAdjacentHTML('beforeend', goalHtml)
     matchGoals.push(goalId)
 }
@@ -625,11 +645,11 @@ window.removeGoalInput = function(goalId) {
 
 function collectGoals() {
     const goals = []
-    document.querySelectorAll('.goal-input-item').forEach(item => {
+    document.querySelectorAll('.goal-input-row').forEach(item => {
         const team = item.querySelector('.goal-team-select')?.value
         const scorer = item.querySelector('.goal-scorer')?.value?.trim()
         const time = item.querySelector('.goal-time')?.value?.trim()
-        
+
         if (scorer && time) {
             goals.push({ team, scorer, time })
         }
@@ -637,9 +657,9 @@ function collectGoals() {
     return goals
 }
 
-async function handleAddMatch(e) {
+window.handleAddMatch = async function(e) {
     e.preventDefault()
-    
+
     const opponent = document.getElementById('matchOpponent').value.trim()
     const tournament = document.getElementById('matchTournament').value.trim()
     const status = document.getElementById('matchStatus').value
@@ -648,12 +668,12 @@ async function handleAddMatch(e) {
     const mvpExcel = document.getElementById('matchMvpExcel').value.trim()
     const mvpOpponent = document.getElementById('matchMvpOpponent').value.trim()
     const goals = collectGoals()
-    
+
     if (!opponent || !tournament) {
         alert('Oponente y torneo son obligatorios')
         return
     }
-    
+
     const matchData = {
         opponent,
         tournament,
@@ -664,14 +684,14 @@ async function handleAddMatch(e) {
         mvp_opponent: mvpOpponent || null,
         goals: goals
     }
-    
+
     let saved
     if (editingMatchId) {
         saved = await updateMatch(editingMatchId, matchData)
     } else {
         saved = await addMatch(matchData)
     }
-    
+
     if (saved) {
         matches = await getMatches()
         renderMatches()
@@ -684,9 +704,9 @@ async function handleAddMatch(e) {
 window.editMatchHandler = async function(id) {
     const match = matches.find(m => m.id === id)
     if (!match) return
-    
+
     editingMatchId = id
-    
+
     document.getElementById('matchOpponent').value = match.opponent
     document.getElementById('matchTournament').value = match.tournament
     document.getElementById('matchStatus').value = match.status
@@ -694,15 +714,15 @@ window.editMatchHandler = async function(id) {
     document.getElementById('matchTime').value = match.match_time || ''
     document.getElementById('matchMvpExcel').value = match.mvp_excel || ''
     document.getElementById('matchMvpOpponent').value = match.mvp_opponent || ''
-    
+
     const container = document.getElementById('goalsContainer')
     container.innerHTML = ''
     matchGoals = []
-    
+
     if (match.goals && match.goals.length > 0) {
         match.goals.forEach(g => {
             addGoalInput()
-            const items = document.querySelectorAll('.goal-input-item')
+            const items = document.querySelectorAll('.goal-input-row')
             const lastItem = items[items.length - 1]
             if (lastItem) {
                 lastItem.querySelector('.goal-team-select').value = g.team
@@ -711,17 +731,16 @@ window.editMatchHandler = async function(id) {
             }
         })
     }
-    
+
     const modalTitle = document.querySelector('#addMatchModal h3')
     if (modalTitle) modalTitle.textContent = 'Editar Partido'
-    
+
     document.getElementById('addMatchModal').classList.remove('hidden')
-    document.getElementById('addMatchModal').classList.add('flex')
 }
 
 window.deleteMatchHandler = async function(id) {
     if (!confirm('¿Eliminar este partido?')) return
-    
+
     const success = await deleteMatch(id)
     if (success) {
         matches = await getMatches()
@@ -730,13 +749,13 @@ window.deleteMatchHandler = async function(id) {
     }
 }
 
-async function resetMatches() {
+window.resetMatches = async function() {
     if (!confirm('¿Eliminar TODOS los partidos?')) return
-    
+
     for (const match of matches) {
         await deleteMatch(match.id)
     }
-    
+
     matches = []
     renderMatches()
     renderAdminMatches()
@@ -746,7 +765,7 @@ async function resetMatches() {
 function renderNews() {
     const grid = document.getElementById('newsGrid')
     if (!grid) return
-    
+
     if (news.length === 0) {
         grid.innerHTML = `
             <div class="col-span-full text-center py-16">
@@ -760,19 +779,19 @@ function renderNews() {
 
     grid.innerHTML = news.map(item => {
         const imageHtml = item.image_url ? 
-            `<div class="news-image-container">
+            `<div class="news-image-wrap">
                 <img src="${item.image_url}" alt="${item.title}" class="news-image" loading="lazy">
             </div>` :
-            `<div class="news-image-container news-image-placeholder">
+            `<div class="news-image-wrap news-image-placeholder">
                 <i class="fas fa-newspaper"></i>
             </div>`
 
         const adminActions = isUserAdmin ? `
             <div class="news-actions">
-                <button onclick="window.editNewsHandler(${item.id})" class="btn" style="font-size:12px; padding:8px 14px;">
+                <button onclick="window.editNewsHandler(${item.id})" class="btn btn-sm">
                     <i class="fas fa-pen"></i> Editar
                 </button>
-                <button onclick="window.deleteNewsHandler(${item.id})" class="btn" style="font-size:12px; padding:8px 14px; color:var(--danger);">
+                <button onclick="window.deleteNewsHandler(${item.id})" class="btn btn-sm" style="color:var(--danger);border-color:rgba(201,75,75,0.3);">
                     <i class="fas fa-trash"></i> Eliminar
                 </button>
             </div>
@@ -781,12 +800,12 @@ function renderNews() {
         return `
             <article class="news-card reveal">
                 ${imageHtml}
-                <div class="news-content">
-                    <span class="news-category">
-                        ${item.category}
-                    </span>
-                    <div class="news-date">
-                        <i class="fas fa-calendar-day"></i> ${item.date || item.created_at?.split('T')[0] || 'Hoy'}
+                <div class="news-body">
+                    <div class="news-meta">
+                        <span class="news-category">${item.category}</span>
+                        <span class="news-date">
+                            <i class="fas fa-calendar-day"></i> ${item.date || item.created_at?.split('T')[0] || 'Hoy'}
+                        </span>
                     </div>
                     <h3 class="news-title">${item.title}</h3>
                     <p class="news-text">${item.content}</p>
@@ -795,38 +814,39 @@ function renderNews() {
             </article>
         `
     }).join('')
+
+    setupScrollReveal()
 }
 
-function openAddNewsModal() {
+window.openAddNewsModal = function() {
     if (!isUserAdmin) return
-    
+
     editingNewsId = null
     currentNewsImage = null
-    
+
     document.getElementById('newsTitle').value = ''
     document.getElementById('newsContent').value = ''
     document.getElementById('newsCategory').value = 'General'
     resetNewsImageUpload()
-    
+
     document.getElementById('addNewsModal').classList.remove('hidden')
-    document.getElementById('addNewsModal').classList.add('flex')
     document.getElementById('newsTitle').focus()
 }
 
-function closeAddNewsModal() {
+window.closeAddNewsModal = function() {
     document.getElementById('addNewsModal').classList.add('hidden')
-    document.getElementById('addNewsModal').classList.remove('flex')
     editingNewsId = null
     currentNewsImage = null
 }
 
-function resetNewsImageUpload() {
+window.resetNewsImageUpload = function() {
     const uploadArea = document.getElementById('imageUploadArea')
     const preview = document.getElementById('imagePreview')
     const fileInput = document.getElementById('newsImageFile')
     const urlInput = document.getElementById('newsImageUrl')
-    const removeBtn = uploadArea?.querySelector('.remove-image-btn')
-    
+    const removeBtn = uploadArea?.querySelector('.upload-remove')
+    const prompt = document.getElementById('uploadPrompt')
+
     if (uploadArea) uploadArea.classList.remove('has-image')
     if (preview) {
         preview.style.display = 'none'
@@ -838,23 +858,24 @@ function resetNewsImageUpload() {
         urlInput.style.display = 'block'
     }
     if (removeBtn) removeBtn.style.display = 'none'
+    if (prompt) prompt.style.display = 'block'
     currentNewsImage = null
 }
 
 async function handleNewsImageSelect(e) {
     const file = e.target.files[0]
     if (!file) return
-    
+
     if (!file.type.startsWith('image/')) {
         alert('Por favor selecciona una imagen válida')
         return
     }
-    
+
     if (file.size > 5 * 1024 * 1024) {
         alert('La imagen es demasiado grande. Máximo 5MB.')
         return
     }
-    
+
     const imageUrl = await uploadImage(file, 'news')
     if (imageUrl) {
         showNewsImagePreview(imageUrl)
@@ -867,8 +888,9 @@ function showNewsImagePreview(src) {
     const uploadArea = document.getElementById('imageUploadArea')
     const preview = document.getElementById('imagePreview')
     const urlInput = document.getElementById('newsImageUrl')
-    const removeBtn = uploadArea?.querySelector('.remove-image-btn')
-    
+    const removeBtn = uploadArea?.querySelector('.upload-remove')
+    const prompt = document.getElementById('uploadPrompt')
+
     if (preview) {
         preview.src = src
         preview.style.display = 'block'
@@ -876,6 +898,7 @@ function showNewsImagePreview(src) {
     if (uploadArea) uploadArea.classList.add('has-image')
     if (urlInput) urlInput.style.display = 'none'
     if (removeBtn) removeBtn.style.display = 'flex'
+    if (prompt) prompt.style.display = 'none'
 }
 
 async function handleNewsImageUrl(e) {
@@ -893,32 +916,32 @@ async function handleNewsImageUrl(e) {
     }
 }
 
-async function handleSaveNews(e) {
+window.handleSaveNews = async function(e) {
     e.preventDefault()
-    
+
     const title = document.getElementById('newsTitle').value.trim()
     const content = document.getElementById('newsContent').value.trim()
     const category = document.getElementById('newsCategory').value
-    
+
     if (!title || !content) {
         alert('Título y contenido son obligatorios')
         return
     }
-    
+
     const newsItem = {
         title,
         content,
         category,
         image_url: currentNewsImage
     }
-    
+
     let saved
     if (editingNewsId) {
         saved = await updateNews(editingNewsId, newsItem)
     } else {
         saved = await addNews(newsItem)
     }
-    
+
     if (saved) {
         news = await getNews()
         renderNews()
@@ -930,25 +953,25 @@ async function handleSaveNews(e) {
 window.editNewsHandler = async function(id) {
     const item = news.find(n => n.id === id)
     if (!item) return
-    
+
     editingNewsId = id
     document.getElementById('newsTitle').value = item.title
     document.getElementById('newsContent').value = item.content
     document.getElementById('newsCategory').value = item.category
-    
+
     if (item.image_url) {
         showNewsImagePreview(item.image_url)
         currentNewsImage = item.image_url
     } else {
         resetNewsImageUpload()
     }
-    
+
     openAddNewsModal()
 }
 
 window.deleteNewsHandler = async function(id) {
     if (!confirm('¿Eliminar esta noticia?')) return
-    
+
     const success = await deleteNews(id)
     if (success) {
         news = await getNews()
@@ -957,64 +980,54 @@ window.deleteNewsHandler = async function(id) {
     }
 }
 
-async function resetNews() {
+window.resetNews = async function() {
     if (!confirm('¿Borrar TODAS las noticias?')) return
-    
+
     for (const item of news) {
         await deleteNews(item.id)
     }
-    
+
     news = []
     renderNews()
     renderAdminNews()
 }
 
 // ==================== ADMIN PANEL ====================
-function showAdminTab(tab) {
+window.showAdminTab = function(tab) {
     document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'))
-    document.querySelectorAll('.admin-tab').forEach(t => {
-        t.classList.remove('text-yellow-400', 'border-b-2', 'border-yellow-400', 'font-semibold')
-        t.classList.add('text-gray-400')
-    })
-    
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'))
+
     document.getElementById(`admin-${tab}`).classList.remove('hidden')
-    document.getElementById(`tab-${tab}`).classList.remove('text-gray-400')
-    document.getElementById(`tab-${tab}`).classList.add('text-yellow-400', 'border-b-2', 'border-yellow-400', 'font-semibold')
+    document.getElementById(`tab-${tab}`).classList.add('active')
 }
 
 function renderAdminPlayers() {
     const list = document.getElementById('adminPlayersList')
     if (!list) return
-    
+
     if (players.length === 0) {
-        list.innerHTML = '<div class="text-gray-400 text-center py-8">No hay jugadores en el Top 3</div>'
+        list.innerHTML = '<div class="text-center py-8 text-dim">No hay jugadores en el Top 3</div>'
         updatePlayerLimitInfo()
         return
     }
-    
+
     list.innerHTML = players.map((p, index) => `
-        <div class="glass p-4 rounded-lg flex justify-between items-center border border-gray-800 hover:border-yellow-500/30 transition">
-            <div class="flex items-center gap-4">
-                <div class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 font-bold">
-                    ${index + 1}
-                </div>
-                <img src="${p.image_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + p.name}" class="w-10 h-10 rounded-full">
-                <div>
-                    <div class="font-bold">${p.name}</div>
-                    <div class="text-sm text-gray-400">${p.role} • ${p.rank}</div>
+        <div class="admin-item">
+            <div class="admin-item-info">
+                <div class="admin-item-rank">${index + 1}</div>
+                <img src="${p.image_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + p.name}" class="admin-item-img">
+                <div class="admin-item-text">
+                    <div class="name">${p.name}</div>
+                    <div class="meta">${p.role} · ${p.rank}</div>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <button onclick="window.editPlayer(${p.id})" class="text-yellow-400 hover:text-yellow-300 transition p-2">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button onclick="window.deletePlayerHandler(${p.id})" class="text-red-400 hover:text-red-300 transition p-2">
-                    <i class="fas fa-trash"></i>
-                </button>
+            <div class="admin-item-actions">
+                <button onclick="window.editPlayer(${p.id})" title="Editar"><i class="fas fa-edit"></i></button>
+                <button onclick="window.deletePlayerHandler(${p.id})" class="delete" title="Eliminar"><i class="fas fa-trash"></i></button>
             </div>
         </div>
     `).join('')
-    
+
     updatePlayerLimitInfo()
 }
 
@@ -1036,26 +1049,24 @@ function updatePlayerLimitInfo() {
 function renderAdminMatches() {
     const list = document.getElementById('adminMatchesList')
     if (!list) return
-    
+
     if (matches.length === 0) {
-        list.innerHTML = '<div class="text-gray-400 text-center py-8">No hay partidos</div>'
+        list.innerHTML = '<div class="text-center py-8 text-dim">No hay partidos</div>'
         return
     }
-    
+
     list.innerHTML = matches.map(m => `
-        <div class="glass p-4 rounded-lg flex justify-between items-center border border-gray-800 hover:border-yellow-500/30 transition">
-            <div>
-                <div class="font-bold">vs ${m.opponent}</div>
-                <div class="text-sm text-gray-400">${m.tournament} • ${m.status} ${m.goals?.length > 0 ? '• ' + m.goals.length + ' goles' : ''}</div>
+        <div class="admin-item">
+            <div class="admin-item-info">
+                <div class="admin-item-text">
+                    <div class="name">vs ${m.opponent}</div>
+                    <div class="meta">${m.tournament} · ${m.status}${m.goals?.length > 0 ? ' · ' + m.goals.length + ' goles' : ''}</div>
+                </div>
             </div>
-            <div class="flex items-center gap-4">
-                <span class="text-yellow-400 font-bold">${m.score || '-'}</span>
-                <button onclick="window.editMatchHandler(${m.id})" class="text-yellow-400 hover:text-yellow-300 transition p-2">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button onclick="window.deleteMatchHandler(${m.id})" class="text-red-400 hover:text-red-300 transition p-2">
-                    <i class="fas fa-trash"></i>
-                </button>
+            <div class="admin-item-actions">
+                <span class="admin-item-score">${m.score || '-'}</span>
+                <button onclick="window.editMatchHandler(${m.id})" title="Editar"><i class="fas fa-edit"></i></button>
+                <button onclick="window.deleteMatchHandler(${m.id})" class="delete" title="Eliminar"><i class="fas fa-trash"></i></button>
             </div>
         </div>
     `).join('')
@@ -1064,57 +1075,55 @@ function renderAdminMatches() {
 function renderAdminNews() {
     const list = document.getElementById('adminNewsList')
     if (!list) return
-    
+
     if (news.length === 0) {
-        list.innerHTML = '<div class="text-gray-400 text-center py-8">No hay noticias</div>'
+        list.innerHTML = '<div class="text-center py-8 text-dim">No hay noticias</div>'
         return
     }
-    
+
     list.innerHTML = news.map(n => `
-        <div class="glass p-4 rounded-lg flex justify-between items-center border border-gray-800 hover:border-yellow-500/30 transition">
-            <div>
-                <div class="font-bold">${n.title}</div>
-                <div class="text-sm text-gray-400">${n.category} • ${n.created_at?.split('T')[0] || 'Hoy'}</div>
+        <div class="admin-item">
+            <div class="admin-item-info">
+                <div class="admin-item-text">
+                    <div class="name">${n.title}</div>
+                    <div class="meta">${n.category} · ${n.created_at?.split('T')[0] || 'Hoy'}</div>
+                </div>
             </div>
-            <button onclick="window.deleteNewsHandler(${n.id})" class="text-red-400 hover:text-red-300 transition p-2">
-                <i class="fas fa-trash"></i>
-            </button>
+            <div class="admin-item-actions">
+                <button onclick="window.deleteNewsHandler(${n.id})" class="delete" title="Eliminar"><i class="fas fa-trash"></i></button>
+            </div>
         </div>
     `).join('')
 }
 
 // ==================== MODALES Y LOGIN ====================
-function openLoginModal() {
+window.openLoginModal = function() {
     document.getElementById('loginModal').classList.remove('hidden')
-    document.getElementById('loginModal').classList.add('flex')
 }
 
-function closeLoginModal() {
+window.closeLoginModal = function() {
     document.getElementById('loginModal').classList.add('hidden')
-    document.getElementById('loginModal').classList.remove('flex')
 }
 
-function openJoinModal() {
+window.openJoinModal = function() {
     document.getElementById('joinModal').classList.remove('hidden')
-    document.getElementById('joinModal').classList.add('flex')
     document.getElementById('ticketDisplay').classList.add('hidden')
     document.getElementById('ticketForm').classList.remove('hidden')
     document.getElementById('ticketForm').reset()
 }
 
-function closeJoinModal() {
+window.closeJoinModal = function() {
     document.getElementById('joinModal').classList.add('hidden')
-    document.getElementById('joinModal').classList.remove('flex')
 }
 
-async function handleLogin(e) {
+window.handleLogin = async function(e) {
     e.preventDefault()
-    
+
     const username = document.getElementById('loginUser').value
     const password = document.getElementById('loginPass').value
-    
+
     const result = await signInWithUsername(username, password)
-    
+
     if (result.success) {
         currentUser = result.user
         isUserAdmin = true
@@ -1125,6 +1134,7 @@ async function handleLogin(e) {
         alert(result.error)
     }
 }
+
 function showAdminPanel() {
     document.getElementById('adminPanel').classList.add('active')
     renderAdminPlayers()
@@ -1133,7 +1143,7 @@ function showAdminPanel() {
     window.scrollTo(0, 0)
 }
 
-async function logout() {
+window.logout = async function() {
     await signOut()
     currentUser = null
     isUserAdmin = false
@@ -1142,16 +1152,16 @@ async function logout() {
 }
 
 // ==================== TICKET SYSTEM ====================
-function generateTicket(e) {
+window.generateTicket = function(e) {
     e.preventDefault()
     const name = document.getElementById('rlName').value
     const rank = document.getElementById('rank').value
     const discord = document.getElementById('discordId').value
     const exp = document.getElementById('experience').value
     const hours = document.getElementById('hours').value
-    
+
     const ticket = `🎫 **SOLICITUD DE INGRESO - EXCEL SECT**
-    
+
 👤 **Nombre RL:** ${name}
 🏆 **Rango:** ${rank}
 💬 **Discord:** ${discord}
@@ -1160,22 +1170,26 @@ function generateTicket(e) {
 
 ---
 Solicitud generada: ${new Date().toLocaleString()}`
-    
+
     document.getElementById('ticketContent').textContent = ticket
     document.getElementById('ticketDisplay').classList.remove('hidden')
     document.getElementById('ticketForm').classList.add('hidden')
 }
 
-function copyTicket() {
+window.copyTicket = function() {
     const content = document.getElementById('ticketContent').textContent
     navigator.clipboard.writeText(content).then(() => {
-        const btn = document.querySelector('#ticketDisplay button')
+        const btn = document.querySelector('.ticket-header button')
         const original = btn.innerHTML
         btn.innerHTML = '<i class="fas fa-check"></i> Copiado'
-        btn.classList.add('copy-success')
+        btn.style.background = 'rgba(76, 175, 125, 0.2)'
+        btn.style.borderColor = 'rgba(76, 175, 125, 0.4)'
+        btn.style.color = '#4caf7d'
         setTimeout(() => {
             btn.innerHTML = original
-            btn.classList.remove('copy-success')
+            btn.style.background = ''
+            btn.style.borderColor = ''
+            btn.style.color = ''
         }, 2000)
     })
 }
@@ -1188,16 +1202,16 @@ function setupScrollReveal() {
                 entry.target.classList.add('active')
             }
         })
-    }, { threshold: 0.1 })
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' })
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
 }
 
-function toggleAccordion() {
+window.toggleAccordion = function() {
     const header = document.getElementById('accHeader')
     const body = document.getElementById('accBody')
     const isOpen = body.classList.contains('open')
-    
+
     if (isOpen) {
         body.classList.remove('open')
         header.classList.remove('active')
@@ -1206,7 +1220,7 @@ function toggleAccordion() {
         body.classList.add('open')
         header.classList.add('active')
         header.setAttribute('aria-expanded', 'true')
-        
+
         setTimeout(() => {
             const accordion = document.getElementById('rulesAccordion')
             const rect = accordion.getBoundingClientRect()
@@ -1217,31 +1231,61 @@ function toggleAccordion() {
     }
 }
 
-function toggleTicketAccordion() {
-    const header = document.getElementById('ticketAccHeader')
-    const body = document.getElementById('ticketAccBody')
-    const isOpen = body.classList.contains('open')
-
-    if (isOpen) {
-        body.classList.remove('open')
-        header.classList.remove('active')
-        header.setAttribute('aria-expanded', 'false')
-    } else {
-        body.classList.add('open')
-        header.classList.add('active')
-        header.setAttribute('aria-expanded', 'true')
-
-        setTimeout(() => {
-            const accordion = document.getElementById('ticketAccordion')
-            const rect = accordion.getBoundingClientRect()
-            if (rect.top < 100) {
-                accordion.scrollIntoView({ behavior: 'smooth', block: 'start' })
+// ==================== SMOOTH SCROLL ====================
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault()
+            const targetId = this.getAttribute('href')
+            const targetElement = document.querySelector(targetId)
+            if (targetElement) {
+                const navHeight = document.querySelector('nav')?.offsetHeight || 72
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                })
             }
-        }, 100)
+        })
+    })
+})
+
+// ==================== SECRET ADMIN TRIGGER ====================
+let keySequence = []
+const SECRET_CODE = ['Control', 'i', 'c', 'q', 'b']
+
+document.addEventListener('keydown', (e) => {
+    if (e.repeat) return
+
+    const key = e.key
+    keySequence.push(key)
+
+    if (keySequence.length > 5) {
+        keySequence.shift()
+    }
+
+    if (keySequence.join(',') === SECRET_CODE.join(',')) {
+        e.preventDefault()
+        toggleAdminTrigger()
+        keySequence = []
+    }
+})
+
+function toggleAdminTrigger() {
+    const trigger = document.getElementById('adminTrigger')
+
+    if (trigger.classList.contains('hidden')) {
+        trigger.classList.remove('hidden')
+        console.log('🔓 Modo admin activado')
+    } else {
+        trigger.classList.add('hidden')
+        console.log('🔒 Modo admin desactivado')
     }
 }
 
-// Exponer funciones globales necesarias
+window.toggleAdminTrigger = toggleAdminTrigger
+
+// Expose all globals
 window.openLoginModal = openLoginModal
 window.closeLoginModal = closeLoginModal
 window.openJoinModal = openJoinModal
@@ -1265,72 +1309,9 @@ window.resetNews = resetNews
 window.generateTicket = generateTicket
 window.copyTicket = copyTicket
 window.toggleAccordion = toggleAccordion
-window.toggleTicketAccordion = toggleTicketAccordion
 window.editPlayerCount = editPlayerCount
 window.editMinRank = editMinRank
 window.updateTeamStatsFromAdmin = updateTeamStatsFromAdmin
 window.resetPlayerImageUpload = resetPlayerImageUpload
 window.resetNewsImageUpload = resetNewsImageUpload
-
-window.onclick = function(event) {
-    if (event.target.classList.contains('fixed')) {
-        event.target.classList.add('hidden')
-        event.target.classList.remove('flex')
-    }
-}
-let keySequence = []
-const SECRET_CODE = ['Control', 'i', 'c', 'q', 'b']
-    document.addEventListener('keydown', (e) => {
-     if (e.repeat) return
-    
-    const key = e.key
-    keySequence.push(key)
-    
-
-    if (keySequence.length > 5) {
-        keySequence.shift()
-    }
-    
-
-    if (keySequence.join(',') === SECRET_CODE.join(',')) {
-        e.preventDefault()
-        toggleAdminTrigger()
-        keySequence = [] 
-    }
-})
-
-function toggleAdminTrigger() {
-    const trigger = document.getElementById('adminTrigger')
-    
-    if (trigger.classList.contains('hidden')) {
-        trigger.classList.remove('hidden')
-        trigger.classList.add('flex')
-        console.log('🔓 Modo admin activado')
-    } else {
-        trigger.classList.add('hidden')
-        trigger.classList.remove('flex')
-        console.log('🔒 Modo admin desactivado')
-    }
-}
-
-
-window.toggleAdminTrigger = toggleAdminTrigger
-
-// ==================== SMOOTH SCROLL PARA NAV LINKS ====================
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault()
-            const targetId = this.getAttribute('href')
-            const targetElement = document.querySelector(targetId)
-            if (targetElement) {
-                const navHeight = document.querySelector('nav')?.offsetHeight || 80
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                })
-            }
-        })
-    })
-})
+window.toggleMobileMenu = toggleMobileMenu
