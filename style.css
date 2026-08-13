@@ -57,7 +57,7 @@ body::before {
     background-size: 256px 256px;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.55;
+    opacity: 0.5;
 }
 
 h1, h2, h3, .brand-font {
@@ -558,6 +558,82 @@ h1, h2, h3, .brand-font {
 }
 
 .rule-card.danger h3 { color: var(--danger); }
+
+/* ---------------------------------------------------------
+   Ticket guide — Discord step-by-step
+--------------------------------------------------------- */
+.ticket-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ticket-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: var(--radius);
+    transition: border-color 0.2s ease;
+}
+
+.ticket-step:hover { border-color: var(--line-strong); }
+
+.ticket-step-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #000;
+    display: grid;
+    place-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.ticket-step-body h4 {
+    margin: 0 0 4px;
+    font-family: 'Oswald', sans-serif;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.ticket-step-body p {
+    margin: 0;
+    color: var(--ink-dim);
+    font-size: 13.5px;
+    line-height: 1.6;
+}
+
+.ticket-step-body code {
+    background: var(--black-2);
+    border: 1px solid var(--line);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+}
+
+.ticket-note {
+    margin-top: 4px;
+    padding: 16px 18px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(250, 204, 21, 0.3);
+    background: rgba(250, 204, 21, 0.06);
+    color: var(--ink-dim);
+    font-size: 13.5px;
+    line-height: 1.65;
+}
+
+.ticket-note strong { color: var(--gold); }
 
 /* ============================================================
    News
