@@ -1,780 +1,2364 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Sect — Equipo Profesional de Rocket League</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="script.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <base target="_blank">
-<base target="_blank">
-</head>
-<body class="antialiased">
-
-    <!-- Navigation -->
-    <nav id="mainNav">
-        <div class="nav-inner">
-            <div class="nav-brand" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-                <div class="logo-mark">
-                    <img src="ExcelSect.jpg" alt="Excel Sect Logo">
-                </div>
-                <span class="logo-text">
-                    EXCEL<span class="logo-accent">SECT</span>
-                </span>
-            </div>
-
-            <div class="nav-links">
-                <a href="#inicio" class="nav-link">Inicio</a>
-                <a href="#jugadores" class="nav-link">Jugadores</a>
-                <a href="#partidos" class="nav-link">Partidos</a>
-                <a href="#noticias" class="nav-link">Noticias</a>
-                <a href="#requisitos" class="nav-link">Requisitos</a>
-                <a href="#redes" class="nav-link">Redes</a>
-            </div>
-
-            <div class="nav-actions">
-                <div id="adminTrigger" class="hidden">
-                    <button onclick="openLoginModal()" class="btn-ghost">
-                        <i class="fas fa-lock"></i>
-                        <span>Admin</span>
-                    </button>
-                </div>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="mobile-menu">
-            <a href="#inicio" onclick="toggleMobileMenu()">Inicio</a>
-            <a href="#jugadores" onclick="toggleMobileMenu()">Jugadores</a>
-            <a href="#partidos" onclick="toggleMobileMenu()">Partidos</a>
-            <a href="#noticias" onclick="toggleMobileMenu()">Noticias</a>
-            <a href="#requisitos" onclick="toggleMobileMenu()">Requisitos</a>
-            <a href="#redes" onclick="toggleMobileMenu()">Redes</a>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="inicio" class="hero-section">
-        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="hero-poster.jpg">
-            <source src="hero-bg.mp4" type="video/mp4">
-        </video>
-        <div class="hero-overlay"></div>
-        <div class="hero-vignette"></div>
-
-        <div class="hero-content">
-            <div class="hero-badge reveal">
-                <span class="badge-line"></span>
-                <span>Equipo profesional · Rocket League</span>
-            </div>
-
-            <h1 class="hero-title reveal">
-                <span class="title-line">Excel</span>
-                <span class="title-line accent">Sect</span>
-            </h1>
-
-            <p class="hero-subtitle reveal">
-                Domina el campo. Eleva tu juego. 
-                <span class="highlight">Únete a la élite</span> de Rocket League.
-            </p>
-
-            <div class="hero-actions reveal">
-                <button onclick="openJoinModal()" class="btn-primary">
-                    <i class="fas fa-ticket-alt"></i>
-                    Solicitar ingreso
-                </button>
-                <a href="#partidos" class="btn-outline">
-                    <i class="fas fa-play-circle"></i>
-                    Ver partidos
-                </a>
-            </div>
-
-            <!-- Scoreboard Strip -->
-            <div class="scoreboard-strip reveal" id="statsContainer">
-                <div class="score-item stat-card" id="playerCountCard">
-                    <div class="score-value" id="statPlayerCount">12</div>
-                    <div class="score-label">Jugadores</div>
-                    <button onclick="editPlayerCount()" class="stat-edit hidden" id="editPlayerCountBtn" title="Editar">
-                        <i class="fas fa-pen"></i>
-                    </button>
-                </div>
-                <div class="score-divider"></div>
-                <div class="score-item stat-card" id="rankCard">
-                    <div class="score-value" id="statMinRank">Diamante 3</div>
-                    <div class="score-label">Rango mínimo</div>
-                    <button onclick="editMinRank()" class="stat-edit hidden" id="editRankBtn" title="Editar">
-                        <i class="fas fa-pen"></i>
-                    </button>
-                </div>
-                <div class="score-divider"></div>
-                <div class="score-item">
-                    <div class="score-value">EU</div>
-                    <div class="score-label">Región</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="scroll-indicator">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
-            </div>
-            <span>Desplaza</span>
-        </div>
-    </section>
-
-    <!-- Players Section -->
-    <section id="jugadores" class="section">
-        <div class="section-inner">
-            <div class="section-header reveal">
-                <div class="eyebrow">
-                    <span></span>
-                    Plantilla
-                </div>
-                <h2 class="section-title">Top 3 jugadores</h2>
-                <p class="section-desc">Los mejores del equipo</p>
-            </div>
-
-            <div id="playersGrid" class="players-grid">
-                <!-- Players loaded via JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Social Section -->
-    <section id="redes" class="section section-dark">
-        <div class="section-inner">
-            <div class="section-header reveal">
-                <div class="eyebrow">
-                    <span></span>
-                    Síguenos
-                </div>
-                <h2 class="section-title">Redes sociales</h2>
-                <p class="section-desc">Encuentra a Excel Sect en todas las plataformas</p>
-            </div>
-
-            <div class="social-grid reveal">
-                <a href="https://www.twitch.tv/teamexcel_tv" target="_blank" rel="noopener" class="social-card" style="--brand:#9146ff;">
-                    <div class="social-icon"><i class="fab fa-twitch"></i></div>
-                    <div class="social-info">
-                        <h3>Twitch</h3>
-                        <p>Partidos y directos en vivo</p>
-                    </div>
-                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
-                    <div class="social-glow"></div>
-                </a>
-
-                <a href="https://www.youtube.com/@excelsect" target="_blank" rel="noopener" class="social-card" style="--brand:#ff0000;">
-                    <div class="social-icon"><i class="fab fa-youtube"></i></div>
-                    <div class="social-info">
-                        <h3>YouTube</h3>
-                        <p>Highlights, resúmenes y clips</p>
-                    </div>
-                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
-                    <div class="social-glow"></div>
-                </a>
-
-                <a href="https://www.tiktok.com/@excelsect" target="_blank" rel="noopener" class="social-card" style="--brand:#ffffff;">
-                    <div class="social-icon"><i class="fab fa-tiktok"></i></div>
-                    <div class="social-info">
-                        <h3>TikTok</h3>
-                        <p>Freestyle, memes y contenido corto</p>
-                    </div>
-                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
-                    <div class="social-glow"></div>
-                </a>
-
-                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" rel="noopener" class="social-card" style="--brand:#5865f2;">
-                    <div class="social-icon"><i class="fab fa-discord"></i></div>
-                    <div class="social-info">
-                        <h3>Discord</h3>
-                        <p>Comunidad oficial del equipo</p>
-                    </div>
-                    <span class="social-arrow"><i class="fas fa-arrow-right"></i></span>
-                    <div class="social-glow"></div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Matches Section -->
-    <section id="partidos" class="section">
-        <div class="section-inner">
-            <div class="section-header section-header-row reveal">
-                <div>
-                    <div class="eyebrow"><span></span>En directo</div>
-                    <h2 class="section-title">Partidos</h2>
-                    <p class="section-desc">Sigue la acción en tiempo real</p>
-                </div>
-                <div class="live-pill">
-                    <span class="live-dot"></span>
-                    <span>Live</span>
-                </div>
-            </div>
-
-            <div id="matchesContainer" class="matches-list">
-                <!-- Matches loaded via JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- News Section -->
-    <section id="noticias" class="section section-dark">
-        <div class="section-inner">
-            <div class="section-header reveal">
-                <div class="eyebrow"><span></span>Actualidad</div>
-                <h2 class="section-title">Noticias</h2>
-                <p class="section-desc">Mantente actualizado con Excel Sect</p>
-            </div>
-
-            <!-- Admin Bar -->
-            <div class="admin-bar hidden" id="newsAdminBar">
-                <div class="admin-bar-info">
-                    <span class="chip"><i class="fas fa-newspaper"></i> Panel de noticias</span>
-                    <span class="chip chip-dim" id="newsAdminChip">Modo edición activo</span>
-                </div>
-                <div class="admin-bar-actions">
-                    <button class="btn btn-primary" onclick="openAddNewsModal()">
-                        <i class="fas fa-plus"></i> Publicar
-                    </button>
-                    <button class="btn" onclick="resetNews()">
-                        <i class="fas fa-broom"></i> Reset
-                    </button>
-                </div>
-            </div>
-
-            <div id="newsGrid" class="news-grid">
-                <!-- News loaded via JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Requirements Section -->
-    <section id="requisitos" class="section">
-        <div class="section-inner narrow">
-            <div class="section-header reveal">
-                <div class="eyebrow"><span></span>Únete al equipo</div>
-                <h2 class="section-title">Reglas y requisitos</h2>
-                <p class="section-desc">Consulta los requisitos para unirte al equipo</p>
-            </div>
-
-            <div class="accordion reveal" id="rulesAccordion">
-                <div class="accordion-header" id="accHeader" onclick="toggleAccordion()" role="button" tabindex="0" aria-expanded="false">
-                    <div class="accordion-header-text">
-                        <div class="accordion-title"><i class="fas fa-scroll"></i> Ver requisitos completos</div>
-                        <div class="accordion-subtitle">Roles disponibles y reglas del equipo</div>
-                    </div>
-                    <div class="accordion-icon">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-
-                <div class="accordion-body" id="accBody">
-                    <div class="accordion-content">
-
-                        <div class="rule-card">
-                            <h3><i class="fas fa-clipboard-check"></i> Requisitos Generales</h3>
-                            <ul>
-                                <li>Mínimo 16 años</li>
-                                <li>Mínimo 1 año de experiencia en RL</li>
-                                <li>Usar <strong>#excel_ontop</strong> en posts</li>
-                                <li>Seguirnos en redes sociales</li>
-                                <li>Máximo 2 equipos simultáneos</li>
-                                <li>Tener Instagram para el chat</li>
-                            </ul>
-                        </div>
-
-                        <div class="rule-card">
-                            <h3><i class="fas fa-trophy"></i> Comp Player</h3>
-                            <ul>
-                                <li>Mínimo Diamante 3</li>
-                                <li>Región EU</li>
-                                <li>Epic ID + RL Tracker</li>
-                                <li>Pasar tryouts</li>
-                                <li>Dominar pases y rotaciones</li>
-                                <li>Inglés medio-alto</li>
-                                <li>Clips semanales</li>
-                            </ul>
-                        </div>
-
-                        <div class="rule-card">
-                            <h3><i class="fas fa-rocket"></i> Freestyler</h3>
-                            <ul>
-                                <li>15+ clips de calidad</li>
-                                <li>Buenas definiciones</li>
-                                <li>Setups creativos</li>
-                                <li>Control aéreo/suelo</li>
-                                <li>Entrega semanal</li>
-                            </ul>
-                        </div>
-
-                        <div class="rule-card">
-                            <h3><i class="fas fa-video"></i> Content Creator</h3>
-                            <ul>
-                                <li>500+ IG / 500+ TikTok / 100+ YT</li>
-                                <li>Publicaciones consistentes</li>
-                                <li>Contenido 100% original</li>
-                                <li>Interacción con el equipo</li>
-                            </ul>
-                        </div>
-
-                        <div class="rule-card">
-                            <h3><i class="fas fa-palette"></i> GFX / VFX</h3>
-                            <ul>
-                                <li>Portfolio de trabajos</li>
-                                <li>Dominio de software</li>
-                                <li>Tiempos de entrega rápidos</li>
-                                <li>Calidad 1080p+</li>
-                            </ul>
-                        </div>
-
-                        <div class="rule-card rule-danger">
-                            <h3><i class="fas fa-exclamation-triangle"></i> Reglas Importantes</h3>
-                            <ul>
-                                <li>Respeto absoluto a todos</li>
-                                <li>Perfil de Discord apropiado</li>
-                                <li>Prohibido spam y MD al staff</li>
-                                <li>Sin autopromoción externa</li>
-                                <li>Lenguaje tóxico = ban</li>
-                                <li>Prohibido contenido NSFW</li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal-overlay hidden">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Iniciar Sesión</h3>
-                <button onclick="closeLoginModal()" class="modal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form onsubmit="handleLogin(event)" class="modal-form">
-                <div class="form-group">
-                    <label>Usuario</label>
-                    <input type="text" id="loginUser" placeholder="Usuario" required>
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="loginPass" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full">
-                    Entrar
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Join Team Modal -->
-    <div id="joinModal" class="modal-overlay hidden">
-        <div class="modal modal-lg">
-            <div class="modal-header">
-                <h3>Solicitud de Ingreso</h3>
-                <button onclick="closeJoinModal()" class="modal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <form id="ticketForm" onsubmit="generateTicket(event)" class="modal-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Nombre de RL</label>
-                        <input type="text" id="rlName" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Rango Actual</label>
-                        <select id="rank" required>
-                            <option value="">Selecciona...</option>
-                            <option value="D3">Diamante 3</option>
-                            <option value="C1">Campeón 1</option>
-                            <option value="C2">Campeón 2</option>
-                            <option value="C3">Campeón 3</option>
-                            <option value="GC">Grand Champion</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Discord ID</label>
-                    <input type="text" id="discordId" placeholder="Usuario#1234" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Experiencia Previa</label>
-                    <textarea id="experience" rows="3" placeholder="Describe tu experiencia en equipos anteriores..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Horas Disponibles por Día</label>
-                    <input type="number" id="hours" min="1" max="24" required>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-full">
-                    <i class="fas fa-ticket-alt"></i>
-                    Generar Ticket
-                </button>
-            </form>
-
-            <div id="ticketDisplay" class="ticket-display hidden">
-                <div class="ticket-header">
-                    <h4>Tu Ticket</h4>
-                    <button onclick="copyTicket()" class="btn btn-sm">
-                        <i class="fas fa-copy"></i>
-                        Copiar
-                    </button>
-                </div>
-                <pre id="ticketContent"></pre>
-                <p class="ticket-hint">
-                    Pega este ticket en el canal <span class="accent">#unirse-aqui</span> de nuestro Discord
-                </p>
-
-                <div class="ticket-guide">
-                    <div class="ticket-step">
-                        <div class="ticket-step-num">1</div>
-                        <div class="ticket-step-body">
-                            <h4>Pulsa "Copiar"</h4>
-                            <p>Arriba del texto del ticket. Se copia todo automáticamente.</p>
-                        </div>
-                    </div>
-                    <div class="ticket-step">
-                        <div class="ticket-step-num">2</div>
-                        <div class="ticket-step-body">
-                            <h4>Entra al Discord</h4>
-                            <p>Pulsa el botón morado "Ir al Discord" que hay justo debajo.</p>
-                        </div>
-                    </div>
-                    <div class="ticket-step">
-                        <div class="ticket-step-num">3</div>
-                        <div class="ticket-step-body">
-                            <h4>Busca el canal <code>#unirse-aqui</code></h4>
-                            <p>Está en la lista de canales de la izquierda.</p>
-                        </div>
-                    </div>
-                    <div class="ticket-step">
-                        <div class="ticket-step-num">4</div>
-                        <div class="ticket-step-body">
-                            <h4>Pega el ticket y envíalo</h4>
-                            <p>Haz click en la caja de texto, pega (<code>Ctrl + V</code>) y dale a Enter.</p>
-                        </div>
-                    </div>
-                    <div class="ticket-note">
-                        <strong>Importante:</strong> no vale con escribir "quiero entrar". Tiene que ser el ticket generado por la web.
-                    </div>
-                </div>
-
-                <a href="https://discord.com/invite/tvbEDum4Ru" target="_blank" class="btn btn-discord btn-full">
-                    <i class="fab fa-discord"></i>
-                    Ir al Discord
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Panel -->
-    <div id="adminPanel" class="admin-panel">
-        <div class="admin-panel-inner">
-            <div class="admin-header">
-                <div>
-                    <h2>Panel de Administración</h2>
-                    <p>Gestiona el equipo Excel Sect</p>
-                </div>
-                <button onclick="logout()" class="btn btn-danger">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Cerrar Sesión
-                </button>
-            </div>
-
-            <!-- Team Stats -->
-            <div class="admin-stats">
-                <h3><i class="fas fa-chart-line"></i> Estadísticas del Equipo</h3>
-                <div class="admin-stats-grid">
-                    <div class="form-group">
-                        <label>Número de Jugadores</label>
-                        <input type="number" id="adminPlayerCount" min="0" max="100" onchange="updateTeamStatsFromAdmin()">
-                    </div>
-                    <div class="form-group">
-                        <label>Rango Mínimo</label>
-                        <input type="text" id="adminMinRank" onchange="updateTeamStatsFromAdmin()">
-                    </div>
-                </div>
-                <p class="form-hint">Los cambios se guardan automáticamente</p>
-            </div>
-
-            <div class="admin-tabs">
-                <button onclick="showAdminTab('players')" id="tab-players" class="admin-tab active">
-                    <i class="fas fa-users"></i> Top 3
-                </button>
-                <button onclick="showAdminTab('matches')" id="tab-matches" class="admin-tab">
-                    <i class="fas fa-gamepad"></i> Partidos
-                </button>
-                <button onclick="showAdminTab('news')" id="tab-news" class="admin-tab">
-                    <i class="fas fa-newspaper"></i> Noticias
-                </button>
-            </div>
-
-            <div id="admin-players" class="admin-section">
-                <div class="admin-limit" id="playerLimitInfo">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Hay <strong id="currentPlayerCount">0</strong>/3 jugadores en el Top 3</span>
-                </div>
-                <div class="admin-actions">
-                    <button onclick="openAddPlayerModal()" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Añadir Jugador
-                    </button>
-                    <button onclick="resetTop3()" class="btn btn-danger">
-                        <i class="fas fa-trash-alt"></i> Resetear
-                    </button>
-                </div>
-                <div id="adminPlayersList" class="admin-list"></div>
-            </div>
-
-            <div id="admin-matches" class="admin-section hidden">
-                <div class="admin-actions">
-                    <button onclick="openAddMatchModal()" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Añadir Partido
-                    </button>
-                    <button onclick="resetMatches()" class="btn btn-danger">
-                        <i class="fas fa-trash-alt"></i> Resetear
-                    </button>
-                </div>
-                <div id="adminMatchesList" class="admin-list"></div>
-            </div>
-
-            <div id="admin-news" class="admin-section hidden">
-                <div class="admin-actions">
-                    <button onclick="openAddNewsModal()" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Añadir Noticia
-                    </button>
-                </div>
-                <div id="adminNewsList" class="admin-list"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Player Modal -->
-    <div id="addPlayerModal" class="modal-overlay hidden">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Añadir al Top 3</h3>
-                <button onclick="closeAddPlayerModal()" class="modal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form onsubmit="handleAddPlayer(event)" class="modal-form">
-                <div class="form-group">
-                    <input type="text" id="newPlayerName" placeholder="Nombre del jugador" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="newPlayerRole" placeholder="Rol (Ej: Fragger, Support, Capitán)" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="newPlayerRank" placeholder="Rango (Ej: GC3, SSL, C3)" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="newPlayerStats" placeholder="MMR (Ej: 1850)">
-                </div>
-
-                <div class="form-group">
-                    <label>Foto de perfil (opcional)</label>
-                    <div id="playerImageUploadArea" class="upload-area">
-                        <div id="playerUploadPrompt">
-                            <div class="upload-icon"><i class="fas fa-camera"></i></div>
-                            <div class="upload-text">Haz clic para subir foto</div>
-                            <div class="upload-hint">O arrastra una imagen aquí</div>
-                        </div>
-                        <img id="playerImagePreview" class="upload-preview" style="display: none;">
-                        <button type="button" class="upload-remove" onclick="resetPlayerImageUpload()" style="display: none;">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <input type="file" id="playerImageFile" class="file-input" accept="image/*">
-                        <input type="text" id="playerImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
-                    </div>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" onclick="closeAddPlayerModal()" class="btn">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add Match Modal -->
-    <div id="addMatchModal" class="modal-overlay hidden">
-        <div class="modal modal-lg">
-            <div class="modal-header">
-                <h3>Añadir Partido</h3>
-                <button onclick="closeAddMatchModal()" class="modal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form onsubmit="handleAddMatch(event)" class="modal-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="matchOpponent" placeholder="Oponente" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="matchTournament" placeholder="Torneo/Liga" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <select id="matchStatus">
-                            <option value="live">En vivo</option>
-                            <option value="upcoming">Próximo</option>
-                            <option value="finished">Finalizado</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="matchScore" placeholder="Marcador (2-1)">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="matchTime" placeholder="Hora (20:00)">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="matchMvpExcel" placeholder="MVP Excel Sect">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="matchMvpOpponent" placeholder="MVP Rival">
-                    </div>
-                </div>
-
-                <div class="goals-section">
-                    <div class="goals-header">
-                        <label>Goles detallados</label>
-                        <button type="button" onclick="addGoalInput()" class="btn btn-sm">
-                            <i class="fas fa-plus"></i> Añadir gol
-                        </button>
-                    </div>
-                    <div id="goalsContainer" class="goals-list"></div>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" onclick="closeAddMatchModal()" class="btn">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Partido</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add/Edit News Modal -->
-    <div id="addNewsModal" class="modal-overlay hidden">
-        <div class="modal modal-lg">
-            <div class="modal-header">
-                <h3><i class="fas fa-newspaper"></i> Publicar Noticia</h3>
-                <button onclick="closeAddNewsModal()" class="modal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form onsubmit="handleSaveNews(event)" class="modal-form">
-                <div class="form-group">
-                    <label>Título *</label>
-                    <input type="text" id="newsTitle" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Categoría</label>
-                    <select id="newsCategory">
-                        <option value="Torneo">Torneo</option>
-                        <option value="Fichaje">Fichaje</option>
-                        <option value="Entrenamiento">Entrenamiento</option>
-                        <option value="Victoria">Victoria</option>
-                        <option value="Derrota">Derrota</option>
-                        <option value="General" selected>General</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Contenido *</label>
-                    <textarea id="newsContent" rows="4" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Imagen (opcional)</label>
-                    <div class="upload-area" id="imageUploadArea">
-                        <div id="uploadPrompt">
-                            <div class="upload-icon"><i class="fas fa-camera"></i></div>
-                            <div class="upload-text">Haz clic para subir imagen</div>
-                            <div class="upload-hint">O arrastra una imagen aquí</div>
-                        </div>
-                        <img id="imagePreview" class="upload-preview" style="display: none;">
-                        <button type="button" class="upload-remove" onclick="resetNewsImageUpload()" style="display: none;">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <input type="file" id="newsImageFile" class="file-input" accept="image/*">
-                        <input type="text" id="newsImageUrl" class="url-input" placeholder="O pega URL de imagen aquí...">
-                    </div>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" onclick="closeAddNewsModal()" class="btn">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Publicar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <div class="logo-mark">
-                            <img src="ExcelSect.jpg" alt="Excel Sect Logo">
-                        </div>
-                        <span class="logo-text">EXCEL<span class="logo-accent">SECT</span></span>
-                    </div>
-                    <p>Equipo profesional de Rocket League dedicado a la excelencia competitiva y el crecimiento de talentos.</p>
-                    <div class="footer-socials">
-                        <a href="https://discord.com/invite/tvbEDum4Ru" class="social-link"><i class="fab fa-discord"></i></a>
-                        <a href="https://www.twitch.tv/teamexcel_tv" class="social-link"><i class="fab fa-twitch"></i></a>
-                        <a href="https://www.tiktok.com/@excelsect" class="social-link"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://instagram.com/excelsect" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.youtube.com/@excelsect" class="social-link"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-links">
-                    <h4>Enlaces</h4>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#jugadores">Jugadores</a></li>
-                        <li><a href="#partidos">Partidos</a></li>
-                        <li><a href="#noticias">Noticias</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-links">
-                    <h4>Contacto</h4>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> teamexcel.esports.gg@gmail.com</li>
-                        <li><i class="fab fa-discord"></i> discord.com/invite/tvbEDum4Ru</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2026 Excel Sect. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-</body>
-</html>
+/* ============================================================
+   EXCEL SECT — Premium Design System v2
+   Palette: deep black + refined gold. Editorial sports tone.
+   ============================================================ */
+
+:root {
+    /* Core palette */
+    --bg:           #07070a;
+    --bg-elevated:  #0d0d12;
+    --bg-card:      #13131a;
+    --bg-card-hover:#1a1a22;
+    --surface:      #1e1e28;
+    --surface-hover:#252530;
+
+    /* Gold — refined brass */
+    --gold:         #c9a13b;
+    --gold-bright:  #e6c158;
+    --gold-dim:     #a08030;
+    --gold-deep:    #7a5f20;
+    --gold-glow:    rgba(201, 161, 59, 0.15);
+    --gold-glow-strong: rgba(201, 161, 59, 0.25);
+
+    /* Ink */
+    --text:         #f0eeeb;
+    --text-dim:     #a09f9b;
+    --text-faint:   #6b6a66;
+    --text-muted:   #4a4a48;
+
+    /* Lines */
+    --line:         rgba(255, 255, 255, 0.06);
+    --line-medium:  rgba(255, 255, 255, 0.10);
+    --line-strong:  rgba(255, 255, 255, 0.14);
+
+    /* Status */
+    --danger:       #c94b4b;
+    --danger-bg:    rgba(201, 75, 75, 0.10);
+    --success:      #4caf7d;
+    --live:         #e84545;
+
+    /* Misc */
+    --radius-sm:    6px;
+    --radius:       10px;
+    --radius-lg:    16px;
+    --radius-xl:    24px;
+
+    --shadow-sm:    0 1px 2px rgba(0,0,0,0.3);
+    --shadow:       0 4px 20px rgba(0,0,0,0.4);
+    --shadow-lg:    0 8px 40px rgba(0,0,0,0.5);
+
+    --transition-fast: 0.15s ease;
+    --transition:      0.25s ease;
+    --transition-slow: 0.4s ease;
+}
+
+/* Reset & Base */
+*, *::before, *::after { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle grain texture */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Typography */
+h1, h2, h3, .brand-font {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+}
+
+.mono { font-family: 'IBM Plex Mono', monospace; }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+#mainNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: background var(--transition), backdrop-filter var(--transition), box-shadow var(--transition);
+    padding: 0 24px;
+}
+
+#mainNav.scrolled {
+    background: rgba(7, 7, 10, 0.85);
+    backdrop-filter: blur(20px) saturate(1.2);
+    box-shadow: 0 1px 0 var(--line);
+}
+
+.nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: opacity var(--transition-fast);
+}
+
+.nav-brand:hover { opacity: 0.85; }
+
+.logo-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(201, 161, 59, 0.35);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+}
+
+.logo-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.logo-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.logo-accent { color: var(--gold); }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-link {
+    position: relative;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color var(--transition-fast);
+    padding: 4px 0;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--gold);
+    transition: width var(--transition);
+}
+
+.nav-link:hover { color: var(--text); }
+.nav-link:hover::after { width: 100%; }
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-medium);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-glow);
+}
+
+/* Mobile Menu */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.mobile-menu-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all var(--transition);
+}
+
+.mobile-menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+.mobile-menu {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: rgba(7, 7, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--line);
+    padding: 16px 24px;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mobile-menu.active { display: flex; }
+
+.mobile-menu a {
+    padding: 12px 16px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.mobile-menu a:hover {
+    background: var(--bg-card);
+    color: var(--text);
+}
+
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .mobile-menu-btn { display: flex; }
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.7;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: 
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(13,13,18,0.4) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, var(--bg) 0%, transparent 70%),
+        linear-gradient(180deg, rgba(7,7,10,0.3) 0%, rgba(7,7,10,0.7) 70%, var(--bg) 100%);
+}
+
+.hero-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    box-shadow: inset 0 0 150px 60px rgba(7,7,10,0.8);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 24px;
+    padding-top: 72px;
+}
+
+/* Hero Badge */
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.badge-line {
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+}
+
+.hero-badge span:last-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+/* Hero Title */
+.hero-title {
+    margin-bottom: 24px;
+}
+
+.title-line {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(48px, 10vw, 96px);
+    font-weight: 700;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--text);
+}
+
+.title-line.accent {
+    color: var(--gold-bright);
+    text-shadow: 0 0 60px rgba(201, 161, 59, 0.3);
+}
+
+/* Hero Subtitle */
+.hero-subtitle {
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: var(--text-dim);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+}
+
+.hero-subtitle .highlight {
+    color: var(--gold-bright);
+    font-weight: 500;
+}
+
+/* Hero Actions */
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: var(--gold);
+    color: #0a0a0c;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(201, 161, 59, 0.25);
+}
+
+.btn-primary:hover {
+    background: var(--gold-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201, 161, 59, 0.35);
+}
+
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-glow);
+}
+
+/* Scoreboard Strip */
+.scoreboard-strip {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    border-top: 1px solid var(--line-medium);
+    border-bottom: 1px solid var(--line-medium);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.score-item {
+    flex: 1;
+    text-align: center;
+    padding: 24px 20px;
+    position: relative;
+}
+
+.score-divider {
+    width: 1px;
+    background: var(--line-medium);
+    margin: 20px 0;
+}
+
+.score-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gold-bright);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.score-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+
+.stat-card {
+    position: relative;
+    transition: background var(--transition-fast);
+    border-radius: var(--radius-sm);
+}
+
+.stat-card:hover { background: rgba(255,255,255,0.02); }
+
+.stat-edit {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    color: var(--gold);
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.stat-card:hover .stat-edit { opacity: 1; }
+.stat-edit:hover { border-color: var(--gold); }
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.5;
+    animation: fadeInUp 1s ease 1.5s both;
+}
+
+.scroll-mouse {
+    width: 22px;
+    height: 34px;
+    border: 1.5px solid var(--text-faint);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
+}
+
+.scroll-wheel {
+    width: 3px;
+    height: 6px;
+    background: var(--text-faint);
+    border-radius: 2px;
+    animation: scrollWheel 2s ease infinite;
+}
+
+.scroll-indicator span {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+
+@keyframes scrollWheel {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(6px); opacity: 0.3; }
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section {
+    padding: 100px 24px;
+    position: relative;
+}
+
+.section-dark {
+    background: var(--bg-elevated);
+}
+
+.section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-inner.narrow { max-width: 900px; }
+
+.section-header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    text-align: left;
+}
+
+@media (max-width: 640px) {
+    .section-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+}
+
+.eyebrow span:first-child {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+}
+
+.section-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+}
+
+.section-desc {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.section-header-row .section-desc { margin: 0; }
+
+/* Live Pill */
+.live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(232, 69, 69, 0.1);
+    border: 1px solid rgba(232, 69, 69, 0.2);
+    border-radius: 999px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--live);
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--live);
+    border-radius: 50%;
+    animation: livePulse 2s ease infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ============================================================
+   PLAYERS GRID
+   ============================================================ */
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+    .players-grid { grid-template-columns: 1fr; max-width: 400px; }
+}
+
+.player-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--rank-color, var(--gold));
+    border-radius: var(--radius-lg);
+    padding: 40px 28px 28px;
+    text-align: center;
+    transition: all var(--transition);
+    overflow: hidden;
+}
+
+.player-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rank-color, var(--gold)), transparent);
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.player-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--line-strong);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+
+.player-card:hover::before { opacity: 1; }
+
+.player-rank {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--bg);
+    border: 1px solid var(--rank-color, var(--gold));
+    color: var(--rank-color, var(--gold));
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    z-index: 2;
+}
+
+.player-actions {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+}
+
+.player-actions button {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all var(--transition-fast);
+}
+
+.player-actions button:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.player-actions button.delete:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.player-avatar-wrap {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 20px;
+}
+
+.player-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--rank-color, var(--gold));
+    filter: grayscale(25%);
+    transition: filter var(--transition), transform var(--transition);
+}
+
+.player-card:hover .player-avatar {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+.player-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.player-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--rank-color, var(--gold));
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+}
+
+.player-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+.player-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.player-stat-label {
+    font-size: 10px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.player-stat-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ============================================================
+   SOCIAL GRID
+   ============================================================ */
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 1024px) {
+    .social-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+    .social-grid { grid-template-columns: 1fr; }
+}
+
+.social-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: all var(--transition);
+}
+
+.social-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--brand, var(--gold));
+    opacity: 0.8;
+    transition: height var(--transition);
+}
+
+.social-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+}
+
+.social-card:hover::before {
+    height: 100%;
+    opacity: 0.04;
+}
+
+.social-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--brand, var(--gold)) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--brand, var(--gold)) 30%, transparent);
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    color: var(--brand, var(--gold));
+    margin-bottom: 20px;
+    transition: transform var(--transition);
+}
+
+.social-card:hover .social-icon {
+    transform: scale(1.1);
+}
+
+.social-info h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+}
+
+.social-info p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.social-arrow {
+    margin-top: auto;
+    font-size: 14px;
+    color: var(--brand, var(--gold));
+    transition: transform var(--transition);
+}
+
+.social-card:hover .social-arrow {
+    transform: translateX(6px);
+}
+
+/* ============================================================
+   MATCHES
+   ============================================================ */
+.matches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.match-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: all var(--transition);
+    overflow: hidden;
+}
+
+.match-card:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow);
+}
+
+.match-card.live { border-left: 3px solid var(--live); }
+.match-card.upcoming { border-left: 3px solid var(--gold); }
+.match-card.finished { border-left: 3px solid var(--text-muted); }
+
+.match-actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.match-card:hover .match-actions { opacity: 1; }
+
+.match-actions button {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all var(--transition-fast);
+}
+
+.match-actions button:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.match-actions button.delete:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.match-teams {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.match-team {
+    text-align: center;
+    min-width: 140px;
+}
+
+.match-team-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+}
+
+.match-team-name.opponent { color: var(--text-dim); }
+
+.match-team-mvp {
+    font-size: 12px;
+    color: var(--gold);
+    margin-top: 4px;
+}
+
+.match-score-box {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius);
+    padding: 16px 32px;
+    text-align: center;
+    min-width: 120px;
+}
+
+.match-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    line-height: 1;
+}
+
+.match-tournament {
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 8px;
+}
+
+.match-meta {
+    text-align: center;
+    margin-top: 16px;
+}
+
+.match-status {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.match-status.live { color: var(--live); }
+.match-status.upcoming { color: var(--gold); }
+.match-status.finished { color: var(--text-faint); }
+
+.match-time {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 4px;
+}
+
+/* Match Goals */
+.match-goals {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+.goals-title {
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+}
+
+.goal-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.goal-row.excel { border-left: 2px solid var(--gold); }
+.goal-row.opponent { border-left: 2px solid var(--text-muted); }
+
+.goal-time {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--gold);
+    font-weight: 600;
+    min-width: 36px;
+}
+
+.goal-scorer { color: var(--text); font-weight: 500; }
+.goal-team-name {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+}
+
+/* Match MVPs */
+.match-mvps {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.mvp-tag {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
+
+.mvp-tag.excel {
+    background: var(--gold-glow);
+    border: 1px solid rgba(201, 161, 59, 0.2);
+}
+
+.mvp-tag.opponent {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+}
+
+.mvp-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+}
+
+.mvp-tag.excel .mvp-label { color: var(--gold); }
+
+.mvp-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 15px;
+}
+
+/* ============================================================
+   NEWS GRID
+   ============================================================ */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .news-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .news-grid { grid-template-columns: 1fr; }
+}
+
+.news-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-lg);
+}
+
+.news-image-wrap {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background: var(--bg-elevated);
+}
+
+.news-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(30%) contrast(1.05);
+    transition: filter var(--transition), transform var(--transition-slow);
+}
+
+.news-card:hover .news-image {
+    filter: grayscale(0%) contrast(1.05);
+    transform: scale(1.05);
+}
+
+.news-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: var(--text-muted);
+}
+
+.news-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.news-category {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--gold-glow);
+    color: var(--gold-bright);
+    border: 1px solid rgba(201, 161, 59, 0.2);
+}
+
+.news-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.news-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.3;
+    transition: color var(--transition-fast);
+}
+
+.news-card:hover .news-title { color: var(--gold-bright); }
+
+.news-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+/* ============================================================
+   ACCORDION
+   ============================================================ */
+.accordion {
+    background: var(--bg-card);
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.accordion-header {
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    cursor: pointer;
+    background: var(--bg-card);
+    transition: background var(--transition-fast);
+    user-select: none;
+}
+
+.accordion-header:hover { background: var(--bg-card-hover); }
+
+.accordion-header.active {
+    background: var(--bg-card-hover);
+    border-bottom: 1px solid var(--line);
+}
+
+.accordion-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    color: var(--text);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.accordion-title i { color: var(--gold); }
+
+.accordion-subtitle {
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-top: 6px;
+}
+
+.accordion-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line-medium);
+    background: var(--bg-elevated);
+    color: var(--gold);
+    font-size: 14px;
+    transition: transform var(--transition), border-color var(--transition);
+    flex-shrink: 0;
+}
+
+.accordion-header.active .accordion-icon {
+    transform: rotate(180deg);
+    border-color: var(--gold);
+}
+
+.accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-slow);
+}
+
+.accordion-body.open { max-height: 2400px; }
+
+.accordion-content {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.rule-card {
+    border: 1px solid var(--line);
+    background: var(--bg-elevated);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: border-color var(--transition-fast);
+}
+
+.rule-card:hover { border-color: var(--line-medium); }
+
+.rule-card h3 {
+    margin: 0 0 14px 0;
+    font-family: 'Oswald', sans-serif;
+    color: var(--gold);
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rule-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: var(--text-dim);
+}
+
+.rule-card li { margin-bottom: 4px; }
+
+.rule-card.rule-danger {
+    border-color: rgba(201, 75, 75, 0.25);
+    background: var(--danger-bg);
+}
+
+.rule-card.rule-danger h3 { color: var(--danger); }
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition), visibility var(--transition);
+}
+
+.modal-overlay:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-overlay.hidden { display: none; }
+
+.modal {
+    background: var(--bg-card);
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(12px) scale(0.98);
+    transition: transform var(--transition);
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-overlay:not(.hidden) .modal {
+    transform: translateY(0) scale(1);
+}
+
+.modal-lg { max-width: 640px; }
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--line);
+}
+
+.modal-header h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.modal-close:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.modal-form {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    transition: all var(--transition-fast);
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b6a66' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+}
+
+.form-group select option {
+    background: var(--bg-card);
+    color: var(--text);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 480px) {
+    .form-row { grid-template-columns: 1fr; }
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.form-actions .btn { flex: 1; }
+
+.form-hint {
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-top: -8px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.btn-primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #0a0a0c;
+}
+
+.btn-primary:hover {
+    background: var(--gold-bright);
+    border-color: var(--gold-bright);
+    color: #0a0a0c;
+}
+
+.btn-danger {
+    background: var(--danger-bg);
+    border-color: rgba(201, 75, 75, 0.3);
+    color: var(--danger);
+}
+
+.btn-danger:hover {
+    background: rgba(201, 75, 75, 0.2);
+    border-color: var(--danger);
+}
+
+.btn-discord {
+    background: #5865f2;
+    border-color: #5865f2;
+    color: white;
+}
+
+.btn-discord:hover {
+    background: #4752c4;
+    border-color: #4752c4;
+    color: white;
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    font-size: 13px;
+}
+
+.btn-full { width: 100%; }
+
+/* Chips */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--gold-glow);
+    border: 1px solid rgba(201, 161, 59, 0.25);
+    color: var(--gold-bright);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.chip-dim {
+    background: var(--bg-elevated);
+    border-color: var(--line);
+    color: var(--text-dim);
+}
+
+/* ============================================================
+   UPLOAD AREA
+   ============================================================ */
+.upload-area {
+    border: 1.5px dashed var(--line-medium);
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    background: var(--bg-elevated);
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-area:hover {
+    border-color: var(--gold);
+    background: var(--gold-glow);
+}
+
+.upload-area.has-image {
+    border-style: solid;
+    border-color: var(--success);
+    background: rgba(76, 175, 125, 0.05);
+    padding: 0;
+}
+
+.upload-icon { 
+    font-size: 28px; 
+    margin-bottom: 10px; 
+    opacity: 0.5; 
+    color: var(--gold);
+}
+
+.upload-text { 
+    color: var(--gold); 
+    font-weight: 600; 
+    margin-bottom: 6px; 
+    font-size: 14px; 
+}
+
+.upload-hint { 
+    font-size: 12px; 
+    color: var(--text-faint); 
+}
+
+.upload-preview {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+}
+
+.upload-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(201, 75, 75, 0.9);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: transform var(--transition-fast);
+    z-index: 10;
+}
+
+.upload-remove:hover { transform: scale(1.1); }
+
+.file-input { display: none; }
+
+.url-input {
+    margin-top: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-medium);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+}
+
+.url-input:focus { border-color: var(--gold); }
+
+/* ============================================================
+   TICKET DISPLAY
+   ============================================================ */
+.ticket-display {
+    padding: 24px 28px;
+    border-top: 1px solid var(--line);
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.ticket-header h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    color: var(--gold);
+}
+
+.ticket-display pre {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.ticket-hint {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.ticket-hint .accent {
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.ticket-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.ticket-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-fast);
+}
+
+.ticket-step:hover { border-color: var(--line-medium); }
+
+.ticket-step-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #000;
+    display: grid;
+    place-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.ticket-step-body h4 {
+    margin: 0 0 3px;
+    font-family: 'Oswald', sans-serif;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ticket-step-body p {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.ticket-step-body code {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+}
+
+.ticket-note {
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(201, 161, 59, 0.2);
+    background: var(--gold-glow);
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.ticket-note strong { color: var(--gold); }
+
+/* ============================================================
+   ADMIN PANEL
+   ============================================================ */
+.admin-panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: var(--bg);
+    overflow-y: auto;
+    padding-top: 72px;
+}
+
+.admin-panel.active { display: block; }
+
+.admin-panel-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.admin-header h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.admin-header p {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+.admin-stats {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 32px;
+}
+
+.admin-stats h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.admin-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1px;
+}
+
+.admin-tab {
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    margin-bottom: -1px;
+}
+
+.admin-tab:hover { color: var(--text); }
+
+.admin-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+}
+
+.admin-section { animation: fadeIn 0.3s ease; }
+
+.admin-section.hidden { display: none; }
+
+.admin-limit {
+    background: var(--gold-glow);
+    border: 1px solid rgba(201, 161, 59, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gold-bright);
+    font-size: 14px;
+}
+
+.admin-limit.full {
+    background: var(--danger-bg);
+    border-color: rgba(201, 75, 75, 0.2);
+    color: var(--danger);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: all var(--transition-fast);
+}
+
+.admin-item:hover {
+    border-color: var(--line-medium);
+    background: var(--bg-card-hover);
+}
+
+.admin-item-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.admin-item-rank {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gold-glow);
+    border: 1px solid rgba(201, 161, 59, 0.3);
+    display: grid;
+    place-items: center;
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.admin-item-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.admin-item-text .name {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 15px;
+}
+
+.admin-item-text .meta {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 2px;
+}
+
+.admin-item-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-right: 12px;
+}
+
+.admin-item-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-item-actions button {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all var(--transition-fast);
+}
+
+.admin-item-actions button:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.admin-item-actions button.delete:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.admin-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 32px;
+}
+
+.admin-bar-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-bar-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Goals section in modal */
+.goals-section {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    background: var(--bg-elevated);
+}
+
+.goals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.goals-header label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+}
+
+.goal-input-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.goal-input-row select,
+.goal-input-row input {
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+}
+
+.goal-input-row select:focus,
+.goal-input-row input:focus {
+    border-color: var(--gold);
+}
+
+.goal-input-row button {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    padding: 8px;
+    font-size: 14px;
+    transition: transform var(--transition-fast);
+}
+
+.goal-input-row button:hover { transform: scale(1.1); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+    border-top: 1px solid var(--line);
+    padding: 64px 24px 32px;
+    background: var(--bg-elevated);
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+@media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+.footer-brand p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 16px;
+    max-width: 360px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    color: var(--text-dim);
+    font-size: 16px;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.social-link:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #0a0a0c;
+    transform: translateY(-2px);
+}
+
+.footer-links h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+}
+
+.footer-links ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-links a,
+.footer-links li {
+    color: var(--text-dim);
+    font-size: 14px;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-links a:hover,
+.footer-links li:hover {
+    color: var(--gold);
+}
+
+.footer-links li i {
+    color: var(--gold);
+    font-size: 13px;
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    color: var(--text-faint);
+    font-size: 13px;
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger children */
+.reveal > *:nth-child(1) { transition-delay: 0s; }
+.reveal > *:nth-child(2) { transition-delay: 0.1s; }
+.reveal > *:nth-child(3) { transition-delay: 0.2s; }
+.reveal > *:nth-child(4) { transition-delay: 0.3s; }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-deep); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .section { padding: 64px 20px; }
+    .hero-actions { flex-direction: column; width: 100%; }
+    .hero-actions .btn-primary,
+    .hero-actions .btn-outline { width: 100%; justify-content: center; }
+    .scoreboard-strip { flex-direction: column; }
+    .score-divider { display: none; }
+    .score-item { padding: 16px; border-bottom: 1px solid var(--line); }
+    .score-item:last-child { border-bottom: none; }
+    .match-teams { flex-direction: column; gap: 16px; }
+    .match-score-box { order: -1; }
+    .admin-stats-grid { grid-template-columns: 1fr; }
+    .admin-tabs { overflow-x: auto; }
+    .admin-header { flex-direction: column; }
+}
+
+/* Hide elements */
+.hidden { display: none !important; }
