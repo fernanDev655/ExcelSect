@@ -1217,6 +1217,30 @@ function toggleAccordion() {
     }
 }
 
+function toggleTicketAccordion() {
+    const header = document.getElementById('ticketAccHeader')
+    const body = document.getElementById('ticketAccBody')
+    const isOpen = body.classList.contains('open')
+
+    if (isOpen) {
+        body.classList.remove('open')
+        header.classList.remove('active')
+        header.setAttribute('aria-expanded', 'false')
+    } else {
+        body.classList.add('open')
+        header.classList.add('active')
+        header.setAttribute('aria-expanded', 'true')
+
+        setTimeout(() => {
+            const accordion = document.getElementById('ticketAccordion')
+            const rect = accordion.getBoundingClientRect()
+            if (rect.top < 100) {
+                accordion.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+        }, 100)
+    }
+}
+
 // Exponer funciones globales necesarias
 window.openLoginModal = openLoginModal
 window.closeLoginModal = closeLoginModal
@@ -1241,6 +1265,7 @@ window.resetNews = resetNews
 window.generateTicket = generateTicket
 window.copyTicket = copyTicket
 window.toggleAccordion = toggleAccordion
+window.toggleTicketAccordion = toggleTicketAccordion
 window.editPlayerCount = editPlayerCount
 window.editMinRank = editMinRank
 window.updateTeamStatsFromAdmin = updateTeamStatsFromAdmin
