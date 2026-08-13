@@ -356,10 +356,14 @@ h1, h2, h3, .brand-font {
 /* Hero Title */
 .hero-title {
     margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.15em;
+    flex-wrap: wrap;
 }
 
 .title-line {
-    display: block;
     font-family: 'Oswald', sans-serif;
     font-size: clamp(48px, 10vw, 96px);
     font-weight: 700;
@@ -367,6 +371,7 @@ h1, h2, h3, .brand-font {
     text-transform: uppercase;
     letter-spacing: -0.02em;
     color: var(--text);
+    white-space: nowrap;
 }
 
 .title-line.accent {
